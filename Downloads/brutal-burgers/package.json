@@ -1,0 +1,9 @@
+{
+  "name": "brutal-burgers",
+  "version": "1.0.0",
+  "description": "Brutal Burgers — hamburguesería urbana premium",
+  "scripts": {
+    "start": "npx serve ."
+  },
+  "license": "MIT"
+}
