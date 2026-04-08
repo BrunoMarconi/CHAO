@@ -836,7 +836,7 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/qz-tray@2.2.4/qz-tray.min.js"></script>
+<script src="qz-tray.min.js"></script>
 <script>
 
 // ── QZ TRAY — IMPRESIÓN AUTOMÁTICA ───────────────────────────────────────────
@@ -854,9 +854,9 @@ const _qz = {
       qz.security.setCertificatePromise(() => Promise.resolve(''));
       qz.security.setSignatureAlgorithm('SHA512');
       qz.security.setSignaturePromise(() => Promise.resolve(''));
-      await qz.websocket.connect({ host: 'localhost', port: { secure: [8181, 8183], insecure: [8182, 8184] }, usingSecure: true });
+      await qz.websocket.connect();
       this.connected = true;
-      console.log('[QZ] Conectado (wss)');
+      console.log('[QZ] Conectado');
       // Reconectar automáticamente si se cierra
       qz.websocket.setClosedCallbacks(() => {
         this.connected = false;
