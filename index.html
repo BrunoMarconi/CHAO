@@ -842,38 +842,43 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
 // ── QZ TRAY — IMPRESIÓN AUTOMÁTICA ───────────────────────────────────────────
 const _qz = {
   connected: false,
-  connecting: false,
   printedIds: new Set(),
 
-  async connect() {
-    if (this.connected || this.connecting) return;
-    if (typeof qz === 'undefined') return; // QZ Tray no cargado
-    this.connecting = true;
-    try {
-      // Firma de seguridad: desactivada para uso en red local (sin HTTPS externo)
-      qz.security.setCertificatePromise(() => Promise.resolve(''));
-      qz.security.setSignatureAlgorithm('SHA512');
-      qz.security.setSignaturePromise(() => Promise.resolve(''));
-      await qz.websocket.connect();
-      this.connected = true;
-      console.log('[QZ] Conectado');
-      // Reconectar automáticamente si se cierra
-      qz.websocket.setClosedCallbacks(() => {
-        this.connected = false;
-        console.warn('[QZ] Desconectado — reintentando en 5s');
-        setTimeout(() => { this.connecting = false; this.connect(); }, 5000);
-      });
-    } catch (e) {
-      console.warn('[QZ] No se pudo conectar:', e.message || e);
-    } finally {
-      this.connecting = false;
-    }
+  connect() {
+    if (typeof qz === 'undefined') return;
+    if (qz.websocket.isActive()) { this.connected = true; return; }
+    if (this.connected) return;
+    qz.security.setCertificatePromise(async () => '');
+    qz.security.setSignaturePromise(async () => '');
+    qz.websocket.setClosedCallbacks(() => {
+      this.connected = false;
+      console.warn('[QZ] Desconectado — reintentando en 5s');
+      setTimeout(() => this.connect(), 5000);
+    });
+    const useSecure = location.protocol === 'https:';
+    qz.websocket.connect({ usingSecure: useSecure }).catch(e => console.error('[QZ] Error al conectar:', e));
+    // Detectar conexión via polling (connect() promise no resuelve en esta versión)
+    const t = setInterval(() => {
+      if (qz.websocket.isActive()) {
+        this.connected = true;
+        console.log('[QZ] Conectado');
+        clearInterval(t);
+      }
+    }, 100);
+    setTimeout(() => clearInterval(t), 10000);
   },
 
   async printTicket(pedido) {
     if (!this.connected) {
-      console.warn('[QZ] Sin conexión, no se puede imprimir');
-      return;
+      this.connect();
+      // Espera hasta 3s a que conecte
+      for (let i = 0; i < 30 && !this.connected; i++) {
+        await new Promise(r => setTimeout(r, 100));
+      }
+      if (!this.connected) {
+        console.warn('[QZ] Sin conexión, no se puede imprimir');
+        return;
+      }
     }
     try {
       const printer = await qz.printers.getDefault();
@@ -912,8 +917,8 @@ const _qz = {
         sep +
         '\x1B\x61\x01' +
         'Gracias por tu pedido!\n' +
-        '\n\n\n' +
-        '\x1D\x56\x42\x00';                      // corte de papel
+        '\n\n\n\n\n' +
+        '\x1D\x56\x41\x00';                      // corte completo de papel
 
       await qz.print(cfg, [{ type: 'raw', format: 'plain', data: ticket }]);
       console.log(`[QZ] Impreso pedido #${pedido.id}`);
