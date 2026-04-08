@@ -854,9 +854,9 @@ const _qz = {
       qz.security.setCertificatePromise(() => Promise.resolve(''));
       qz.security.setSignatureAlgorithm('SHA512');
       qz.security.setSignaturePromise(() => Promise.resolve(''));
-      await qz.websocket.connect();
+      await qz.websocket.connect({ host: 'localhost', port: { secure: [8181, 8183], insecure: [8182, 8184] }, usingSecure: true });
       this.connected = true;
-      console.log('[QZ] Conectado');
+      console.log('[QZ] Conectado (wss)');
       // Reconectar automáticamente si se cierra
       qz.websocket.setClosedCallbacks(() => {
         this.connected = false;
