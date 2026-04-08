@@ -836,7 +836,92 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qz-tray@2.2.4/qz-tray.min.js"></script>
 <script>
+
+// ── QZ TRAY — IMPRESIÓN AUTOMÁTICA ───────────────────────────────────────────
+const _qz = {
+  connected: false,
+  connecting: false,
+  printedIds: new Set(),
+
+  async connect() {
+    if (this.connected || this.connecting) return;
+    if (typeof qz === 'undefined') return; // QZ Tray no cargado
+    this.connecting = true;
+    try {
+      // Firma de seguridad: desactivada para uso en red local (sin HTTPS externo)
+      qz.security.setCertificatePromise(() => Promise.resolve(''));
+      qz.security.setSignatureAlgorithm('SHA512');
+      qz.security.setSignaturePromise(() => Promise.resolve(''));
+      await qz.websocket.connect();
+      this.connected = true;
+      console.log('[QZ] Conectado');
+      // Reconectar automáticamente si se cierra
+      qz.websocket.setClosedCallbacks(() => {
+        this.connected = false;
+        console.warn('[QZ] Desconectado — reintentando en 5s');
+        setTimeout(() => { this.connecting = false; this.connect(); }, 5000);
+      });
+    } catch (e) {
+      console.warn('[QZ] No se pudo conectar:', e.message || e);
+    } finally {
+      this.connecting = false;
+    }
+  },
+
+  async printTicket(pedido) {
+    if (!this.connected) {
+      console.warn('[QZ] Sin conexión, no se puede imprimir');
+      return;
+    }
+    try {
+      const printer = await qz.printers.getDefault();
+      const cfg = qz.configs.create(printer, { encoding: 'CP858' });
+
+      const sep   = '--------------------------------\n';
+      const fecha = new Date().toLocaleString('es-ES', { hour12: false });
+      const lineas = (pedido.items || pedido.productos || []).map(it => {
+        const nombre = it.name || it;
+        const qty    = it.qty  || 1;
+        const precio = it.price != null ? ` x${qty}  ${(it.price * qty).toFixed(2)}EUR` : '';
+        return `  ${qty}x ${nombre}${precio}\n`;
+      });
+
+      const ticket = [
+        '\x1B\x40',                         // reset impresora
+        '\x1B\x61\x01',                     // centrar
+        '\x1B\x21\x30',                     // doble alto+ancho
+        'BRUTAL BURGERS\n',
+        '\x1B\x21\x00',                     // normal
+        sep,
+        `Pedido #${pedido.id}\n`,
+        `${fecha}\n`,
+        pedido.nombre ? `Cliente: ${pedido.nombre}\n` : '',
+        pedido.tipo   ? `Tipo: ${pedido.tipo}\n`      : '',
+        sep,
+        '\x1B\x61\x00',                     // izquierda
+        ...lineas,
+        sep,
+        `\x1B\x21\x10TOTAL: ${Number(pedido.total || 0).toFixed(2)} EUR\n`,
+        '\x1B\x21\x00',
+        sep,
+        '\x1B\x61\x01',
+        'Gracias por tu pedido!\n',
+        '\n\n\n',
+        '\x1D\x56\x42\x00',                 // corte de papel
+      ];
+
+      await qz.print(cfg, [{ type: 'raw', format: 'plain', data: ticket.join('') }]);
+      console.log(`[QZ] Impreso pedido #${pedido.id}`);
+    } catch (e) {
+      console.error('[QZ] Error al imprimir:', e);
+    }
+  }
+};
+
+// Iniciar conexión QZ en cuanto cargue la página
+window.addEventListener('load', () => _qz.connect());
 
 // ── FIREBASE HELPERS ──────────────────────────────────────────────────────────
 let db, auth, ordersUnsub = null;
@@ -1521,7 +1606,13 @@ function admLogin(){
             updSt(match.status);
           }
         }
-        // Play sound for new orders that just arrived
+        // Play sound + imprimir ticket para pedidos nuevos que aún no se han imprimido
+        fbDocs.forEach(o => {
+          if (o.status === 'nuevos' && !_qz.printedIds.has(o.fbId || o.id)) {
+            _qz.printedIds.add(o.fbId || o.id);
+            _qz.printTicket(o);
+          }
+        });
         const hasNew = fbDocs.some(o => o.status === 'nuevos' && o.isNew);
         if(hasNew) playNewOrderSound();
         // Re-render panel if open
