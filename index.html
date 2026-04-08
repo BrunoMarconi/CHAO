@@ -1537,7 +1537,7 @@ function placeOrder(){
   orders.unshift(order);saveOrders();curOId=id;cart=[];updCount();
   // Reset payment fields
   payMethod='card';cashExact=false;cashAmount=0;
-  closeCO();openSt(id);toast('¡Pedido confirmado! 🔥');simProg(id);
+  closeCO();openSt(id);toast('¡Pedido confirmado! 🔥');
 }
 
 // ── STATUS ────────────────────────────────────────────────────────────────────
@@ -1557,16 +1557,6 @@ function updSt(status){
   }
   document.getElementById('st-title').textContent=STTITLES[status]||'';
   document.getElementById('st-msg').textContent=STMSGS[status]||'';
-}
-function simProg(id){
-  const prog=['preparacion','listos','reparto','entregado'];let i=0;
-  const iv=setInterval(()=>{
-    const o=orders.find(x=>x.id===id);
-    if(!o||i>=prog.length){clearInterval(iv);return;}
-    o.status=prog[i++];o.isNew=false;saveOrders();
-    if(curOId===id&&document.getElementById('st-ov').classList.contains('open'))updSt(o.status);
-    if(o.status==='entregado')clearInterval(iv);
-  },9000);
 }
 
 // ── CANCEL CONFIRM ────────────────────────────────────────────────────────────
