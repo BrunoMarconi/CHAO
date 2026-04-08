@@ -888,29 +888,23 @@ const _qz = {
         return `  ${qty}x ${nombre}${precio}\n`;
       });
 
-      const ticket = [
-        '\x1B\x40',                         // reset impresora
-        '\x1B\x61\x01',                     // centrar
-        '\x1B\x21\x30',                     // doble alto+ancho
-        'BRUTAL BURGERS\n',
-        '\x1B\x21\x00',                     // normal
-        sep,
-        `Pedido #${pedido.id}\n`,
-        `${fecha}\n`,
-        pedido.nombre ? `Cliente: ${pedido.nombre}\n` : '',
-        pedido.tipo   ? `Tipo: ${pedido.tipo}\n`      : '',
-        sep,
-        '\x1B\x61\x00',                     // izquierda
-        ...lineas,
-        sep,
-        `\x1B\x21\x10TOTAL: ${Number(pedido.total || 0).toFixed(2)} EUR\n`,
-        '\x1B\x21\x00',
-        sep,
-        '\x1B\x61\x01',
-        'Gracias por tu pedido!\n',
-        '\n\n\n',
-        '\x1D\x56\x42\x00',                 // corte de papel
-      ];
+      const ticket = `
+------ BRUTAL BURGERS ------
+Pedido #${pedido.id}
+${fecha}
+
+${pedido.nombre ? `Cliente: ${pedido.nombre}` : ''}
+${pedido.tipo ? `Tipo: ${pedido.tipo}` : ''}
+
+----------------------------
+${lineas.join('')}
+----------------------------
+TOTAL: ${Number(pedido.total || 0).toFixed(2)} EUR
+
+Gracias por tu pedido!
+
+
+`;
 
       await qz.print(cfg, [{ type: 'raw', format: 'plain', data: ticket.join('') }]);
       console.log(`[QZ] Impreso pedido #${pedido.id}`);
@@ -944,9 +938,25 @@ function fbInit() {
   auth.onAuthStateChanged(user => {
     if (user) {
       adminAuth = true;
-      if (document.getElementById('adm-ov').classList.contains('open')) renderAdmPanel();
+      // Re-establish real-time subscription (lost on page refresh)
+      fbSubscribeOrders(fbDocs => {
+        fbOrders = fbDocs;
+        if (curOId) {
+          const match = fbDocs.find(o => o.id === curOId || o.fbId === curOId);
+          if (match && document.getElementById('st-ov').classList.contains('open')) updSt(match.status);
+        }
+        fbDocs.forEach(o => {
+          if (o.status === 'nuevos' && !_qz.printedIds.has(o.fbId || o.id)) {
+            _qz.printedIds.add(o.fbId || o.id);
+            _qz.printTicket(o);
+          }
+        });
+        if (document.getElementById('adm-ov').classList.contains('open') && adminAuth) renderAdmPanel();
+      });
     } else {
       adminAuth = false;
+      if (ordersUnsub) { ordersUnsub(); ordersUnsub = null; }
+      fbOrders = null;
     }
   });
 }
