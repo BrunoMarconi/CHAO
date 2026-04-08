@@ -884,29 +884,38 @@ const _qz = {
       const lineas = (pedido.items || pedido.productos || []).map(it => {
         const nombre = it.name || it;
         const qty    = it.qty  || 1;
-        const precio = it.price != null ? ` x${qty}  ${(it.price * qty).toFixed(2)}EUR` : '';
+        const precio = it.unitPrice != null ? `  ${(it.unitPrice * qty).toFixed(2)} EUR` : '';
         return `  ${qty}x ${nombre}${precio}\n`;
       });
 
-      const ticket = `
------- BRUTAL BURGERS ------
-Pedido #${pedido.id}
-${fecha}
+      const ticket =
+        '\x1B\x40' +                             // reset impresora
+        '\x1B\x61\x01' +                         // centrar
+        '\x1B\x21\x30' +                         // texto grande
+        'BRUTAL BURGERS\n' +
+        '\x1B\x21\x00' +                         // texto normal
+        sep +
+        `Pedido #${pedido.id.replace('BB-','')}\n` +
+        `${fecha}\n` +
+        (pedido.name  ? `Cliente: ${pedido.name}\n`  : '') +
+        (pedido.phone ? `Tel: ${pedido.phone}\n`      : '') +
+        (pedido.type  ? `Tipo: ${pedido.type}\n`      : '') +
+        (pedido.address && pedido.type === 'domicilio' ? `Dir: ${pedido.address}\n` : '') +
+        (pedido.notes ? `Notas: ${pedido.notes}\n`    : '') +
+        sep +
+        '\x1B\x61\x00' +                         // alinear izquierda
+        lineas.join('') +
+        sep +
+        '\x1B\x21\x10' +                         // negrita
+        `TOTAL: ${Number(pedido.total || 0).toFixed(2)} EUR\n` +
+        '\x1B\x21\x00' +
+        sep +
+        '\x1B\x61\x01' +
+        'Gracias por tu pedido!\n' +
+        '\n\n\n' +
+        '\x1D\x56\x42\x00';                      // corte de papel
 
-${pedido.nombre ? `Cliente: ${pedido.nombre}` : ''}
-${pedido.tipo ? `Tipo: ${pedido.tipo}` : ''}
-
-----------------------------
-${lineas.join('')}
-----------------------------
-TOTAL: ${Number(pedido.total || 0).toFixed(2)} EUR
-
-Gracias por tu pedido!
-
-
-`;
-
-      await qz.print(cfg, [{ type: 'raw', format: 'plain', data: ticket.join('') }]);
+      await qz.print(cfg, [{ type: 'raw', format: 'plain', data: ticket }]);
       console.log(`[QZ] Impreso pedido #${pedido.id}`);
     } catch (e) {
       console.error('[QZ] Error al imprimir:', e);
