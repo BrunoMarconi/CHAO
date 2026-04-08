@@ -935,28 +935,41 @@ function fbInit() {
   db   = firebase.firestore();
   auth = firebase.auth();
   // Restore session
+  const _notified = new Set(); // IDs already alerted (sound + print)
+  let _firstSnap = true;      // skip sound/print on initial load
+
   auth.onAuthStateChanged(user => {
     if (user) {
       adminAuth = true;
-      // Re-establish real-time subscription (lost on page refresh)
+      _firstSnap = true;
       fbSubscribeOrders(fbDocs => {
         fbOrders = fbDocs;
         if (curOId) {
           const match = fbDocs.find(o => o.id === curOId || o.fbId === curOId);
           if (match && document.getElementById('st-ov').classList.contains('open')) updSt(match.status);
         }
-        fbDocs.forEach(o => {
-          if (o.status === 'nuevos' && !_qz.printedIds.has(o.fbId || o.id)) {
-            _qz.printedIds.add(o.fbId || o.id);
-            _qz.printTicket(o);
-          }
-        });
+        if (_firstSnap) {
+          // Mark all existing orders as seen — don't beep/print for old ones
+          fbDocs.forEach(o => _notified.add(o.fbId || o.id));
+          _firstSnap = false;
+        } else {
+          fbDocs.forEach(o => {
+            const oid = o.fbId || o.id;
+            if (o.status === 'nuevos' && !_notified.has(oid)) {
+              _notified.add(oid);
+              playNewOrderSound();
+              _qz.printTicket(o);
+            }
+          });
+        }
         if (document.getElementById('adm-ov').classList.contains('open') && adminAuth) renderAdmPanel();
       });
     } else {
       adminAuth = false;
       if (ordersUnsub) { ordersUnsub(); ordersUnsub = null; }
       fbOrders = null;
+      _notified.clear();
+      _firstSnap = true;
     }
   });
 }
@@ -1606,30 +1619,7 @@ function admLogin(){
     .then(() => {
       adminAuth = true;
       renderAdmPanel();
-      // Start real-time Firestore listener — fills fbOrders and re-renders panel
-      fbSubscribeOrders(fbDocs => {
-        fbOrders = fbDocs;
-        // If client is watching their order status, update it live
-        if(curOId) {
-          const match = fbDocs.find(o => o.id === curOId || o.fbId === curOId);
-          if(match && document.getElementById('st-ov').classList.contains('open')) {
-            updSt(match.status);
-          }
-        }
-        // Play sound + imprimir ticket para pedidos nuevos que aún no se han imprimido
-        fbDocs.forEach(o => {
-          if (o.status === 'nuevos' && !_qz.printedIds.has(o.fbId || o.id)) {
-            _qz.printedIds.add(o.fbId || o.id);
-            _qz.printTicket(o);
-          }
-        });
-        const hasNew = fbDocs.some(o => o.status === 'nuevos' && o.isNew);
-        if(hasNew) playNewOrderSound();
-        // Re-render panel if open
-        if(document.getElementById('adm-ov').classList.contains('open') && adminAuth) {
-          renderAdmPanel();
-        }
-      });
+      // Subscription is managed by onAuthStateChanged — no need to re-subscribe here
     })
     .catch(err => {
       let msg = 'Credenciales incorrectas';
