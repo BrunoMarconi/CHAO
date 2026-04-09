@@ -202,7 +202,8 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
 .modal-name{font-family:'Black Han Sans',sans-serif;font-size:2.2rem;margin-bottom:.6rem;color:var(--brown)}
 .modal-desc{color:var(--gray);font-size:.92rem;line-height:1.7;margin-bottom:1.3rem;font-weight:600}
 .ingr-wrap{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.3rem}
-.ingr-tag{background:var(--cream2);border:1.5px solid var(--cream3);border-radius:100px;padding:.25rem .75rem;font-size:.76rem;color:var(--brown2);font-weight:700}
+.ingr-tag{background:var(--cream2);border:1.5px solid var(--cream3);border-radius:100px;padding:.25rem .75rem;font-size:.76rem;color:var(--brown2);font-weight:700;cursor:pointer;user-select:none;transition:all .15s}
+.ingr-tag.removed{opacity:.35;text-decoration:line-through;background:var(--cream3)}
 .extras-section{margin-bottom:1.3rem}
 .extras-section h4{font-size:.74rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:.7rem}
 .extra-row{display:flex;align-items:center;justify-content:space-between;padding:.6rem 0;border-bottom:1.5px solid var(--cream3)}
@@ -890,7 +891,9 @@ const _qz = {
         const nombre = it.name || it;
         const qty    = it.qty  || 1;
         const precio = it.unitPrice != null ? `  ${(it.unitPrice * qty).toFixed(2)} EUR` : '';
-        return `  ${qty}x ${nombre}${precio}\n`;
+        const extras = it.extras && it.extras.length ? `\n    + ${it.extras.map(e=>e.name).join(', ')}` : '';
+        const sinIng = it.removed && it.removed.length ? `\n    SIN: ${it.removed.join(', ')}` : '';
+        return `  ${qty}x ${nombre}${precio}${extras}${sinIng}\n`;
       });
 
       const ticket =
@@ -1063,7 +1066,7 @@ const PRODUCTS=[
   {id:29,name:"Nachos",cat:"Entrantes",price:8.50,badge:null,desc:"Nachos con mix de verduras gratinados y cheddar.",img:"./nachos_tex_mex.jpeg",ingredients:["Nachos","Mix verduras","Cheddar gratinado"],extras:[{name:"Extra queso",price:0.80},{name:"Extra guacamole",price:1.00}]},
 
   // ── PIZZAS ──
-  {id:30,name:"Pizza Chao",cat:"Pizzas",price:9.50,badge:null,desc:"Base de mozarella y tomate. Personaliza tu pizza añadiendo los ingredientes que quieras.",img:"./pizza_jamon_queso.jpeg",ingredients:["Base de masa","Mozarella","Tomate"],extras:[{name:"Jamón serrano",price:1.50},{name:"Bacon",price:1.00},{name:"Pollo",price:1.50},{name:"Pepperoni",price:1.00},{name:"Carne picada",price:1.50},{name:"Atún",price:1.00},{name:"Chorizo",price:1.00},{name:"Gambas",price:2.00},{name:"Queso extra",price:1.00},{name:"Pimiento",price:0.80},{name:"Cebolla",price:0.80},{name:"Champiñones",price:0.80},{name:"Aceitunas",price:0.80},{name:"Rúcula",price:0.80},{name:"Verduras mix",price:0.80}]},
+  {id:30,name:"Pizza Chao",cat:"Pizzas",price:7.50,badge:null,desc:"Base de mozarella y tomate. Personaliza tu pizza añadiendo los ingredientes que quieras.",img:"./pizza_jamon_queso.jpeg",ingredients:["Base de masa","Mozarella","Tomate"],extras:[{name:"Jamón serrano",price:0.50},{name:"Bacon",price:0.50},{name:"Pollo",price:0.50},{name:"Pepperoni",price:0.50},{name:"Carne picada",price:0.50},{name:"Atún",price:0.50},{name:"Chorizo",price:0.50},{name:"Gambas",price:0.50},{name:"Queso extra",price:0.50},{name:"Pimiento",price:0.50},{name:"Cebolla",price:0.50},{name:"Champiñones",price:0.50},{name:"Aceitunas",price:0.50},{name:"Rúcula",price:0.50},{name:"Verduras mix",price:0.50}]},
 
   // ── BOCATAS ──
   {id:31,name:"Bocata Serranito",cat:"Bocatas",price:5.00,badge:null,desc:"Pollo ó cerdo, pimiento, jamón serrano y mahonesa.",img:"./Bocata_chao_pollo.jpeg",ingredients:["Pollo o cerdo","Pimiento","Jamón serrano","Mahonesa","Pan"],extras:[{name:"Extra jamón",price:1.00}]},
@@ -1137,7 +1140,7 @@ const DELIVERY_ZONES = {
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
 // Declared with var so hoisting makes them available inside functions defined below
-var cart=[], mQty=1, mProd=null, mExtras=[], activeCat="Todo", oType="domicilio", shipCost=1.99;
+var cart=[], mQty=1, mProd=null, mExtras=[], mRemoved=[], activeCat="Todo", oType="domicilio", shipCost=1.99;
 var orders=[], adminAuth=false, curOId=null, admTimer=null;
 var fbOrders=null; // null = not connected; [] = connected but empty; [...] = live data
 var soundEnabled=true;
@@ -1354,12 +1357,12 @@ function renderMenu(cat){
 
 // ── MODAL ─────────────────────────────────────────────────────────────────────
 function openProd(id){
-  const p=PRODUCTS.find(x=>x.id===id);mProd=p;mQty=1;mExtras=[];
+  const p=PRODUCTS.find(x=>x.id===id);mProd=p;mQty=1;mExtras=[];mRemoved=[];
   document.getElementById('m-img').src=p.img;
   document.getElementById('m-cat').textContent=p.cat;
   document.getElementById('m-name').textContent=p.name;
   document.getElementById('m-desc').textContent=p.desc;
-  document.getElementById('m-ingr').innerHTML=p.ingredients.map(i=>`<span class="ingr-tag">${i}</span>`).join('');
+  document.getElementById('m-ingr').innerHTML=p.ingredients.map((ing,i)=>`<span class="ingr-tag" id="ingr-${i}" onclick="tgIngr(${i})">${ing}</span>`).join('');
   const ew=document.getElementById('m-extras-wrap'),ed=document.getElementById('m-extras');
   const pe=p.extras.filter(e=>e.price>0);
   if(pe.length){ew.style.display='block';ed.innerHTML=pe.map((e,i)=>`<div class="extra-row"><span style="font-size:.85rem">${e.name}</span><div style="display:flex;align-items:center;gap:.7rem"><span class="extra-price">+${e.price.toFixed(2)}€</span><input class="extra-check" type="checkbox" id="ex-${i}" onchange="tgEx(${i})"/></div></div>`).join('');}
@@ -1370,10 +1373,12 @@ function openProd(id){
 function closePM(){document.getElementById('prod-modal').classList.remove('open');document.body.style.overflow='';}
 function chQty(d){mQty=Math.max(1,Math.min(10,mQty+d));document.getElementById('m-qty').textContent=mQty;updMT();}
 function tgEx(i){const idx=mExtras.indexOf(i);idx===-1?mExtras.push(i):mExtras.splice(idx,1);updMT();}
+function tgIngr(i){const idx=mRemoved.indexOf(i);idx===-1?mRemoved.push(i):mRemoved.splice(idx,1);document.getElementById('ingr-'+i).classList.toggle('removed',mRemoved.includes(i));}
 function updMT(){const ext=mExtras.reduce((a,i)=>{const e=mProd.extras.filter(x=>x.price>0)[i];return a+(e?e.price:0);},0);document.getElementById('m-total').textContent=((mProd.price+ext)*mQty).toFixed(2)+' €';}
 function addFromModal(){
   const p=mProd,ei=mExtras.map(i=>p.extras.filter(e=>e.price>0)[i]).filter(Boolean),et=ei.reduce((a,e)=>a+e.price,0);
-  cart.push({id:p.id,name:p.name,img:p.img,unitPrice:p.price+et,qty:mQty,lineTotal:(p.price+et)*mQty,extras:ei});
+  const removed=mRemoved.map(i=>p.ingredients[i]);
+  cart.push({id:p.id,name:p.name,img:p.img,unitPrice:p.price+et,qty:mQty,lineTotal:(p.price+et)*mQty,extras:ei,removed});
   updCount();closePM();toast(p.name+' añadida al carrito');
 }
 function qAdd(id){const p=PRODUCTS.find(x=>x.id===id);cart.push({id:p.id,name:p.name,img:p.img,unitPrice:p.price,qty:1,lineTotal:p.price,extras:[]});updCount();toast(p.name+' añadida');}
@@ -1770,7 +1775,9 @@ function kbCard(o){
         <div class="kb-item-row">
           <span class="kb-item-name"><span class="kb-item-qty">×${it.qty}</span><span class="kb-item-name-text">${it.name}</span></span>
           <span class="kb-item-price">${it.lineTotal.toFixed(2)} €</span>
-        </div>`).join('')}
+        </div>
+        ${it.extras&&it.extras.length?`<div style="font-size:.7rem;color:#6dc994;padding-left:1.8rem;margin-top:.1rem">+ ${it.extras.map(e=>e.name).join(', ')}</div>`:''}
+        ${it.removed&&it.removed.length?`<div style="font-size:.7rem;color:#e07b39;padding-left:1.8rem;margin-top:.1rem">SIN: ${it.removed.join(', ')}</div>`:''}`).join('')}
     </div>
     ${o.notes?`<div class="kb-note">${o.notes}</div>`:''}
     <div class="kb-card-foot">
