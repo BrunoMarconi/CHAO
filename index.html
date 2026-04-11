@@ -289,12 +289,10 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
 .pay-btn.active .pay-btn-name{color:var(--green)}
 .cash-detail{margin-top:.88rem;display:none}
 .cash-detail.show{display:block}
-.cash-exact{display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem}
-.cash-toggle{display:flex;align-items:center;gap:.5rem;cursor:pointer}
-.cash-toggle input[type=checkbox]{width:18px;height:18px;accent-color:var(--green);cursor:pointer;flex-shrink:0}
-.cash-toggle span{font-size:.88rem;font-weight:700;color:var(--brown2)}
 .cash-amount-wrap{display:flex;flex-direction:column;gap:.35rem}
-.cash-amount-hint{font-size:.77rem;color:var(--gray);line-height:1.55;font-weight:600}
+.cash-exact-btn{margin-top:.65rem;width:100%;background:var(--cream);border:2px solid var(--cream3);border-radius:var(--r2);padding:.62rem .9rem;font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:800;color:var(--brown2);cursor:pointer;transition:all .18s;text-align:center}
+.cash-exact-btn:hover{border-color:var(--green);background:rgba(58,125,68,.06)}
+.cash-exact-btn.active{border-color:var(--green);background:rgba(58,125,68,.08);color:var(--green)}
 .cash-change-info{background:var(--cream);border:2px solid rgba(61,122,58,.25);border-radius:var(--r2);padding:.62rem .95rem;display:flex;justify-content:space-between;align-items:center;margin-top:.6rem}
 .cash-change-label{font-size:.82rem;color:var(--gray);font-weight:700}
 .cash-change-val{font-family:'Black Han Sans',sans-serif;font-size:1.1rem;color:var(--green)}
@@ -473,10 +471,9 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
   .hero-logo-img{height:85px}
   .co-grid{grid-template-columns:1fr;gap:.6rem}.fg.full{grid-column:1}
   .addr-3col{grid-template-columns:1fr !important;gap:.6rem !important}
-  .otype-wrap{flex-direction:column;gap:.5rem;align-items:flex-start}
-  .otype-btn{width:70%;padding:.65rem;font-size:.82rem}
-  #co-name,#co-phone,#co-cp{max-width:70%}
-  #co-notes{max-width:70%}
+  .otype-wrap{flex-direction:column;gap:.5rem;align-items:stretch}
+  .otype-btn{width:100%;padding:.65rem;font-size:.82rem}
+  #co-name,#co-phone,#co-cp,#co-notes{max-width:100%}
   .pay-btns{flex-direction:row}
   .checkout-modal .modal-body{padding:1rem .9rem}
   .checkout-modal .modal-name{font-size:1.6rem;margin-bottom:.8rem}
@@ -766,21 +763,15 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
           </button>
         </div>
         <div class="cash-detail" id="cash-detail">
-          <div class="cash-exact">
-            <label class="cash-toggle" for="cash-exact-chk">
-              <input type="checkbox" id="cash-exact-chk" onchange="toggleCashExact()"/>
-              <span>Pago con el importe exacto</span>
-            </label>
-          </div>
-          <div class="cash-amount-wrap" id="cash-amount-wrap" style="display:none">
+          <div class="cash-amount-wrap" id="cash-amount-wrap">
             <label class="flabel">¿Con cuánto pagas?</label>
             <input class="finput" id="cash-amount" type="number" min="0" step="0.5" placeholder="Ej: 20" oninput="calcChange()"/>
-            <p class="cash-amount-hint">Indica el billete o cantidad que vas a dar al repartidor para que lleve el cambio justo.</p>
             <div id="cash-change-info" class="cash-change-info" style="display:none">
               <span class="cash-change-label">Cambio a devolver</span>
               <span class="cash-change-val" id="cash-change-val"></span>
             </div>
           </div>
+          <button class="cash-exact-btn" id="cash-exact-btn" onclick="toggleCashExact()">Pago con importe justo</button>
         </div>
       </div>
 
@@ -1436,10 +1427,11 @@ function oCO(){
     if(pc)pc.classList.add('active');
     if(ps)ps.classList.remove('active');
     if(cd)cd.classList.remove('show');
-    const chk=document.getElementById('cash-exact-chk');
-    if(chk)chk.checked=false;
+    cashExact=false;
+    const eb=document.getElementById('cash-exact-btn');
+    if(eb)eb.classList.remove('active');
     const aw=document.getElementById('cash-amount-wrap');
-    if(aw)aw.style.display='none';
+    if(aw)aw.style.display='flex';
     const ca=document.getElementById('cash-amount');
     if(ca)ca.value='';
     const ci=document.getElementById('cash-change-info');
@@ -1498,24 +1490,24 @@ function setPayMethod(m){
   const detail=document.getElementById('cash-detail');
   detail.classList.toggle('show',m==='cash');
   if(m==='card'){
-    // reset cash fields
-    const chk=document.getElementById('cash-exact-chk');
-    if(chk)chk.checked=false;
     cashExact=false;
-    document.getElementById('cash-amount-wrap').style.display='none';
+    const eb=document.getElementById('cash-exact-btn');
+    if(eb)eb.classList.remove('active');
+    document.getElementById('cash-amount-wrap').style.display='flex';
+    document.getElementById('cash-amount').value='';
     document.getElementById('cash-change-info').style.display='none';
   }
 }
 function toggleCashExact(){
-  cashExact=document.getElementById('cash-exact-chk').checked;
+  cashExact=!cashExact;
+  const btn=document.getElementById('cash-exact-btn');
+  btn.classList.toggle('active',cashExact);
   const amWrap=document.getElementById('cash-amount-wrap');
   amWrap.style.display=cashExact?'none':'flex';
-  amWrap.style.flexDirection='column';
   document.getElementById('cash-change-info').style.display='none';
   if(cashExact){
     cashAmount=0;
-    const inp=document.getElementById('cash-amount');
-    if(inp)inp.value='';
+    document.getElementById('cash-amount').value='';
   }
 }
 function calcChange(){
