@@ -680,6 +680,7 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
       <p class="modal-cat" id="m-cat"></p>
       <h2 class="modal-name" id="m-name"></h2>
       <p class="modal-desc" id="m-desc"></p>
+      <p style="font-size:.74rem;color:var(--gray);margin-bottom:.4rem">Toca un ingrediente para quitarlo</p>
       <div class="ingr-wrap" id="m-ingr"></div>
       <div class="extras-section" id="m-extras-wrap"><h4>Añade extras</h4><div id="m-extras"></div></div>
       <div class="modal-foot">
@@ -900,7 +901,7 @@ const _qz = {
         '\x1B\x40' +                             // reset impresora
         '\x1B\x61\x01' +                         // centrar
         '\x1B\x21\x30' +                         // texto grande
-        'BRUTAL BURGERS\n' +
+        (pedido.type === 'domicilio' ? 'A DOMICILIO\n' : 'RECOGIDA EN LOCAL\n') +
         '\x1B\x21\x00' +                         // texto normal
         sep +
         `Pedido #${pedido.id.replace('BB-','')}\n` +
