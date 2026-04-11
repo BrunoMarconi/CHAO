@@ -256,11 +256,11 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
 
 /* CHECKOUT */
 .checkout-modal{max-width:680px}
-.co-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem}
-.fg{display:flex;flex-direction:column;gap:.38rem}
+.co-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.fg{display:flex;flex-direction:column;gap:.3rem}
 .fg.full{grid-column:1/-1}
-.flabel{font-size:.72rem;font-weight:900;letter-spacing:.09em;text-transform:uppercase;color:var(--gray)}
-.finput{background:var(--cream);border:2px solid var(--cream3);border-radius:var(--r2);padding:.72rem .95rem;color:var(--brown);font-size:.9rem;transition:border-color .18s;outline:none;font-weight:600}
+.flabel{font-size:.68rem;font-weight:900;letter-spacing:.09em;text-transform:uppercase;color:var(--gray)}
+.finput{background:var(--cream);border:2px solid var(--cream3);border-radius:var(--r2);padding:.58rem .8rem;color:var(--brown);font-size:.88rem;transition:border-color .18s;outline:none;font-weight:600}
 .finput:focus{border-color:var(--green)}
 .finput::placeholder{color:var(--gray2)}
 .otype-wrap{display:flex;gap:.7rem}
@@ -471,7 +471,12 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
   .nav-links{display:none}.ham{display:flex}
   .hero h1{font-size:clamp(2.8rem,13vw,5rem)}
   .hero-logo-img{height:85px}
-  .co-grid{grid-template-columns:1fr}.fg.full{grid-column:1}
+  .co-grid{grid-template-columns:1fr;gap:.6rem}.fg.full{grid-column:1}
+  .checkout-modal .modal-body{padding:1rem .9rem}
+  .checkout-modal .modal-name{font-size:1.6rem;margin-bottom:.8rem}
+  .co-summary{padding:.8rem;margin-top:.9rem}
+  .co-summary h4{font-size:1rem;margin-bottom:.6rem}
+  .otype-btn{padding:.62rem .5rem;font-size:.78rem}
   .adm-logo{font-size:1rem}.adm-badge{display:none}
   .kb-col{flex:0 0 220px}
   .adm-topbar{gap:.5rem;padding:0 .7rem}.adm-topbar-right{gap:.35rem}
@@ -1030,19 +1035,19 @@ function fbLogout() {
 // ── DATA ──────────────────────────────────────────────────────────────────────
 const PRODUCTS=[
   // ── BURGERS ──
-  {id:1,name:"Normal",cat:"Burgers",price:5.90,badge:null,desc:"Lechuga, tomate, cebolla fresca. Con patatas fritas.",img:"./sin_foto.jpeg",ingredients:["Carne","Lechuga","Tomate","Cebolla fresca","Pan"],extras:[{name:"Extra queso",price:0.80},{name:"Extra bacon",price:1.00},{name:"Huevo",price:0.80}]},
-  {id:2,name:"Cresta",cat:"Burgers",price:5.90,badge:null,desc:"Lechuga, tomate, cabolla fresca. Con patatas fritas.",img:"./sin_foto.jpeg",ingredients:["Carne","Lechuga","Tomate","Cabolla fresca","Pan"],extras:[{name:"Extra queso",price:0.80},{name:"Extra bacon",price:1.00}]},
-  {id:3,name:"Chao",cat:"Burgers",price:6.50,badge:"Más pedida",desc:"Lechuga, tomate, cebolla caramelizada, bacon, huevo y salsa cheddar. Con patatas fritas.",img:"./sin_foto.jpeg",ingredients:["Carne","Lechuga","Tomate","Cebolla caramelizada","Bacon","Huevo","Salsa cheddar","Pan"],extras:[{name:"Doble carne",price:2.50},{name:"Extra bacon",price:1.00},{name:"Extra queso",price:0.80}]},
+  {id:1,name:"Normal",cat:"Burgers",price:5.90,badge:null,desc:"Lechuga, tomate, cebolla fresca. Con patatas fritas.",img:"./sin_foto.jpeg",ingredients:["Carne","Lechuga","Tomate","Cebolla fresca","Mayonesa","Pan"],extras:[{name:"Extra queso",price:0.80},{name:"Extra bacon",price:1.00},{name:"Huevo",price:0.80}]},
+  {id:2,name:"Cresta",cat:"Burgers",price:5.90,badge:null,desc:"Lechuga, tomate, cebolla fresca. Con patatas fritas.",img:"./sin_foto.jpeg",ingredients:["Carne","Lechuga","Tomate","Cebolla fresca","Mayonesa","Pan"],extras:[{name:"Extra queso",price:0.80},{name:"Extra bacon",price:1.00}]},
+  {id:3,name:"Chao",cat:"Burgers",price:6.50,badge:"Más pedida",desc:"Lechuga, tomate, cebolla caramelizada, bacon, huevo y salsa cheddar. Con patatas fritas.",img:"./sin_foto.jpeg",ingredients:["Carne","Lechuga","Tomate","Cebolla caramelizada","Bacon","Huevo","Salsa cheddar","Mayonesa","Pan"],extras:[{name:"Doble carne",price:2.50},{name:"Extra bacon",price:1.00},{name:"Extra queso",price:0.80}]},
   {id:4,name:"Crunvhy",cat:"Burgers",price:6.50,badge:null,desc:"Pechuga de pollo crujiente, lechuga, tomate, cebolla caramelizada y mayo. Con patatas fritas.",img:"./burger_crunchy.jpeg",ingredients:["Pollo crujiente","Lechuga","Tomate","Cebolla caramelizada","Mayonesa","Pan"],extras:[{name:"Extra pollo",price:1.50},{name:"Extra queso",price:0.80}]},
-  {id:5,name:"Big Chao",cat:"Burgers",price:7.90,badge:null,desc:"Doble ternera, lechuga, cebolla, pepinillo y salsa chao. Con patatas fritas.",img:"./burger_big_chao.jpeg",ingredients:["Doble ternera","Lechuga","Cebolla","Pepinillo","Salsa chao","Pan"],extras:[{name:"Triple carne",price:2.50},{name:"Extra bacon",price:1.00},{name:"Extra queso",price:0.80}]},
+  {id:5,name:"Big Chao",cat:"Burgers",price:7.90,badge:null,desc:"Doble ternera, lechuga, cebolla, pepinillo y salsa chao. Con patatas fritas.",img:"./burger_big_chao.jpeg",ingredients:["Doble ternera","Lechuga","Cebolla","Pepinillo","Salsa chao","Mayonesa","Pan"],extras:[{name:"Triple carne",price:2.50},{name:"Extra bacon",price:1.00},{name:"Extra queso",price:0.80}]},
   {id:6,name:"Menú Chao Kids",cat:"Burgers",price:7.50,badge:"Kids",desc:"A elegir entre Perrito caliente, Burger ó Nuggets. Refresco, Agua y postre. Juguete infantil.",img:"./sin_foto.jpeg",ingredients:["Burger o nuggets o perrito","Refresco o agua","Postre","Juguete infantil"],extras:[]},
 
   // ── SMASH BURGERS ──
   {id:7,name:"Chesse Burger",cat:"Smash Burger",price:12.50,badge:null,desc:"Doble ternera smash, bacon, huevo, pepinillo, ketchup y mayo. Con patatas fritas.",img:"./cheese_burger.jpeg",ingredients:["Doble ternera smash","Bacon","Huevo","Pepinillo","Ketchup","Mayo","Pan"],extras:[{name:"Extra bacon",price:1.00},{name:"Extra queso",price:0.80},{name:"Extra huevo",price:0.80}]},
-  {id:8,name:"Deluxe",cat:"Smash Burger",price:12.50,badge:null,desc:"Doble ternera smash, queso cheddar, bacon, pepinillo, lechuga, tomate y salsa chao. Con patatas fritas.",img:"./sin_foto.jpeg",ingredients:["Doble ternera smash","Queso cheddar","Bacon","Pepinillo","Lechuga","Tomate","Salsa chao"],extras:[{name:"Extra bacon",price:1.00},{name:"Extra queso",price:0.80}]},
-  {id:9,name:"Jam Bacon",cat:"Smash Burger",price:12.50,badge:null,desc:"Doble ternera smash, cebolla caramelo, queso, pepinillos y mermelada de bacon. Con patatas fritas.",img:"./smash_jam_bacon.jpeg",ingredients:["Doble ternera smash","Cebolla caramelo","Queso","Pepinillos","Mermelada de bacon"],extras:[{name:"Extra bacon",price:1.00},{name:"Extra queso",price:0.80}]},
-  {id:10,name:"Pull Berry",cat:"Smash Burger",price:12.50,badge:null,desc:"Doble ternera smash, pullpork, salsa barbacoa, cebolla caramelo y cheddar. Con patatas fritas.",img:"./smash_pull_berry.jpeg",ingredients:["Doble ternera smash","Pullpork","Salsa barbacoa","Cebolla caramelo","Cheddar"],extras:[{name:"Extra pullpork",price:1.50},{name:"Extra queso",price:0.80}]},
-  {id:11,name:"Chesse Boom",cat:"Smash Burger",price:14.50,badge:"Especial",desc:"Doble ternera smash, bacon, huevo, cebolla plancha, bbq y bautizo de cheddar. Con patatas fritas.",img:"./burger_cheese_boom.jpeg",ingredients:["Doble ternera smash","Bacon","Huevo","Cebolla plancha","BBQ","Bautizo cheddar"],extras:[{name:"Triple carne",price:3.00},{name:"Extra bacon",price:1.00}]},
+  {id:8,name:"Deluxe",cat:"Smash Burger",price:12.50,badge:null,desc:"Doble ternera smash, queso cheddar, bacon, pepinillo, lechuga, tomate y salsa chao. Con patatas fritas.",img:"./sin_foto.jpeg",ingredients:["Doble ternera smash","Queso cheddar","Bacon","Pepinillo","Lechuga","Tomate","Salsa chao","Mayonesa"],extras:[{name:"Extra bacon",price:1.00},{name:"Extra queso",price:0.80}]},
+  {id:9,name:"Jam Bacon",cat:"Smash Burger",price:12.50,badge:null,desc:"Doble ternera smash, cebolla caramelo, queso, pepinillos y mermelada de bacon. Con patatas fritas.",img:"./smash_jam_bacon.jpeg",ingredients:["Doble ternera smash","Cebolla caramelo","Queso","Pepinillos","Mermelada de bacon","Mayonesa"],extras:[{name:"Extra bacon",price:1.00},{name:"Extra queso",price:0.80}]},
+  {id:10,name:"Pull Berry",cat:"Smash Burger",price:12.50,badge:null,desc:"Doble ternera smash, pullpork, salsa barbacoa, cebolla caramelo y cheddar. Con patatas fritas.",img:"./smash_pull_berry.jpeg",ingredients:["Doble ternera smash","Pullpork","Salsa barbacoa","Cebolla caramelo","Cheddar","Mayonesa"],extras:[{name:"Extra pullpork",price:1.50},{name:"Extra queso",price:0.80}]},
+  {id:11,name:"Chesse Boom",cat:"Smash Burger",price:14.50,badge:"Especial",desc:"Doble ternera smash, bacon, huevo, cebolla plancha, bbq y bautizo de cheddar. Con patatas fritas.",img:"./burger_cheese_boom.jpeg",ingredients:["Doble ternera smash","Bacon","Huevo","Cebolla plancha","BBQ","Bautizo cheddar","Mayonesa"],extras:[{name:"Triple carne",price:3.00},{name:"Extra bacon",price:1.00}]},
   {id:12,name:"Adictiva",cat:"Smash Burger",price:13.50,badge:null,desc:"Stack burger, pimiento, bacon, huevo, queso cheddar, canónicos y mayo de bacon. Con patatas fritas.",img:"./burger_adictiva.jpeg",ingredients:["Stack burger","Pimiento","Bacon","Huevo","Queso cheddar","Canónicos","Mayo de bacon"],extras:[{name:"Extra bacon",price:1.00},{name:"Extra queso",price:0.80}]},
 
   // ── CAMPEROS ──
@@ -1053,6 +1058,8 @@ const PRODUCTS=[
   {id:17,name:"Campero Kebab",cat:"Camperos",price:6.90,badge:null,desc:"Carne de kebab, lechuga, tomate y salsa yogurt.",img:"./campero_kebab.jpeg",ingredients:["Carne de kebab","Lechuga","Tomate","Salsa yogurt","Pan campero"],extras:[{name:"Extra carne kebab",price:1.50},{name:"Extra salsa",price:0.50}]},
   {id:18,name:"Campero Thor",cat:"Camperos",price:7.50,badge:null,desc:"Pollo crujiente, lechuga, tomate, bacon, cebolla caramelo, huevo y mahonesa.",img:"./sin_foto.jpeg",ingredients:["Pollo crujiente","Lechuga","Tomate","Bacon","Cebolla caramelo","Huevo","Mahonesa","Pan campero"],extras:[{name:"Extra pollo",price:1.50},{name:"Extra bacon",price:1.00}]},
   {id:19,name:"Campero Serrano",cat:"Camperos",price:6.80,badge:null,desc:"Lechuga, tomate natural, jamón serrano, queso gouda, pollo a la plancha y salsa alioli.",img:"./sin_foto.jpeg",ingredients:["Lechuga","Tomate natural","Jamón serrano","Queso gouda","Pollo plancha","Salsa alioli","Pan campero"],extras:[{name:"Extra jamón serrano",price:1.20},{name:"Extra queso",price:0.80}]},
+  {id:65,name:"Campero Atún",cat:"Camperos",price:7.50,badge:null,desc:"Atún, pimiento, lechuga, tomate y mahonesa.",img:"./sin_foto.jpeg",ingredients:["Atún","Pimiento","Lechuga","Tomate","Mahonesa","Pan campero"],extras:[{name:"Extra atún",price:1.00}]},
+  {id:66,name:"Campero Pollo Asado",cat:"Camperos",price:7.50,badge:null,desc:"Pollo asado, lechuga, tomate, pimiento, queso y salsa alioli.",img:"./sin_foto.jpeg",ingredients:["Pollo asado","Lechuga","Tomate","Pimiento","Queso","Salsa alioli","Pan campero"],extras:[{name:"Extra pollo",price:1.50},{name:"Extra queso",price:0.80}]},
   {id:20,name:"Campero Chesse Boom",cat:"Camperos",price:8.90,badge:null,desc:"Pollo troceado, aros de cebolla, salsa bbq, huevo, bacon y bautizo de cheddar.",img:"./sin_foto.jpeg",ingredients:["Pollo troceado","Aros de cebolla","Salsa BBQ","Huevo","Bacon","Bautizo cheddar","Pan campero"],extras:[{name:"Extra pollo",price:1.50},{name:"Extra bacon",price:1.00}]},
 
   // ── ENTRANTES ──
@@ -1102,6 +1109,18 @@ const PRODUCTS=[
   {id:50,name:"Agua",cat:"Bebidas",price:1.50,badge:null,desc:"Agua mineral natural.",img:"https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=600&q=80",ingredients:["Agua mineral"],extras:[]},
   {id:51,name:"KAS",cat:"Bebidas",price:2.00,badge:null,desc:"Refresco KAS.",img:"./KAS.jpeg",ingredients:["KAS"],extras:[]},
   {id:52,name:"Coca-Cola",cat:"Bebidas",price:2.00,badge:null,desc:"Coca-Cola.",img:"./cocacola.jpeg",ingredients:["Coca-Cola"],extras:[]},
+  {id:53,name:"Coca-Cola Zero",cat:"Bebidas",price:2.00,badge:null,desc:"Coca-Cola Zero azúcar.",img:"./sin_foto.jpeg",ingredients:["Coca-Cola Zero"],extras:[]},
+  {id:54,name:"Coca-Cola Zero Zero",cat:"Bebidas",price:2.00,badge:null,desc:"Coca-Cola sin azúcar ni cafeína.",img:"./sin_foto.jpeg",ingredients:["Coca-Cola Zero Zero"],extras:[]},
+  {id:55,name:"Fanta Naranja",cat:"Bebidas",price:2.00,badge:null,desc:"Fanta sabor naranja.",img:"./sin_foto.jpeg",ingredients:["Fanta Naranja"],extras:[]},
+  {id:56,name:"Fanta Limón",cat:"Bebidas",price:2.00,badge:null,desc:"Fanta sabor limón.",img:"./sin_foto.jpeg",ingredients:["Fanta Limón"],extras:[]},
+  {id:57,name:"Nestea",cat:"Bebidas",price:2.00,badge:null,desc:"Té frío Nestea.",img:"./sin_foto.jpeg",ingredients:["Nestea"],extras:[]},
+  {id:58,name:"Nestea Maracuyá",cat:"Bebidas",price:2.00,badge:null,desc:"Té frío Nestea sabor maracuyá.",img:"./sin_foto.jpeg",ingredients:["Nestea Maracuyá"],extras:[]},
+  {id:59,name:"Seven Up",cat:"Bebidas",price:2.00,badge:null,desc:"Refresco Seven Up.",img:"./sin_foto.jpeg",ingredients:["Seven Up"],extras:[]},
+  {id:60,name:"Aquarius Naranja",cat:"Bebidas",price:2.00,badge:null,desc:"Aquarius sabor naranja.",img:"./sin_foto.jpeg",ingredients:["Aquarius Naranja"],extras:[]},
+  {id:61,name:"Aquarius Limón",cat:"Bebidas",price:2.00,badge:null,desc:"Aquarius sabor limón.",img:"./sin_foto.jpeg",ingredients:["Aquarius Limón"],extras:[]},
+  {id:62,name:"Cerveza",cat:"Bebidas",price:2.50,badge:null,desc:"Cerveza fría.",img:"./sin_foto.jpeg",ingredients:["Cerveza"],extras:[]},
+  {id:63,name:"Cerveza Sin",cat:"Bebidas",price:2.50,badge:null,desc:"Cerveza sin alcohol.",img:"./sin_foto.jpeg",ingredients:["Cerveza sin alcohol"],extras:[]},
+  {id:64,name:"Zumo de Piña",cat:"Bebidas",price:2.00,badge:null,desc:"Zumo de piña.",img:"./sin_foto.jpeg",ingredients:["Zumo de piña"],extras:[]},
 ];
 const CATS=["Todo","Burgers","Smash Burger","Camperos","Entrantes","Pizzas","Bocatas","Perritos","Quesadillas","Rollos","Ensaladas","Bebidas"];
 // ── ZONAS DE ENVÍO POR CÓDIGO POSTAL ─────────────────────────────────────────
@@ -1390,7 +1409,7 @@ function closeCart(){document.getElementById('cart-ov').classList.remove('open')
 function renderCart(){
   const el=document.getElementById('cart-items-list'),ft=document.getElementById('cart-footer');
   if(!cart.length){el.innerHTML=`<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Tu carrito está vacío.</p></div>`;ft.innerHTML=`<button class="btn-checkout" disabled>Tramitar pedido</button>`;return;}
-  el.innerHTML=cart.map((it,i)=>`<div class="c-item"><img class="c-item-img" src="${it.img}" alt="${it.name}"/><div class="c-item-info"><p class="c-item-name">${it.name}</p><p class="c-item-ext">${it.extras.length?it.extras.map(e=>e.name).join(', '):'Sin extras'}</p><div class="c-item-bot"><span class="c-item-price">${it.lineTotal.toFixed(2)}€</span><div class="c-item-qty"><button class="cqb" onclick="cCQ(${i},-1)">−</button><span style="font-size:.85rem;font-weight:600;min-width:14px;text-align:center">${it.qty}</span><button class="cqb" onclick="cCQ(${i},1)">+</button></div></div></div><button class="c-item-del" onclick="dCI(${i})">🗑</button></div>`).join('');
+  el.innerHTML=cart.map((it,i)=>`<div class="c-item"><img class="c-item-img" src="${it.img}" alt="${it.name}"/><div class="c-item-info"><p class="c-item-name">${it.name}</p><p class="c-item-ext">${it.extras&&it.extras.length?'+ '+it.extras.map(e=>e.name).join(', '):''}${it.extras&&it.extras.length&&it.removed&&it.removed.length?' · ':''}${it.removed&&it.removed.length?'<span style="color:#e07b39">SIN: '+it.removed.join(', ')+'</span>':it.extras&&it.extras.length?'':'Sin cambios'}</p><div class="c-item-bot"><span class="c-item-price">${it.lineTotal.toFixed(2)}€</span><div class="c-item-qty"><button class="cqb" onclick="cCQ(${i},-1)">−</button><span style="font-size:.85rem;font-weight:600;min-width:14px;text-align:center">${it.qty}</span><button class="cqb" onclick="cCQ(${i},1)">+</button></div></div></div><button class="c-item-del" onclick="dCI(${i})">🗑</button></div>`).join('');
   const sub=cart.reduce((a,i)=>a+i.lineTotal,0),ship=oType==='domicilio'?shipCost:0;
   ft.innerHTML=`<div class="cart-row"><span>Subtotal</span><span>${sub.toFixed(2)} €</span></div><div class="cart-row"><span>Envío</span><span>${oType==='domicilio'?shipCost.toFixed(2)+' €':'Gratis'}</span></div><hr class="cart-divider"/><div class="cart-row total"><span>TOTAL</span><span>${(sub+ship).toFixed(2)} €</span></div><button class="btn-checkout" onclick="oCO()">Tramitar pedido →</button>`;
 }
