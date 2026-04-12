@@ -525,7 +525,7 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
   <div class="hero-graffiti"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <div class="hero-tagline"><span class="hero-tagline-dot"></span>Abierto ahora mismo</div>
+    <div class="hero-tagline" id="hero-tagline"><span class="hero-tagline-dot" id="hero-tagline-dot"></span><span id="hero-tagline-txt">Abierto ahora mismo</span></div>
     <div class="hero-logo-wrap">
       <img class="hero-logo-img" src="chao-logo2.png" alt="Burger Chao"
            onerror="this.style.display='none'"/>
@@ -533,7 +533,7 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
     <h1>BIENVENIDOS<span class="accent">A BURGER CHAO</span></h1>
     <p class="hero-sub">Tu nuevo lugar favorito para las burgers. Donde cada bocado cuenta.</p>
     <div class="hero-ctas">
-      <button class="btn-primary" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Ver la carta</button>
+      <button class="btn-primary" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Pedir</button>
       <button class="btn-ghost" onclick="document.getElementById('nosotros').scrollIntoView({behavior:'smooth'})">Nuestra historia</button>
     </div>
   </div>
@@ -555,9 +555,9 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
   <div class="featured-header">
     <div>
       <p class="s-eyebrow">Lo más pedido</p>
-      <h2 class="s-title">LOS CLÁSICOS</h2>
+      <h2 class="s-title">LOS CLASICOS</h2>
     </div>
-    <button class="btn-ghost" style="font-size:.85rem;padding:.65rem 1.5rem;color:var(--brown2);border-color:var(--cream3)" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Ver carta completa</button>
+    <button class="btn-ghost" style="font-size:.85rem;padding:.65rem 1.5rem;color:var(--brown2);border-color:var(--cream3)" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Pedir</button>
   </div>
   <div class="featured-grid" id="featured-grid"></div>
 </section>
@@ -630,13 +630,12 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
   <h2>VISITANOS Y QUE NO TE LO CUENTEN</h2>
   <p>Estamos abiertos de Martes a Domingo. Cualquier momento es bueno para una burger hecha con alma.</p>
   <div class="hours">
-    <div class="visit-hour-item">☀️ Mañanas: 08:00 – 12:30</div>
-    <div class="visit-hour-item">🌙 Tardes: 19:30 – 23:30</div>
-    <div class="visit-hour-item">📍 Alhaurín de la Torre</div>
+    <div class="visit-hour-item">🌙 Noche: 19:00 – 00:00</div>
+    <div class="visit-hour-item">📍 Alhaurin de la Torre</div>
   </div>
   <div class="visit-cta-btns">
-    <button class="btn-white" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Ver la carta</button>
-    <a href="tel:952416853" class="btn-outline-white" style="text-decoration:none;display:inline-flex;align-items:center;gap:.4rem">📞 952 416 853</a>
+    <button class="btn-white" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Pedir</button>
+    <a href="tel:627989892" class="btn-outline-white" style="text-decoration:none;display:inline-flex;align-items:center;gap:.4rem">📞 627 989 892</a>
   </div>
 </section>
 
@@ -659,10 +658,9 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
     <div class="footer-col">
       <h5>Contacto</h5>
       <ul>
-        <li><a href="#">Mar–Dom: 08:00–12:30</a></li>
-        <li><a href="#">Mar–Dom: 19:30–23:30</a></li>
+        <li><a href="#">Mar–Dom: 19:00–00:00</a></li>
         <li><a href="#foodtruck">Food Truck</a></li>
-        <li><a href="tel:952416853">952 416 853</a></li>
+        <li><a href="tel:627989892">627 989 892</a></li>
       </ul>
     </div>
   </div>
@@ -1009,7 +1007,29 @@ const _qz = {
 };
 
 // Iniciar conexión QZ en cuanto cargue la página
-window.addEventListener('load', () => _qz.connect());
+window.addEventListener('load', () => {
+  _qz.connect();
+  // Widget abierto/cerrado
+  function updateOpenWidget(){
+    const n=new Date(),h=n.getHours(),m=n.getMinutes();
+    const open=(h>=19)||(h===0&&m===0); // 19:00 – 00:00
+    const tag=document.getElementById('hero-tagline');
+    const dot=document.getElementById('hero-tagline-dot');
+    const txt=document.getElementById('hero-tagline-txt');
+    if(!tag)return;
+    if(open){
+      tag.style.background='rgba(58,125,68,.85)';
+      dot.style.background='var(--yellow)';
+      txt.textContent='Abierto ahora mismo';
+    } else {
+      tag.style.background='rgba(160,60,40,.85)';
+      dot.style.background='#ff9966';
+      txt.textContent='Cerrado · Abrimos a las 19:00';
+    }
+  }
+  updateOpenWidget();
+  setInterval(updateOpenWidget,60000);
+});
 
 // ── FIREBASE HELPERS ──────────────────────────────────────────────────────────
 let db, auth, ordersUnsub = null;
@@ -1479,7 +1499,7 @@ function openCart(){document.getElementById('cart-ov').classList.add('open');doc
 function closeCart(){document.getElementById('cart-ov').classList.remove('open');document.getElementById('cart-sb').classList.remove('open');document.body.style.overflow='';}
 function renderCart(){
   const el=document.getElementById('cart-items-list'),ft=document.getElementById('cart-footer');
-  const _now=new Date(),_h=_now.getHours(),_m=_now.getMinutes(),_open=(_h>=19)&&(_h<23||(_h===23&&_m<=30));
+  const _now=new Date(),_h=_now.getHours(),_open=(_h>=19)||(_h===0);
   const _warn=!_open?`<div style="background:#fff3cd;border:1.5px solid #f0a500;border-radius:10px;padding:.7rem .95rem;font-size:.81rem;font-weight:700;color:#7a4f00;margin-bottom:.7rem;line-height:1.45">⏰ <strong>Fuera de horario</strong> — Cocina abierta de 19:00 a 23:30.<br>Puedes hacer tu pedido ahora pero no empezará a prepararse hasta las 19:00 y puede tardar más de lo habitual.</div>`:'';
   if(!cart.length){el.innerHTML=`<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Tu carrito está vacío.</p></div>`;ft.innerHTML=_warn+`<button class="btn-checkout" disabled>Ir al pago</button>`;return;}
   el.innerHTML=cart.map((it,i)=>`<div class="c-item"><img class="c-item-img" src="${it.img}" alt="${it.name}"/><div class="c-item-info"><p class="c-item-name">${it.name}</p><p class="c-item-ext">${it.extras&&it.extras.length?'+ '+it.extras.map(e=>e.name).join(', '):''}${it.extras&&it.extras.length&&it.removed&&it.removed.length?' · ':''}${it.removed&&it.removed.length?'<span style="color:#e07b39">SIN: '+it.removed.join(', ')+'</span>':it.extras&&it.extras.length?'':'Sin cambios'}</p><div class="c-item-bot"><span class="c-item-price">${it.lineTotal.toFixed(2)}€</span><div class="c-item-qty"><button class="cqb" onclick="cCQ(${i},-1)">−</button><span style="font-size:.85rem;font-weight:600;min-width:14px;text-align:center">${it.qty}</span><button class="cqb" onclick="cCQ(${i},1)">+</button></div></div></div><button class="c-item-del" onclick="dCI(${i})">🗑</button></div>`).join('');
@@ -1822,6 +1842,7 @@ function renderAdmPanel(){
       <span class="adm-time" id="adm-clock">${ts}</span>
       <div class="adm-live"><span class="adm-live-dot"></span>Tiempo real activo</div>
       <div class="adm-topbar-right">
+        <button class="adm-sim-btn" style="background:#5a2424;color:#d47070;border-color:rgba(140,58,58,.3)" onclick="confirmCleanup()">🗑 Limpiar todo</button>
         <button class="adm-sim-btn" onclick="simOrder()">+ Simular pedido</button>
         <button class="adm-sound-btn${soundEnabled?'':' muted'}" id="sound-btn" onclick="toggleSound()">${soundEnabled?'🔔 Sonido ON':'🔕 Sonido OFF'}</button>
         <button class="adm-logout-btn" onclick="admLogout()">Salir</button>
@@ -1934,6 +1955,42 @@ function admSt(id,st){
   renderAdmPanel();
   toast('Pedido '+id.replace('BB-','#')+' → '+st);
 }
+
+// ── LIMPIEZA AUTOMÁTICA ───────────────────────────────────────────────────────
+async function cleanupAllOrders(){
+  // 1. Borrar de Firestore
+  if(db){
+    try{
+      const snap=await db.collection('orders').get();
+      if(!snap.empty){
+        const batch=db.batch();
+        snap.docs.forEach(d=>batch.delete(d.ref));
+        await batch.commit();
+        console.log('[cleanup] Firestore limpio,',snap.size,'pedidos borrados');
+      }
+    }catch(e){console.error('[cleanup] Error Firestore:',e);}
+  }
+  // 2. Limpiar localStorage y estado local
+  localStorage.removeItem('bb2_orders');
+  orders=[];fbOrders=[];curOId=null;
+  _notified.clear();_firstSnap=true;
+  // 3. Refrescar panel si está abierto
+  if(document.getElementById('adm-ov').classList.contains('open'))renderAdmPanel();
+  toast('Panel limpio ✓');
+}
+function confirmCleanup(){
+  if(confirm('¿Borrar TODOS los pedidos? Esta acción no se puede deshacer.'))cleanupAllOrders();
+}
+// Scheduler: limpiar automáticamente a las 00:15
+(function scheduleCleanup(){
+  setInterval(()=>{
+    const n=new Date();
+    if(n.getHours()===0&&n.getMinutes()===15){
+      console.log('[cleanup] Limpieza automática 00:15');
+      cleanupAllOrders();
+    }
+  },60000);
+})();
 
 function admLogout(){
   fbLogout().finally(() => {
