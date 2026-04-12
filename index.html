@@ -23,7 +23,7 @@
 }
 html{scroll-behavior:smooth}
 body{background:var(--cream);color:var(--brown);font-family:'Nunito',sans-serif;overflow-x:hidden;line-height:1.55}
-h1,h2,h3,h4{font-family:'Black Han Sans',sans-serif;letter-spacing:.01em;line-height:1.05}
+h1,h2,h3,h4{font-family:'Black Han Sans','Fredoka',sans-serif;letter-spacing:.01em;line-height:1.05}
 button{cursor:pointer;border:none;font-family:'Nunito',sans-serif;transition:all .2s ease}
 input,textarea,select{font-family:'Nunito',sans-serif}
 
@@ -510,7 +510,7 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
     <li><a href="#nosotros">Nosotros</a></li>
   </ul>
   <div class="nav-right">
-    <button class="cart-btn" onclick="openCart()">🛒 Pedir <span class="cart-count" id="cart-count">0</span></button>
+    <button class="cart-btn" onclick="openCart()">🛒 Pagar <span class="cart-count" id="cart-count">0</span></button>
     <div class="ham" onclick="toggleMob()"><span></span><span></span><span></span></div>
   </div>
 </nav>
@@ -805,7 +805,7 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
       <div class="st-step"><div class="step-dot" id="sdot3">4</div><p class="slabel" id="slbl3">En reparto</p></div>
       <div class="st-step"><div class="step-dot" id="sdot4">5</div><p class="slabel" id="slbl4">Entregado</p></div>
     </div>
-    <button class="btn-st-close" onclick="document.getElementById('st-ov').classList.remove('open')">Cerrar</button>
+    <button class="btn-st-close" onclick="document.getElementById('st-ov').classList.remove('open');if(_custUnsub){_custUnsub();_custUnsub=null;}">Cerrar</button>
   </div>
 </div>
 
@@ -841,6 +841,77 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
 <script src="qz-tray.min.js"></script>
 <script>
 
+// ── QZ TRAY — CERTIFICADO Y FIRMA ────────────────────────────────────────────
+const _QZ_CERT = `-----BEGIN CERTIFICATE-----
+MIIDETCCAfmgAwIBAgIUZ3AQoe5ZadfdYO7f0EjIIb4dYsMwDQYJKoZIhvcNAQEL
+BQAwGDEWMBQGA1UEAwwNQnJ1dGFsQnVyZ2VyczAeFw0yNjA0MTIxNDU3NDBaFw0z
+NjA0MDkxNDU3NDBaMBgxFjAUBgNVBAMMDUJydXRhbEJ1cmdlcnMwggEiMA0GCSqG
+SIb3DQEBAQUAA4IBDwAwggEKAoIBAQDmwqoyb/Q9phj/TjSwtEl7ckCw3u2Yy+N0
+irT2sa0IwG+RzY5N8yTaMzxILIoyG5KJU0tKwG6rFIJzLu8WiJmoBnyWv0cQi2wv
+26cETCzOPAMuRPv+4RwyLtxTZ8aanXv+wRnQOiB4FkkwkSOtNBHIeRQ9gb7LWtSE
+Izi9VJe1vLxVSl6Cleu+ykulRUDFYs7hsqthMXCG3q9DGxiCzCASZBv/INwuP1qr
+PABTOz7qGfsBKhKnWePutPDL1YUQsy0aIrZx5LgwUxvmYxFm/8tUE5alISFIVIAE
+WsDYfzZJSKE9Q+7Jdb3wVy0LNZ53uNDpCBpLH7PUG2/P+/4XN2P5AgMBAAGjUzBR
+MB0GA1UdDgQWBBQEGmUyUcFA9ANWBmZ9krYthKGyiTAfBgNVHSMEGDAWgBQEGmUy
+UcFA9ANWBmZ9krYthKGyiTAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUA
+A4IBAQAtvRIqKA440e/MeI4JP9sNIv5HgW1WH73Y5jA7+m7d/pHoD+jUQeUghgjd
+9EQQI/c7YaY4O01KZuIL4yvJpbQqQf7Ik7O/AGf1cqdt6PrW5rYiTVGNdkbyVQCS
+4XOS/s7AD11xIHhxk5zVMVb++ckmXYuf8Zl1IAQWtgytdMNGUGLpsEaJZK/yBT0M
+apAPQhuIpKUn72bo8vAwUjj8eh+C89DDlK9DanJcGN5yV1uUD7AIa+iAWbCIzhoo
+Hv3x+KSp3AeNeP730zAQgrTN7uxR1ywn9F+C+uSSHLRV0TqrWrCqOeCaxbchxZU1
+P4gVGIm8cCV7ymS1GgofhvMTUSmF
+-----END CERTIFICATE-----`;
+
+const _QZ_KEY = `-----BEGIN PRIVATE KEY-----
+MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDmwqoyb/Q9phj/
+TjSwtEl7ckCw3u2Yy+N0irT2sa0IwG+RzY5N8yTaMzxILIoyG5KJU0tKwG6rFIJz
+Lu8WiJmoBnyWv0cQi2wv26cETCzOPAMuRPv+4RwyLtxTZ8aanXv+wRnQOiB4Fkkw
+kSOtNBHIeRQ9gb7LWtSEIzi9VJe1vLxVSl6Cleu+ykulRUDFYs7hsqthMXCG3q9D
+GxiCzCASZBv/INwuP1qrPABTOz7qGfsBKhKnWePutPDL1YUQsy0aIrZx5LgwUxvm
+YxFm/8tUE5alISFIVIAEWsDYfzZJSKE9Q+7Jdb3wVy0LNZ53uNDpCBpLH7PUG2/P
++/4XN2P5AgMBAAECggEAFPSlnxnynKyaRYkVGNzudWLtRAKiogcV+03jXCnLdGmB
+WETKAQMtHBGeDlHZJO7DEmx5gGrUQf4FUK9479ts1MjuBISPUA3RP9FbK/U89meV
+xFxoY/+OX3JI+NwKOZ1Glt5zWSkGLNGdSOdNTZvWZ5WzRFilenMfrHZEX1Ewy8SR
+Tx16ZURxpgMOzNU3Tj9iggZuW+eTI2S9zywihyGRTMbhFVEpViQWDbnr19yq7kOg
+6wCIfPTk/W8Jg0tp9rBTWtujpV8RpPeLrlgkC5sxg+d6IQoi1a34WTuEzBPjeVxI
+Moh83KBg4RTMl5ERo/ZQE4nNp2+6fTZxsJykiEKLOQKBgQD5V+1FZj1WspHQFYi7
+bMUOwL8eppHMXEt+5z9ParfSe9we2Np+D4pq3ORontq7Sp7K9gWhO5GUnmQiQt8q
+7UMGbGezSSHVweD07L1xRqJrd/vPGeX8TH2+4rQKzXbpo7KUHgp6ZBqKXqyh4tsu
+eQTF6ArApYZgbsninZxBJLeSRQKBgQDs67ynb0jdNMu6mo3HogMU0+/P/TDxJFJQ
+hAlOv/BTFDuk9iyd8LTMoNsFHvdU2Qgoz73arXhvN128IdEnsx15wMO+fIBBK0VT
+LVufwAuZUp6Kw4wEUn/twAkrclhNzCi0zMeJH7onyOkUOoqayvsD2S9eHCxPHk4B
+zmpxRIZAJQKBgQC8WvqHGWOusXhKy2mdw93cdigp3ER5LyNsuv1tXb19CEnRF5l9
+7vluHm2AxrePEiCAS3cXRCuGLFySMRfqko62NH/lxJIFqs7n1kqJXoVlT57t5K+C
+drnqz9CX9HwmpJ1LHKJnsGUIL9qS9A8EvTCo28/7lU68XBSv1sXpw/XUTQKBgA/S
+urnQA+TKNuUSl2+C0YPdl8GjXlZsn5bDCsAYr5tM2aLt0hMGVXzpLVeNNuWSzSm0
+njBxr352CyuacpadLtXH2wro08QGeM3SVLE5qUynKPGJl9teCy88yR/+tgkUHo/c
+sWLmHI+1qmNweXtXHSanpbM6XHc4Ret29sLz2aeFAoGANvawqnI4DCnGnW5ZpAfZ
+QBfLHdsG9ipEJVBQ5qiGkxZW6mX+tBjbLcsGWpyAaBT0mPEqEyaYXHriR4vZhWlN
+Hj6vzbE4MepPryY7LlltrgF4MqsTy4GBZUG1ZphZ6arx2wjkEKavB2MJNiVq+w31
+8DLsILWKUJOMsdig/ulbYts=
+-----END PRIVATE KEY-----`;
+
+async function _qzSign(toSign) {
+  try {
+    const pem = _QZ_KEY.replace(/-----BEGIN PRIVATE KEY-----|-----END PRIVATE KEY-----/g, '').replace(/\s+/g, '');
+    const binary = atob(pem);
+    const der = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) der[i] = binary.charCodeAt(i);
+    const key = await crypto.subtle.importKey(
+      'pkcs8', der.buffer,
+      { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-512' },
+      false, ['sign']
+    );
+    const sig = await crypto.subtle.sign('RSASSA-PKCS1-v1_5', key, new TextEncoder().encode(toSign));
+    const b64 = btoa(String.fromCharCode(...new Uint8Array(sig)));
+    console.log('[QZ] Firma generada OK');
+    return b64;
+  } catch(e) {
+    console.error('[QZ] Error al firmar:', e);
+    return '';
+  }
+}
+
 // ── QZ TRAY — IMPRESIÓN AUTOMÁTICA ───────────────────────────────────────────
 const _qz = {
   connected: false,
@@ -850,8 +921,8 @@ const _qz = {
     if (typeof qz === 'undefined') return;
     if (qz.websocket.isActive()) { this.connected = true; return; }
     if (this.connected) return;
-    qz.security.setCertificatePromise(async () => '');
-    qz.security.setSignaturePromise(async () => '');
+    qz.security.setCertificatePromise((resolve) => resolve(''));
+    qz.security.setSignaturePromise(toSign => (resolve) => resolve(''));
     qz.websocket.setClosedCallbacks(() => {
       this.connected = false;
       console.warn('[QZ] Desconectado — reintentando en 5s');
@@ -871,10 +942,12 @@ const _qz = {
   },
 
   async printTicket(pedido) {
+    const oid = pedido.fbId || pedido.id;
+    if (this.printedIds.has(oid)) return;
     if (!this.connected) {
       this.connect();
-      // Espera hasta 3s a que conecte
-      for (let i = 0; i < 30 && !this.connected; i++) {
+      // Espera hasta 5s a que conecte
+      for (let i = 0; i < 50 && !this.connected; i++) {
         await new Promise(r => setTimeout(r, 100));
       }
       if (!this.connected) {
@@ -882,6 +955,8 @@ const _qz = {
         return;
       }
     }
+    // Añadir al set solo justo antes de imprimir (si falla, se elimina y permite reintento)
+    this.printedIds.add(oid);
     try {
       const printer = await qz.printers.getDefault();
       const cfg = qz.configs.create(printer, { encoding: 'CP858' });
@@ -928,6 +1003,7 @@ const _qz = {
       console.log(`[QZ] Impreso pedido #${pedido.id}`);
     } catch (e) {
       console.error('[QZ] Error al imprimir:', e);
+      this.printedIds.delete(oid);
     }
   }
 };
@@ -1403,10 +1479,12 @@ function openCart(){document.getElementById('cart-ov').classList.add('open');doc
 function closeCart(){document.getElementById('cart-ov').classList.remove('open');document.getElementById('cart-sb').classList.remove('open');document.body.style.overflow='';}
 function renderCart(){
   const el=document.getElementById('cart-items-list'),ft=document.getElementById('cart-footer');
-  if(!cart.length){el.innerHTML=`<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Tu carrito está vacío.</p></div>`;ft.innerHTML=`<button class="btn-checkout" disabled>Tramitar pedido</button>`;return;}
+  const _now=new Date(),_h=_now.getHours(),_m=_now.getMinutes(),_open=(_h>=19)&&(_h<23||(_h===23&&_m<=30));
+  const _warn=!_open?`<div style="background:#fff3cd;border:1.5px solid #f0a500;border-radius:10px;padding:.7rem .95rem;font-size:.81rem;font-weight:700;color:#7a4f00;margin-bottom:.7rem;line-height:1.45">⏰ <strong>Fuera de horario</strong> — Cocina abierta de 19:00 a 23:30.<br>Puedes hacer tu pedido ahora pero no empezará a prepararse hasta las 19:00 y puede tardar más de lo habitual.</div>`:'';
+  if(!cart.length){el.innerHTML=`<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Tu carrito está vacío.</p></div>`;ft.innerHTML=_warn+`<button class="btn-checkout" disabled>Ir al pago</button>`;return;}
   el.innerHTML=cart.map((it,i)=>`<div class="c-item"><img class="c-item-img" src="${it.img}" alt="${it.name}"/><div class="c-item-info"><p class="c-item-name">${it.name}</p><p class="c-item-ext">${it.extras&&it.extras.length?'+ '+it.extras.map(e=>e.name).join(', '):''}${it.extras&&it.extras.length&&it.removed&&it.removed.length?' · ':''}${it.removed&&it.removed.length?'<span style="color:#e07b39">SIN: '+it.removed.join(', ')+'</span>':it.extras&&it.extras.length?'':'Sin cambios'}</p><div class="c-item-bot"><span class="c-item-price">${it.lineTotal.toFixed(2)}€</span><div class="c-item-qty"><button class="cqb" onclick="cCQ(${i},-1)">−</button><span style="font-size:.85rem;font-weight:600;min-width:14px;text-align:center">${it.qty}</span><button class="cqb" onclick="cCQ(${i},1)">+</button></div></div></div><button class="c-item-del" onclick="dCI(${i})">🗑</button></div>`).join('');
   const sub=cart.reduce((a,i)=>a+i.lineTotal,0),ship=oType==='domicilio'?shipCost:0;
-  ft.innerHTML=`<div class="cart-row"><span>Subtotal</span><span>${sub.toFixed(2)} €</span></div><div class="cart-row"><span>Envío</span><span>${oType==='domicilio'?shipCost.toFixed(2)+' €':'Gratis'}</span></div><hr class="cart-divider"/><div class="cart-row total"><span>TOTAL</span><span>${(sub+ship).toFixed(2)} €</span></div><button class="btn-checkout" onclick="oCO()">Tramitar pedido →</button>`;
+  ft.innerHTML=_warn+`<div class="cart-row"><span>Subtotal</span><span>${sub.toFixed(2)} €</span></div><div class="cart-row"><span>Envío</span><span>${oType==='domicilio'?shipCost.toFixed(2)+' €':'Gratis'}</span></div><hr class="cart-divider"/><div class="cart-row total"><span>TOTAL</span><span>${(sub+ship).toFixed(2)} €</span></div><button class="btn-checkout" onclick="oCO()">Ir al pago →</button>`;
 }
 function cCQ(i,d){cart[i].qty=Math.max(1,cart[i].qty+d);cart[i].lineTotal=cart[i].unitPrice*cart[i].qty;renderCart();updCount();}
 function dCI(i){cart.splice(i,1);renderCart();updCount();}
@@ -1563,10 +1641,11 @@ function placeOrder(){
   fbSaveOrder(order).then(fbId => {
     if(fbId) {
       order.fbId = fbId;
-      // Update local copy with fbId
       const idx = orders.findIndex(o=>o.id===id);
       if(idx!==-1) orders[idx].fbId = fbId;
       saveOrders();
+      // Start real-time listener now that we have fbId
+      _subCustOrder(orders[idx]||order);
     }
   });
   orders.unshift(order);saveOrders();curOId=id;cart=[];updCount();
@@ -1581,7 +1660,31 @@ const STLBLS=['Recibido','Confirmado','Cocinando','En reparto','Entregado'];
 const STTITLES={nuevos:'PEDIDO RECIBIDO',preparacion:'EN PREPARACIÓN',listos:'¡LISTO!',reparto:'EN CAMINO 🛵',entregado:'¡ENTREGADO!'};
 const STMSGS={nuevos:'Acabamos de recibir tu pedido. En breve lo confirmaremos.',preparacion:'¡Confirmado! Nuestros cocineros están en ello.',listos:'Tu pedido está listo y sale en breve.',reparto:'El repartidor está en camino.',entregado:'¡Buen provecho! Gracias por confiar en Brutal.'};
 
-function openSt(id){const o=orders.find(x=>x.id===id);if(!o)return;document.getElementById('st-id').textContent='Pedido '+id;updSt(o.status);document.getElementById('st-ov').classList.add('open');}
+let _custUnsub=null;
+function openSt(id){
+  const o=orders.find(x=>x.id===id);
+  if(!o)return;
+  document.getElementById('st-id').textContent='Pedido '+id;
+  updSt(o.status);
+  document.getElementById('st-ov').classList.add('open');
+  _subCustOrder(o);
+}
+function _subCustOrder(order){
+  if(_custUnsub){_custUnsub();_custUnsub=null;}
+  if(!db){console.warn('[custOrder] db no disponible');return;}
+  if(!order.fbId){console.warn('[custOrder] sin fbId, reintentando en 3s...');setTimeout(()=>{const o=orders.find(x=>x.id===order.id);if(o&&o.fbId)_subCustOrder(o);},3000);return;}
+  console.log('[custOrder] suscribiendo a',order.fbId);
+  _custUnsub=db.collection('orders').doc(order.fbId).onSnapshot(snap=>{
+    if(!snap.exists){console.warn('[custOrder] documento no existe');return;}
+    const d=snap.data();
+    console.log('[custOrder] estado recibido:',d&&d.status);
+    if(d&&d.status){
+      const idx=orders.findIndex(o=>o.id===order.id||o.fbId===order.fbId);
+      if(idx!==-1)orders[idx].status=d.status;
+      if(document.getElementById('st-ov').classList.contains('open'))updSt(d.status);
+    }
+  },e=>console.error('[custOrder] ERROR:',e));
+}
 function updSt(status){
   const idx=STSTEPS.indexOf(status);
   for(let i=0;i<5;i++){
