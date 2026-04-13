@@ -837,179 +837,37 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script src="qz-tray.min.js"></script>
 <script>
 
-// ── QZ TRAY — CERTIFICADO Y FIRMA ────────────────────────────────────────────
-const _QZ_CERT = `-----BEGIN CERTIFICATE-----
-MIIDETCCAfmgAwIBAgIUZ3AQoe5ZadfdYO7f0EjIIb4dYsMwDQYJKoZIhvcNAQEL
-BQAwGDEWMBQGA1UEAwwNQnJ1dGFsQnVyZ2VyczAeFw0yNjA0MTIxNDU3NDBaFw0z
-NjA0MDkxNDU3NDBaMBgxFjAUBgNVBAMMDUJydXRhbEJ1cmdlcnMwggEiMA0GCSqG
-SIb3DQEBAQUAA4IBDwAwggEKAoIBAQDmwqoyb/Q9phj/TjSwtEl7ckCw3u2Yy+N0
-irT2sa0IwG+RzY5N8yTaMzxILIoyG5KJU0tKwG6rFIJzLu8WiJmoBnyWv0cQi2wv
-26cETCzOPAMuRPv+4RwyLtxTZ8aanXv+wRnQOiB4FkkwkSOtNBHIeRQ9gb7LWtSE
-Izi9VJe1vLxVSl6Cleu+ykulRUDFYs7hsqthMXCG3q9DGxiCzCASZBv/INwuP1qr
-PABTOz7qGfsBKhKnWePutPDL1YUQsy0aIrZx5LgwUxvmYxFm/8tUE5alISFIVIAE
-WsDYfzZJSKE9Q+7Jdb3wVy0LNZ53uNDpCBpLH7PUG2/P+/4XN2P5AgMBAAGjUzBR
-MB0GA1UdDgQWBBQEGmUyUcFA9ANWBmZ9krYthKGyiTAfBgNVHSMEGDAWgBQEGmUy
-UcFA9ANWBmZ9krYthKGyiTAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUA
-A4IBAQAtvRIqKA440e/MeI4JP9sNIv5HgW1WH73Y5jA7+m7d/pHoD+jUQeUghgjd
-9EQQI/c7YaY4O01KZuIL4yvJpbQqQf7Ik7O/AGf1cqdt6PrW5rYiTVGNdkbyVQCS
-4XOS/s7AD11xIHhxk5zVMVb++ckmXYuf8Zl1IAQWtgytdMNGUGLpsEaJZK/yBT0M
-apAPQhuIpKUn72bo8vAwUjj8eh+C89DDlK9DanJcGN5yV1uUD7AIa+iAWbCIzhoo
-Hv3x+KSp3AeNeP730zAQgrTN7uxR1ywn9F+C+uSSHLRV0TqrWrCqOeCaxbchxZU1
-P4gVGIm8cCV7ymS1GgofhvMTUSmF
------END CERTIFICATE-----`;
-
-const _QZ_KEY = `-----BEGIN PRIVATE KEY-----
-MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDmwqoyb/Q9phj/
-TjSwtEl7ckCw3u2Yy+N0irT2sa0IwG+RzY5N8yTaMzxILIoyG5KJU0tKwG6rFIJz
-Lu8WiJmoBnyWv0cQi2wv26cETCzOPAMuRPv+4RwyLtxTZ8aanXv+wRnQOiB4Fkkw
-kSOtNBHIeRQ9gb7LWtSEIzi9VJe1vLxVSl6Cleu+ykulRUDFYs7hsqthMXCG3q9D
-GxiCzCASZBv/INwuP1qrPABTOz7qGfsBKhKnWePutPDL1YUQsy0aIrZx5LgwUxvm
-YxFm/8tUE5alISFIVIAEWsDYfzZJSKE9Q+7Jdb3wVy0LNZ53uNDpCBpLH7PUG2/P
-+/4XN2P5AgMBAAECggEAFPSlnxnynKyaRYkVGNzudWLtRAKiogcV+03jXCnLdGmB
-WETKAQMtHBGeDlHZJO7DEmx5gGrUQf4FUK9479ts1MjuBISPUA3RP9FbK/U89meV
-xFxoY/+OX3JI+NwKOZ1Glt5zWSkGLNGdSOdNTZvWZ5WzRFilenMfrHZEX1Ewy8SR
-Tx16ZURxpgMOzNU3Tj9iggZuW+eTI2S9zywihyGRTMbhFVEpViQWDbnr19yq7kOg
-6wCIfPTk/W8Jg0tp9rBTWtujpV8RpPeLrlgkC5sxg+d6IQoi1a34WTuEzBPjeVxI
-Moh83KBg4RTMl5ERo/ZQE4nNp2+6fTZxsJykiEKLOQKBgQD5V+1FZj1WspHQFYi7
-bMUOwL8eppHMXEt+5z9ParfSe9we2Np+D4pq3ORontq7Sp7K9gWhO5GUnmQiQt8q
-7UMGbGezSSHVweD07L1xRqJrd/vPGeX8TH2+4rQKzXbpo7KUHgp6ZBqKXqyh4tsu
-eQTF6ArApYZgbsninZxBJLeSRQKBgQDs67ynb0jdNMu6mo3HogMU0+/P/TDxJFJQ
-hAlOv/BTFDuk9iyd8LTMoNsFHvdU2Qgoz73arXhvN128IdEnsx15wMO+fIBBK0VT
-LVufwAuZUp6Kw4wEUn/twAkrclhNzCi0zMeJH7onyOkUOoqayvsD2S9eHCxPHk4B
-zmpxRIZAJQKBgQC8WvqHGWOusXhKy2mdw93cdigp3ER5LyNsuv1tXb19CEnRF5l9
-7vluHm2AxrePEiCAS3cXRCuGLFySMRfqko62NH/lxJIFqs7n1kqJXoVlT57t5K+C
-drnqz9CX9HwmpJ1LHKJnsGUIL9qS9A8EvTCo28/7lU68XBSv1sXpw/XUTQKBgA/S
-urnQA+TKNuUSl2+C0YPdl8GjXlZsn5bDCsAYr5tM2aLt0hMGVXzpLVeNNuWSzSm0
-njBxr352CyuacpadLtXH2wro08QGeM3SVLE5qUynKPGJl9teCy88yR/+tgkUHo/c
-sWLmHI+1qmNweXtXHSanpbM6XHc4Ret29sLz2aeFAoGANvawqnI4DCnGnW5ZpAfZ
-QBfLHdsG9ipEJVBQ5qiGkxZW6mX+tBjbLcsGWpyAaBT0mPEqEyaYXHriR4vZhWlN
-Hj6vzbE4MepPryY7LlltrgF4MqsTy4GBZUG1ZphZ6arx2wjkEKavB2MJNiVq+w31
-8DLsILWKUJOMsdig/ulbYts=
------END PRIVATE KEY-----`;
-
-async function _qzSign(toSign) {
-  try {
-    const pem = _QZ_KEY.replace(/-----BEGIN PRIVATE KEY-----|-----END PRIVATE KEY-----/g, '').replace(/\s+/g, '');
-    const binary = atob(pem);
-    const der = new Uint8Array(binary.length);
-    for (let i = 0; i < binary.length; i++) der[i] = binary.charCodeAt(i);
-    const key = await crypto.subtle.importKey(
-      'pkcs8', der.buffer,
-      { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' },
-      false, ['sign']
-    );
-    const sig = await crypto.subtle.sign('RSASSA-PKCS1-v1_5', key, new TextEncoder().encode(toSign));
-    const b64 = btoa(String.fromCharCode(...new Uint8Array(sig)));
-    console.log('[QZ] Firma generada OK');
-    return b64;
-  } catch(e) {
-    console.error('[QZ] Error al firmar:', e);
-    return '';
-  }
-}
-
-// ── QZ TRAY — IMPRESIÓN AUTOMÁTICA ───────────────────────────────────────────
-const _qz = {
-  connected: false,
+// ── IMPRESIÓN VÍA SERVIDOR LOCAL (localhost:3001) ─────────────────────────────
+const _printer = {
   printedIds: new Set(),
-
-  connect() {
-    if (typeof qz === 'undefined') return;
-    if (qz.websocket.isActive()) { this.connected = true; return; }
-    if (this.connected) return;
-    qz.security.setCertificatePromise((resolve) => resolve(_QZ_CERT));
-    qz.security.setSignaturePromise(toSign => (resolve, reject) => _qzSign(toSign).then(resolve).catch(reject));
-    qz.websocket.setClosedCallbacks(() => {
-      this.connected = false;
-      console.warn('[QZ] Desconectado — reintentando en 5s');
-      setTimeout(() => this.connect(), 5000);
-    });
-    const useSecure = location.protocol === 'https:';
-    qz.websocket.connect({ usingSecure: useSecure }).catch(e => console.error('[QZ] Error al conectar:', e));
-    // Detectar conexión via polling (connect() promise no resuelve en esta versión)
-    const t = setInterval(() => {
-      if (qz.websocket.isActive()) {
-        this.connected = true;
-        console.log('[QZ] Conectado');
-        clearInterval(t);
-      }
-    }, 100);
-    setTimeout(() => clearInterval(t), 10000);
-  },
 
   async printTicket(pedido) {
     const oid = pedido.fbId || pedido.id;
     if (this.printedIds.has(oid)) return;
-    if (!this.connected) {
-      this.connect();
-      // Espera hasta 5s a que conecte
-      for (let i = 0; i < 50 && !this.connected; i++) {
-        await new Promise(r => setTimeout(r, 100));
-      }
-      if (!this.connected) {
-        console.warn('[QZ] Sin conexión, no se puede imprimir');
-        return;
-      }
-    }
-    // Añadir al set solo justo antes de imprimir (si falla, se elimina y permite reintento)
     this.printedIds.add(oid);
     try {
-      const printer = await qz.printers.getDefault();
-      const cfg = qz.configs.create(printer, { encoding: 'CP858' });
-
-      const sep   = '--------------------------------\n';
-      const fecha = new Date().toLocaleString('es-ES', { hour12: false });
-      const lineas = (pedido.items || pedido.productos || []).map(it => {
-        const nombre = it.name || it;
-        const qty    = it.qty  || 1;
-        const precio = it.unitPrice != null ? `  ${(it.unitPrice * qty).toFixed(2)} EUR` : '';
-        const extras = it.extras && it.extras.length ? `\n    + ${it.extras.map(e=>e.name).join(', ')}` : '';
-        const sinIng = it.removed && it.removed.length ? `\n    SIN: ${it.removed.join(', ')}` : '';
-        return `  ${qty}x ${nombre}${precio}${extras}${sinIng}\n`;
+      const r = await fetch('http://localhost:3001/print', {
+        method : 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body   : JSON.stringify({ pedido })
       });
-
-      const ticket =
-        '\x1B\x40' +                             // reset impresora
-        '\x1B\x61\x01' +                         // centrar
-        '\x1B\x21\x30' +                         // texto grande
-        (pedido.type === 'domicilio' ? 'A DOMICILIO\n' : 'RECOGIDA EN LOCAL\n') +
-        '\x1B\x21\x00' +                         // texto normal
-        sep +
-        `Pedido #${pedido.id.replace('BB-','')}\n` +
-        `${fecha}\n` +
-        (pedido.name  ? `Cliente: ${pedido.name}\n`  : '') +
-        (pedido.phone ? `Tel: ${pedido.phone}\n`      : '') +
-        (pedido.type  ? `Tipo: ${pedido.type}\n`      : '') +
-        (pedido.address && pedido.type === 'domicilio' ? `Dir: ${pedido.address}\n` : '') +
-        (pedido.notes ? `Notas: ${pedido.notes}\n`    : '') +
-        sep +
-        '\x1B\x61\x00' +                         // alinear izquierda
-        lineas.join('') +
-        sep +
-        '\x1B\x21\x10' +                         // negrita
-        `TOTAL: ${Number(pedido.total || 0).toFixed(2)} EUR\n` +
-        '\x1B\x21\x00' +
-        sep +
-        '\x1B\x61\x01' +
-        'Gracias por tu pedido!\n' +
-        '\n\n\n\n\n' +
-        '\x1D\x56\x41\x00';                      // corte completo de papel
-
-      await qz.print(cfg, [{ type: 'raw', format: 'plain', data: ticket }]);
-      console.log(`[QZ] Impreso pedido #${pedido.id}`);
+      const data = await r.json();
+      if (data.ok) {
+        console.log(`[PRINT] Impreso pedido #${pedido.id}`);
+      } else {
+        console.error('[PRINT] Error del servidor:', data.error);
+        this.printedIds.delete(oid);
+      }
     } catch (e) {
-      console.error('[QZ] Error al imprimir:', e);
+      console.error('[PRINT] No se pudo conectar al servidor de impresion (localhost:3001):', e.message);
       this.printedIds.delete(oid);
     }
   }
 };
 
-// Iniciar conexión QZ en cuanto cargue la página
 window.addEventListener('load', () => {
-  _qz.connect();
   // Widget abierto/cerrado
   function updateOpenWidget(){
     const n=new Date(),h=n.getHours(),m=n.getMinutes();
@@ -1073,7 +931,7 @@ function fbInit() {
             if (o.status === 'nuevos' && !_notified.has(oid)) {
               _notified.add(oid);
               playNewOrderSound();
-              _qz.printTicket(o);
+              _printer.printTicket(o);
             }
           });
         }
