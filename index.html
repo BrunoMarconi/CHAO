@@ -784,7 +784,7 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
         <span>💳</span>
         <span>Pago <strong>contra reembolso</strong> — pagas cuando recibes tu pedido</span>
       </div>
-      <div style="margin-top:.75rem"><button class="btn-primary" style="width:100%;padding:.9rem;font-size:.9rem;border-radius:var(--r)" onclick="placeOrder()">Confirmar pedido →</button></div>
+      <div style="margin-top:.75rem"><button id="co-confirm-btn" class="btn-primary" style="width:100%;padding:.9rem;font-size:.9rem;border-radius:var(--r)" onclick="placeOrder()">Confirmar pedido →</button></div>
     </div>
   </div>
 </div>
@@ -1217,36 +1217,7 @@ const CATS=["Todo","Burgers","Smash Burger","Camperos","Entrantes","Pizzas","Boc
 // ── ZONAS DE ENVÍO POR CÓDIGO POSTAL ─────────────────────────────────────────
 // Edita este objeto para añadir/quitar zonas y precios
 const DELIVERY_ZONES = {
-  // Zona 1 — Málaga centro
-  '29001':{price:1.99,label:'Málaga Centro'},
-  '29002':{price:1.99,label:'Málaga Centro'},
-  '29003':{price:1.99,label:'Málaga Centro'},
-  '29004':{price:1.99,label:'Málaga Centro'},
-  '29005':{price:1.99,label:'Málaga Centro'},
-  '29006':{price:1.99,label:'Málaga Centro'},
-  // Zona 2 — Málaga ciudad
-  '29007':{price:2.49,label:'Málaga Este'},
-  '29008':{price:2.49,label:'Málaga Este'},
-  '29009':{price:2.49,label:'Málaga Norte'},
-  '29010':{price:2.49,label:'Málaga Norte'},
-  '29011':{price:2.49,label:'Málaga Oeste'},
-  '29012':{price:2.49,label:'Málaga Oeste'},
-  '29013':{price:2.49,label:'Málaga Sur'},
-  '29014':{price:2.49,label:'Teatinos'},
-  '29015':{price:2.49,label:'Churriana'},
-  '29016':{price:2.49,label:'Málaga'},
-  '29017':{price:2.49,label:'Málaga'},
-  '29018':{price:2.49,label:'Málaga'},
-  '29019':{price:2.49,label:'Málaga'},
-  // Zona 3 — Extrarradio
-  '29190':{price:3.49,label:'Alhaurín de la Torre'},
-  '29120':{price:3.49,label:'Alhaurín el Grande'},
-  '29140':{price:3.49,label:'Campanillas'},
-  '29196':{price:3.49,label:'Málaga Aeropuerto'},
-  '29620':{price:3.99,label:'Torremolinos'},
-  '29630':{price:3.99,label:'Benalmádena'},
-  '29640':{price:3.99,label:'Fuengirola'},
-  // Añade más códigos postales aquí
+  '29130':{price:1.99,label:'Alhaurin de la Torre'},
 };
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
@@ -1492,7 +1463,7 @@ function addFromModal(){
   cart.push({id:p.id,name:p.name,img:p.img,unitPrice:p.price+et,qty:mQty,lineTotal:(p.price+et)*mQty,extras:ei,removed});
   updCount();closePM();toast(p.name+' añadida al carrito');
 }
-function qAdd(id){const p=PRODUCTS.find(x=>x.id===id);cart.push({id:p.id,name:p.name,img:p.img,unitPrice:p.price,qty:1,lineTotal:p.price,extras:[]});updCount();toast(p.name+' añadida');}
+function qAdd(id){openProd(id);}
 
 // ── CART ──────────────────────────────────────────────────────────────────────
 function openCart(){document.getElementById('cart-ov').classList.add('open');document.getElementById('cart-sb').classList.add('open');document.body.style.overflow='hidden';renderCart();}
@@ -1569,12 +1540,15 @@ function calcDelCP(){
   const div=document.getElementById('dinfo-wrap');
   if(cp.length<5){div.innerHTML='';shipCost=1.99;updCS();return;}
   const zone=DELIVERY_ZONES[cp];
+  const btn=document.getElementById('co-confirm-btn');
   if(!zone){
-    div.innerHTML=`<div class="dinfo warn">⚠ Código postal <strong>${cp}</strong> fuera de nuestra zona de reparto. Prueba con otro CP o recoge en local.</div>`;
+    div.innerHTML=`<div class="dinfo warn">🚫 Solo repartimos en <strong>Alhaurin de la Torre (29130)</strong>. No podemos llegar a ese código postal.</div>`;
     shipCost=0;
+    if(btn)btn.disabled=true;
   } else {
     div.innerHTML=`<div class="dinfo">📍 <strong>${zone.label}</strong> — Envío: <strong style="color:var(--green)">${zone.price.toFixed(2)} €</strong></div>`;
     shipCost=zone.price;
+    if(btn)btn.disabled=false;
   }
   updCS();
 }
