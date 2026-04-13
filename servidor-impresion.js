@@ -2,6 +2,14 @@
 //  Servidor de impresión — Brutal Burgers
 //  Corre en localhost:3001  |  node servidor-impresion.js
 // ═══════════════════════════════════════════════════════════════
+
+// ── CONFIGURACIÓN ─────────────────────────────────────────────
+// Pon aquí el nombre exacto de tu impresora térmica.
+// Si lo dejas vacío ('') usa la impresora predeterminada de Windows.
+// Para ver las impresoras disponibles abre: http://localhost:3001/impresoras
+const PRINTER_NAME = '';
+// ─────────────────────────────────────────────────────────────
+
 const express = require('express');
 const cors    = require('cors');
 
@@ -9,8 +17,11 @@ const cors    = require('cors');
 let printer = null;
 try {
   printer = require('@thiagoelg/node-printer');
+  const defPrinter = printer.getDefaultPrinterName();
+  const usedPrinter = PRINTER_NAME || defPrinter;
   console.log('[PRINT] node-printer cargado OK');
-  console.log('[PRINT] Impresora por defecto:', printer.getDefaultPrinterName());
+  console.log('[PRINT] Impresora configurada:', usedPrinter);
+  if (PRINTER_NAME) console.log('[PRINT] Impresora por defecto del sistema:', defPrinter);
 } catch (e) {
   console.warn('[PRINT] node-printer no disponible — usando PowerShell como respaldo');
 }
@@ -24,10 +35,25 @@ const printedIds = new Set();
 
 // ── Health check ──────────────────────────────────────────────
 app.get('/ping', (req, res) => {
-  res.json({
-    ok     : true,
-    printer: printer ? printer.getDefaultPrinterName() : 'PowerShell'
-  });
+  const usedPrinter = PRINTER_NAME || (printer ? printer.getDefaultPrinterName() : 'PowerShell');
+  res.json({ ok: true, printer: usedPrinter });
+});
+
+// ── Listar impresoras disponibles ─────────────────────────────
+app.get('/impresoras', (_req, res) => {
+  if (!printer) {
+    return res.json({ error: 'node-printer no disponible', impresoras: [] });
+  }
+  try {
+    const lista = printer.getPrinters().map(p => ({
+      nombre      : p.name,
+      predeterminada: p.isDefault || false,
+      estado      : p.status
+    }));
+    res.json({ impresoras: lista });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
 });
 
 // ── Imprimir ticket ───────────────────────────────────────────
@@ -47,7 +73,7 @@ app.post('/print', (req, res) => {
   if (printer) {
     // ── Método 1: node-printer (nativo Windows) ───────────────
     try {
-      const printerName = printer.getDefaultPrinterName();
+      const printerName = PRINTER_NAME || printer.getDefaultPrinterName();
       printer.printDirect({
         data   : buf,
         printer: printerName,
@@ -158,7 +184,7 @@ public class RawPrint {
   public static extern bool ClosePrinter(IntPtr h);
 }
 "@
-$pName  = (Get-WmiObject -Query 'SELECT * FROM Win32_Printer WHERE Default=\$true').Name
+$pName  = (Get-WmiObject -Query 'SELECT * FROM Win32_Printer WHERE Default=TRUE').Name
 $bytes  = [IO.File]::ReadAllBytes("${tmpEscaped}")
 $hPtr   = [IntPtr]::Zero
 [RawPrint]::OpenPrinter($pName, [ref]$hPtr, [IntPtr]::Zero) | Out-Null
