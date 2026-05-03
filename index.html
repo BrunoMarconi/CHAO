@@ -495,6 +495,7 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
   .about-logo-circle img{width:170px}
 }
 </style>
+<script src="https://www.google.com/recaptcha/api.js?render=6LeK_9YsAAAAAOj0_Z7EQvinOo3eIwNez2AaJI5T"></script>
 </head>
 <body>
 <nav>
@@ -1500,6 +1501,22 @@ async function placeOrder(){
     if(!cashAmount||cashAmount<=0){toast('Indica con cuánto vas a pagar en efectivo');return;}
     if(cashAmount<total){toast('El importe no cubre el total del pedido');return;}
   }
+  // Verificación reCAPTCHA v3
+  try {
+    const token = await grecaptcha.execute('6LeK_9YsAAAAAOj0_Z7EQvinOo3eIwNez2AaJI5T', {action:'order'});
+    const vRes = await fetch('/api/verify-recaptcha', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({token})
+    });
+    const vData = await vRes.json();
+    if (!vData.ok) { toast('Verificación fallida. Inténtalo de nuevo.'); return; }
+  } catch(e) { console.warn('reCAPTCHA error:', e); }
+  // Rate limiting: max 3 pedidos por hora por navegador
+  const rlKey='bb_rl', rlNow=Date.now(), rlHour=60*60*1000;
+  const rlData=JSON.parse(localStorage.getItem(rlKey)||'[]').filter(t=>rlNow-t<rlHour);
+  if(rlData.length>=3){toast('Has hecho demasiados pedidos. Espera un momento.');return;}
+  rlData.push(rlNow);
+  localStorage.setItem(rlKey,JSON.stringify(rlData));
   const now=new Date(),tStr=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
   const orderNum = await getNextOrderNumber();
   const id='Pedido '+orderNum;
