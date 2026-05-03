@@ -7,9 +7,9 @@ echo.
 :: ── Instalar dependencias Node.js ────────────────────────────
 echo [1/3] Instalando dependencias...
 cd /d "%~dp0"
-call npm install
+call "%~dp0npm.cmd" install
 if %errorlevel% neq 0 (
-  echo ERROR: npm install fallo. Asegurate de tener Node.js instalado.
+  echo ERROR: npm install fallo.
   pause
   exit /b 1
 )
@@ -24,7 +24,7 @@ set SCRIPT_DIR=%~dp0
 (
 echo @echo off
 echo cd /d "%SCRIPT_DIR%"
-echo start "Servidor Impresion Brutal Burgers" /min node servidor-impresion.js
+echo start "Servidor Impresion Brutal Burgers" /min "%~dp0node.exe" servidor-impresion.js
 ) > "%STARTUP%\brutal-burgers-impresion.bat"
 
 echo OK

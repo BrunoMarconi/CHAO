@@ -947,6 +947,21 @@ function fbInit() {
   });
 }
 
+async function getNextOrderNumber() {
+  if (!db) return Date.now();
+  const today = new Date().toISOString().slice(0, 10);
+  const ref = db.collection('counters').doc('daily');
+  try {
+    return await db.runTransaction(async t => {
+      const snap = await t.get(ref);
+      const data = snap.exists ? snap.data() : null;
+      const count = (data && data.date === today) ? data.count + 1 : 1;
+      t.set(ref, { date: today, count });
+      return count;
+    });
+  } catch(e) { console.error('getNextOrderNumber:', e); return Date.now(); }
+}
+
 async function fbSaveOrder(order) {
   if (!db) return null;
   try {
@@ -1344,6 +1359,13 @@ function updCount(){document.getElementById('cart-count').textContent=cart.reduc
 function oCO(){
   closeCart();
   if(!cart.length){toast('Añade productos primero');return;}
+  // Autorellenar datos guardados
+  const saved=JSON.parse(localStorage.getItem('bb_customer')||'{}');
+  if(saved.name) document.getElementById('co-name').value=saved.name;
+  if(saved.phone) document.getElementById('co-phone').value=saved.phone;
+  if(saved.cp) document.getElementById('co-cp').value=saved.cp;
+  if(saved.calle) document.getElementById('co-calle').value=saved.calle;
+  if(saved.num) document.getElementById('co-num').value=saved.num;
   // Reset payment UI to default (card)
   payMethod='card';cashExact=false;cashAmount=0;
   updCS();
@@ -1459,7 +1481,7 @@ function calcChange(){
   }
 }
 
-function placeOrder(){
+async function placeOrder(){
   const name=document.getElementById('co-name').value.trim(),phone=document.getElementById('co-phone').value.trim();
   const cp=oType==='domicilio'?(document.getElementById('co-cp').value||'').trim():'';
   const calle=oType==='domicilio'?(document.getElementById('co-calle').value||'').trim():'';
@@ -1479,7 +1501,10 @@ function placeOrder(){
     if(cashAmount<total){toast('El importe no cubre el total del pedido');return;}
   }
   const now=new Date(),tStr=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
-  const id='BB-'+Date.now().toString(36).toUpperCase().slice(-5);
+  const orderNum = await getNextOrderNumber();
+  const id='Pedido '+orderNum;
+  // Guardar datos del cliente para próximos pedidos
+  localStorage.setItem('bb_customer', JSON.stringify({name,phone,cp,calle,num}));
   const sub=cart.reduce((a,i)=>a+i.lineTotal,0),ship=oType==='domicilio'?shipCost:0;
   const total=sub+ship;
   // Build payment info
@@ -1517,7 +1542,7 @@ let _custUnsub=null;
 function openSt(id){
   const o=orders.find(x=>x.id===id);
   if(!o)return;
-  document.getElementById('st-id').textContent='Pedido '+id;
+  document.getElementById('st-id').textContent=id;
   updSt(o.status);
   document.getElementById('st-ov').classList.add('open');
   _subCustOrder(o);
@@ -1555,7 +1580,7 @@ function askCancel(id){
   pendingCancelId=id;
   const o=(fbOrders&&fbOrders.find(x=>x.id===id))||orders.find(x=>x.id===id);
   const msg=document.getElementById('confirm-msg');
-  if(msg&&o) msg.textContent=`Pedido #${id.replace('BB-','')} de ${o.name}. Esta acción no se puede deshacer.`;
+  if(msg&&o) msg.textContent=`${id} de ${o.name}. Esta acción no se puede deshacer.`;
   document.getElementById('confirm-ov').classList.add('open');
 }
 function closeConfirm(){
@@ -1738,7 +1763,7 @@ function kbCard(o){
   const done=['entregado','reparto','cancelado'].includes(o.status);
   return `<div class="kb-card${o.isNew?' is-new':''}">
     <div class="kb-card-top">
-      <span class="kb-card-id">#${o.id.replace('BB-','')}</span>
+      <span class="kb-card-id">${o.id}</span>
       <span class="kb-type-badge ${tb[o.type]||'badge-local'}">${tl[o.type]||o.type}</span>
     </div>
     <div class="kb-client"><span style="font-size:.78rem;opacity:.55;flex-shrink:0">👤</span><span class="kb-client-name">${o.name}</span></div>
@@ -1786,7 +1811,7 @@ function admSt(id,st){
   }
   if(curOId===id&&document.getElementById('st-ov').classList.contains('open'))updSt(st);
   renderAdmPanel();
-  toast('Pedido '+id.replace('BB-','#')+' → '+st);
+  toast(id+' → '+st);
 }
 
 // ── LIMPIEZA AUTOMÁTICA ───────────────────────────────────────────────────────
@@ -1859,7 +1884,7 @@ function simOrder(){
   });
   playNewOrderSound();
   renderAdmPanel();
-  toast('🔔 Nuevo pedido: #'+o.id.replace('BB-',''));
+  toast('🔔 Nuevo pedido: '+o.id);
 }
 
 // ── UTILS ─────────────────────────────────────────────────────────────────────
