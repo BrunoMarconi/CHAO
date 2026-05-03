@@ -302,6 +302,9 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
 /* STATUS */
 .st-overlay{position:fixed;inset:0;background:rgba(44,24,16,.88);z-index:400;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .25s}
 .st-overlay.open{opacity:1;pointer-events:all}
+.fab-pedido{position:fixed;bottom:1.4rem;right:1.4rem;z-index:300;background:var(--green);color:#fff;border:none;border-radius:50px;padding:.75rem 1.2rem;font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:800;cursor:pointer;box-shadow:0 4px 18px rgba(58,125,68,.45);display:none;align-items:center;gap:.5rem;transition:transform .15s}
+.fab-pedido.visible{display:flex}
+.fab-pedido:hover{transform:scale(1.05)}
 .st-modal{background:var(--white);border:2px solid var(--cream3);border-radius:var(--r);padding:2.4rem;text-align:center;max-width:440px;width:100%;box-shadow:0 20px 60px rgba(44,24,16,.3)}
 .st-icon{font-size:3rem;margin-bottom:.9rem}
 .st-id{font-size:.72rem;color:var(--gray2);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.35rem;font-weight:700}
@@ -805,7 +808,7 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
       <div class="st-step"><div class="step-dot" id="sdot3">4</div><p class="slabel" id="slbl3">En reparto</p></div>
       <div class="st-step"><div class="step-dot" id="sdot4">5</div><p class="slabel" id="slbl4">Entregado</p></div>
     </div>
-    <button class="btn-st-close" onclick="document.getElementById('st-ov').classList.remove('open');if(_custUnsub){_custUnsub();_custUnsub=null;}">Cerrar</button>
+    <button class="btn-st-close" onclick="document.getElementById('st-ov').classList.remove('open');if(_custUnsub){_custUnsub();_custUnsub=null;}updFab();">Cerrar</button>
   </div>
 </div>
 
@@ -1543,7 +1546,7 @@ async function placeOrder(){
       _subCustOrder(orders[idx]||order);
     }
   });
-  orders.unshift(order);saveOrders();curOId=id;cart=[];updCount();
+  orders.unshift(order);saveOrders();curOId=id;cart=[];updCount();updFab();
   // Reset payment fields
   payMethod='card';cashExact=false;cashAmount=0;
   closeCO();openSt(id);toast('¡Pedido confirmado! 🔥');
@@ -1562,6 +1565,7 @@ function openSt(id){
   document.getElementById('st-id').textContent=id;
   updSt(o.status);
   document.getElementById('st-ov').classList.add('open');
+  updFab();
   _subCustOrder(o);
 }
 function _subCustOrder(order){
@@ -1907,6 +1911,8 @@ function simOrder(){
 // ── UTILS ─────────────────────────────────────────────────────────────────────
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2700);}
 function toggleMob(){const l=document.querySelector('.nav-links');if(l.style.display==='flex'){l.style.display='';}else{l.style.cssText='display:flex;flex-direction:column;position:absolute;top:68px;left:0;right:0;background:var(--white);border-bottom:2px solid var(--cream3);padding:1rem 5%;gap:1rem;z-index:99;box-shadow:0 8px 24px rgba(30,26,18,.1)';}}
+function updFab(){const fab=document.getElementById('fab-pedido');if(!fab)return;fab.classList.toggle('visible',!!curOId&&!document.getElementById('st-ov').classList.contains('open'));}
 </script>
+<button class="fab-pedido" id="fab-pedido" onclick="if(curOId)openSt(curOId)">📦 Mi pedido</button>
 </body>
 </html>
