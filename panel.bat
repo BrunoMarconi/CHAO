@@ -13,4 +13,4 @@ start "Servidor Impresion Brutal Burgers" /min %NODE% servidor-impresion.js
 
 :: Esperar un momento y abrir el panel directamente
 timeout /t 2 /nobreak >nul
-start "" "https://www.burgerchao.es"
+start "" "https://www.burgerchao.es/#admin"

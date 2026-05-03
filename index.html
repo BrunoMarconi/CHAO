@@ -1289,6 +1289,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   renderFeatured();renderCats();renderMenu("Todo");updCount();
   document.getElementById('addr-group').style.display='block';
   setInterval(checkMidnightReset, 30000);
+  if(location.hash==='#admin') setTimeout(openAdmin, 300);
 });
 
 // ── PRODUCTS ──────────────────────────────────────────────────────────────────
