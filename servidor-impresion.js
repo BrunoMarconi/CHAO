@@ -124,7 +124,7 @@ function buildTicket(pedido) {
     (pedido.type === 'domicilio' ? 'A DOMICILIO\n' : 'RECOGIDA EN LOCAL\n') +
     '\x1B\x21\x00' +                           // texto normal
     sep +
-    `Pedido #${(pedido.id || '').replace('BB-', '')}\n` +
+    `${pedido.id || ''}\n` +
     `${fecha}\n` +
     (pedido.name    ? `Cliente: ${pedido.name}\n`  : '') +
     (pedido.phone   ? `Tel: ${pedido.phone}\n`     : '') +
@@ -139,6 +139,14 @@ function buildTicket(pedido) {
     '\x1B\x21\x10' +                           // negrita
     `TOTAL: ${Number(pedido.total || 0).toFixed(2)} EUR\n` +
     '\x1B\x21\x00' +
+    (pedido.payment ? (
+      pedido.payment.method === 'cash'
+        ? `Pago: Efectivo\n` +
+          (pedido.payment.exact
+            ? `Importe exacto\n`
+            : `Entrega: ${Number(pedido.payment.amount || 0).toFixed(2)} EUR\nCambio: ${Number(pedido.payment.change || 0).toFixed(2)} EUR\n`)
+        : `Pago: Tarjeta (TPV)\n`
+    ) : '') +
     sep +
     '\x1B\x61\x01' +
     'Gracias por tu pedido!\n' +
