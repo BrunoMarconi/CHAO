@@ -699,6 +699,10 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
         <h4 style="font-size:.8rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);margin-bottom:.6rem">Elige tu plato principal</h4>
         <div id="m-choices" style="display:flex;gap:.5rem;flex-wrap:wrap"></div>
       </div>
+      <div id="m-drink-wrap" style="display:none;margin-bottom:1rem">
+        <h4 style="font-size:.8rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);margin-bottom:.6rem">Elige tu bebida</h4>
+        <div id="m-drinks" style="display:flex;gap:.5rem;flex-wrap:wrap"></div>
+      </div>
       <div class="extras-section" id="m-extras-wrap"><h4>Añade extras</h4><div id="m-extras"></div></div>
       <div class="modal-foot">
         <div class="qty-ctrl">
@@ -1017,7 +1021,7 @@ const PRODUCTS=[
   {id:3,name:"Chao",cat:"Burgers",price:6.50,badge:"Más pedida",desc:"Lechuga, tomate, cebolla caramelizada, bacon, huevo y salsa cheddar. Con patatas fritas.",img:"./sin_foto.jpeg",ingredients:["Carne","Lechuga","Tomate","Cebolla caramelizada","Bacon","Huevo","Salsa cheddar","Mayonesa","Pan"],extras:[{name:"Doble carne",price:2.50},{name:"Extra bacon",price:1.00},{name:"Extra queso",price:0.80}]},
   {id:4,name:"Crunvhy",cat:"Burgers",price:6.50,badge:null,desc:"Pechuga de pollo crujiente, lechuga, tomate, cebolla caramelizada y mayo. Con patatas fritas.",img:"./burger_crunchy.jpeg",ingredients:["Pollo crujiente","Lechuga","Tomate","Cebolla caramelizada","Mayonesa","Pan"],extras:[{name:"Extra pollo",price:1.50},{name:"Extra queso",price:0.80}]},
   {id:5,name:"Big Chao",cat:"Burgers",price:7.90,badge:null,desc:"Doble ternera, lechuga, cebolla, pepinillo y salsa chao. Con patatas fritas.",img:"./burger_big_chao.jpeg",ingredients:["Doble ternera","Lechuga","Cebolla","Pepinillo","Salsa chao","Mayonesa","Pan"],extras:[{name:"Triple carne",price:2.50},{name:"Extra bacon",price:1.00},{name:"Extra queso",price:0.80}]},
-  {id:6,name:"Menú Chao Kids",cat:"Burgers",price:7.50,badge:"Kids",desc:"A elegir entre Perrito caliente, Burger ó Nuggets. Refresco, Agua y postre. Juguete infantil.",img:"./sin_foto.jpeg",ingredients:["Refresco o agua","Postre","Juguete infantil"],choices:["Burger","Nuggets","Perrito caliente"],extras:[]},
+  {id:6,name:"Menú Chao Kids",cat:"Burgers",price:7.50,badge:"Kids",desc:"A elegir entre Perrito caliente, Burger ó Nuggets. Refresco, Agua y postre. Juguete infantil.",img:"./sin_foto.jpeg",ingredients:["Refresco o agua","Postre","Juguete infantil"],choices:["Burger","Nuggets","Perrito caliente"],drinkChoices:["Coca-Cola","Coca-Cola Zero","Fanta Naranja","Fanta Limón","Agua"],extras:[]},
 
   // ── SMASH BURGERS ──
   {id:7,name:"Chesse Burger",cat:"Smash Burger",price:12.50,badge:null,desc:"Doble ternera smash, bacon, huevo, pepinillo, ketchup y mayo. Con patatas fritas.",img:"./cheese_burger.jpeg",ingredients:["Doble ternera smash","Bacon","Huevo","Pepinillo","Ketchup","Mayo","Pan"],extras:[{name:"Extra bacon",price:1.00},{name:"Extra queso",price:0.80},{name:"Extra huevo",price:0.80}]},
@@ -1108,7 +1112,7 @@ const DELIVERY_ZONES = {
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
 // Declared with var so hoisting makes them available inside functions defined below
-var cart=[], mQty=1, mProd=null, mExtras=[], mRemoved=[], mChoice=null, activeCat="Todo", oType="domicilio", shipCost=2.50;
+var cart=[], mQty=1, mProd=null, mExtras=[], mRemoved=[], mChoice=null, mDrink=null, activeCat="Todo", oType="domicilio", shipCost=2.50;
 var orders=[], adminAuth=false, curOId=null, admTimer=null;
 var fbOrders=null; // null = not connected; [] = connected but empty; [...] = live data
 var soundEnabled=true;
@@ -1326,10 +1330,13 @@ function renderMenu(cat){
 
 // ── MODAL ─────────────────────────────────────────────────────────────────────
 function openProd(id){
-  const p=PRODUCTS.find(x=>x.id===id);mProd=p;mQty=1;mExtras=[];mRemoved=[];mChoice=null;
+  const p=PRODUCTS.find(x=>x.id===id);mProd=p;mQty=1;mExtras=[];mRemoved=[];mChoice=null;mDrink=null;
   const cw=document.getElementById('m-choices-wrap'),cd=document.getElementById('m-choices');
   if(p.choices&&p.choices.length){cw.style.display='block';mChoice=p.choices[0];cd.innerHTML=p.choices.map(c=>`<button class="ingr-tag${c===p.choices[0]?' choice-active':''}" onclick="selChoice(this,'${c}')">${c}</button>`).join('');}
   else{cw.style.display='none';}
+  const dw=document.getElementById('m-drink-wrap'),dd=document.getElementById('m-drinks');
+  if(p.drinkChoices&&p.drinkChoices.length){dw.style.display='block';mDrink=p.drinkChoices[0];dd.innerHTML=p.drinkChoices.map(d=>`<button class="ingr-tag${d===p.drinkChoices[0]?' choice-active':''}" onclick="selDrink(this,'${d}')">${d}</button>`).join('');}
+  else{dw.style.display='none';}
   document.getElementById('m-img').src=p.img;
   document.getElementById('m-cat').textContent=p.cat;
   document.getElementById('m-name').textContent=p.name;
@@ -1347,12 +1354,15 @@ function chQty(d){mQty=Math.max(1,Math.min(10,mQty+d));document.getElementById('
 function tgEx(i){const idx=mExtras.indexOf(i);idx===-1?mExtras.push(i):mExtras.splice(idx,1);updMT();}
 function tgIngr(i){const idx=mRemoved.indexOf(i);idx===-1?mRemoved.push(i):mRemoved.splice(idx,1);document.getElementById('ingr-'+i).classList.toggle('removed',mRemoved.includes(i));}
 function selChoice(el,c){mChoice=c;document.querySelectorAll('#m-choices .ingr-tag').forEach(b=>b.classList.remove('choice-active'));el.classList.add('choice-active');}
+function selDrink(el,d){mDrink=d;document.querySelectorAll('#m-drinks .ingr-tag').forEach(b=>b.classList.remove('choice-active'));el.classList.add('choice-active');}
 function updMT(){const ext=mExtras.reduce((a,i)=>{const e=mProd.extras.filter(x=>x.price>0)[i];return a+(e?e.price:0);},0);document.getElementById('m-total').textContent=((mProd.price+ext)*mQty).toFixed(2)+' €';}
 function addFromModal(){
   const p=mProd,ei=mExtras.map(i=>p.extras.filter(e=>e.price>0)[i]).filter(Boolean),et=ei.reduce((a,e)=>a+e.price,0);
   const removed=mRemoved.map(i=>p.ingredients[i]);
   if(p.choices&&p.choices.length&&!mChoice){toast('Elige tu plato principal');return;}
-  const name=mChoice?`${p.name} (${mChoice})`:p.name;
+  if(p.drinkChoices&&p.drinkChoices.length&&!mDrink){toast('Elige tu bebida');return;}
+  const nameParts=[mChoice,mDrink].filter(Boolean);
+  const name=nameParts.length?`${p.name} (${nameParts.join(' + ')})`:p.name;
   cart.push({id:p.id,name,img:p.img,unitPrice:p.price+et,qty:mQty,lineTotal:(p.price+et)*mQty,extras:ei,removed});
   updCount();closePM();toast(name+' añadida al carrito');
 }
