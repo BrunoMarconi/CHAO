@@ -205,6 +205,7 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
 .ingr-tag{background:var(--cream2);border:1.5px solid var(--cream3);border-radius:100px;padding:.25rem .75rem;font-size:.76rem;color:var(--brown2);font-weight:700;cursor:pointer;user-select:none;transition:all .15s}
 .ingr-tag.removed{opacity:.35;text-decoration:line-through;background:var(--cream3)}
 .ingr-tag.ingr-locked{cursor:default;opacity:.5;pointer-events:none}
+.ingr-tag.choice-active{background:var(--green);color:#fff;border-color:var(--green)}
 .grecaptcha-badge{visibility:hidden!important}
 .extras-section{margin-bottom:1.3rem}
 .extras-section h4{font-size:.74rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:.7rem}
@@ -694,6 +695,10 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
       <p class="modal-desc" id="m-desc"></p>
       <p style="font-size:.74rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:.7rem">Toca para quitar ingredientes</p>
       <div class="ingr-wrap" id="m-ingr"></div>
+      <div id="m-choices-wrap" style="display:none;margin-bottom:1rem">
+        <h4 style="font-size:.8rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);margin-bottom:.6rem">Elige tu plato principal</h4>
+        <div id="m-choices" style="display:flex;gap:.5rem;flex-wrap:wrap"></div>
+      </div>
       <div class="extras-section" id="m-extras-wrap"><h4>Añade extras</h4><div id="m-extras"></div></div>
       <div class="modal-foot">
         <div class="qty-ctrl">
@@ -1012,7 +1017,7 @@ const PRODUCTS=[
   {id:3,name:"Chao",cat:"Burgers",price:6.50,badge:"Más pedida",desc:"Lechuga, tomate, cebolla caramelizada, bacon, huevo y salsa cheddar. Con patatas fritas.",img:"./sin_foto.jpeg",ingredients:["Carne","Lechuga","Tomate","Cebolla caramelizada","Bacon","Huevo","Salsa cheddar","Mayonesa","Pan"],extras:[{name:"Doble carne",price:2.50},{name:"Extra bacon",price:1.00},{name:"Extra queso",price:0.80}]},
   {id:4,name:"Crunvhy",cat:"Burgers",price:6.50,badge:null,desc:"Pechuga de pollo crujiente, lechuga, tomate, cebolla caramelizada y mayo. Con patatas fritas.",img:"./burger_crunchy.jpeg",ingredients:["Pollo crujiente","Lechuga","Tomate","Cebolla caramelizada","Mayonesa","Pan"],extras:[{name:"Extra pollo",price:1.50},{name:"Extra queso",price:0.80}]},
   {id:5,name:"Big Chao",cat:"Burgers",price:7.90,badge:null,desc:"Doble ternera, lechuga, cebolla, pepinillo y salsa chao. Con patatas fritas.",img:"./burger_big_chao.jpeg",ingredients:["Doble ternera","Lechuga","Cebolla","Pepinillo","Salsa chao","Mayonesa","Pan"],extras:[{name:"Triple carne",price:2.50},{name:"Extra bacon",price:1.00},{name:"Extra queso",price:0.80}]},
-  {id:6,name:"Menú Chao Kids",cat:"Burgers",price:7.50,badge:"Kids",desc:"A elegir entre Perrito caliente, Burger ó Nuggets. Refresco, Agua y postre. Juguete infantil.",img:"./sin_foto.jpeg",ingredients:["Burger o nuggets o perrito","Refresco o agua","Postre","Juguete infantil"],extras:[]},
+  {id:6,name:"Menú Chao Kids",cat:"Burgers",price:7.50,badge:"Kids",desc:"A elegir entre Perrito caliente, Burger ó Nuggets. Refresco, Agua y postre. Juguete infantil.",img:"./sin_foto.jpeg",ingredients:["Refresco o agua","Postre","Juguete infantil"],choices:["Burger","Nuggets","Perrito caliente"],extras:[]},
 
   // ── SMASH BURGERS ──
   {id:7,name:"Chesse Burger",cat:"Smash Burger",price:12.50,badge:null,desc:"Doble ternera smash, bacon, huevo, pepinillo, ketchup y mayo. Con patatas fritas.",img:"./cheese_burger.jpeg",ingredients:["Doble ternera smash","Bacon","Huevo","Pepinillo","Ketchup","Mayo","Pan"],extras:[{name:"Extra bacon",price:1.00},{name:"Extra queso",price:0.80},{name:"Extra huevo",price:0.80}]},
@@ -1067,7 +1072,7 @@ const PRODUCTS=[
 
   // ── ROLLOS ──
   {id:42,name:"Rollo Kebab",cat:"Rollos",price:5.50,badge:null,desc:"Lechuga, tomate, cebolla, salsa yogurt.",img:"./rollo_kebab.jpeg",ingredients:["Tortilla","Carne kebab","Lechuga","Tomate","Cebolla","Salsa yogurt"],extras:[{name:"Extra kebab",price:1.50}]},
-  {id:43,name:"Rollo Chao",cat:"Rollos",price:6.50,badge:null,desc:"Lechuga, tomate, cebolla caramelo, pollo crujiente y salsa BBQ y cheddar.",img:"./sin_foto.jpeg",ingredients:["Tortilla","Pollo crujiente","Lechuga","Tomate","Cebolla caramelo","Salsa BBQ","Cheddar"],extras:[{name:"Extra pollo",price:1.50},{name:"Extra queso",price:0.80}]},
+  {id:43,name:"Rollo Chao",cat:"Rollos",price:6.90,badge:null,desc:"Lechuga, tomate, cebolla caramelo, pollo crujiente y salsa BBQ y cheddar.",img:"./sin_foto.jpeg",ingredients:["Tortilla","Pollo crujiente","Lechuga","Tomate","Cebolla caramelo","Salsa BBQ","Cheddar"],extras:[{name:"Extra pollo",price:1.50},{name:"Extra queso",price:0.80}]},
   {id:44,name:"Rollo Rancho",cat:"Rollos",price:6.50,badge:null,desc:"Lechuga, tomate, cebolla caramelo, pollo crujiente, queso y mahonesa.",img:"./sin_foto.jpeg",ingredients:["Tortilla","Pollo crujiente","Lechuga","Tomate","Cebolla caramelo","Queso","Mahonesa"],extras:[{name:"Extra pollo",price:1.50}]},
   {id:45,name:"Rollo Dass",cat:"Rollos",price:6.00,badge:null,desc:"Lechuga, tomate, cebolla, pollo, queso y mahonesa.",img:"./rollo_dass.jpeg",ingredients:["Tortilla","Pollo","Lechuga","Tomate","Cebolla","Queso","Mahonesa"],extras:[{name:"Extra pollo",price:1.50}]},
 
@@ -1098,12 +1103,12 @@ const CATS=["Todo","Burgers","Smash Burger","Camperos","Entrantes","Pizzas","Boc
 // ── ZONAS DE ENVÍO POR CÓDIGO POSTAL ─────────────────────────────────────────
 // Edita este objeto para añadir/quitar zonas y precios
 const DELIVERY_ZONES = {
-  '29130':{price:1.99,label:'Alhaurin de la Torre'},
+  '29130':{price:2.50,label:'Alhaurin de la Torre'},
 };
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
 // Declared with var so hoisting makes them available inside functions defined below
-var cart=[], mQty=1, mProd=null, mExtras=[], mRemoved=[], activeCat="Todo", oType="domicilio", shipCost=1.99;
+var cart=[], mQty=1, mProd=null, mExtras=[], mRemoved=[], mChoice=null, activeCat="Todo", oType="domicilio", shipCost=2.50;
 var orders=[], adminAuth=false, curOId=null, admTimer=null;
 var fbOrders=null; // null = not connected; [] = connected but empty; [...] = live data
 var soundEnabled=true;
@@ -1321,7 +1326,10 @@ function renderMenu(cat){
 
 // ── MODAL ─────────────────────────────────────────────────────────────────────
 function openProd(id){
-  const p=PRODUCTS.find(x=>x.id===id);mProd=p;mQty=1;mExtras=[];mRemoved=[];
+  const p=PRODUCTS.find(x=>x.id===id);mProd=p;mQty=1;mExtras=[];mRemoved=[];mChoice=null;
+  const cw=document.getElementById('m-choices-wrap'),cd=document.getElementById('m-choices');
+  if(p.choices&&p.choices.length){cw.style.display='block';mChoice=p.choices[0];cd.innerHTML=p.choices.map(c=>`<button class="ingr-tag${c===p.choices[0]?' choice-active':''}" onclick="selChoice(this,'${c}')">${c}</button>`).join('');}
+  else{cw.style.display='none';}
   document.getElementById('m-img').src=p.img;
   document.getElementById('m-cat').textContent=p.cat;
   document.getElementById('m-name').textContent=p.name;
@@ -1338,12 +1346,15 @@ function closePM(){document.getElementById('prod-modal').classList.remove('open'
 function chQty(d){mQty=Math.max(1,Math.min(10,mQty+d));document.getElementById('m-qty').textContent=mQty;updMT();}
 function tgEx(i){const idx=mExtras.indexOf(i);idx===-1?mExtras.push(i):mExtras.splice(idx,1);updMT();}
 function tgIngr(i){const idx=mRemoved.indexOf(i);idx===-1?mRemoved.push(i):mRemoved.splice(idx,1);document.getElementById('ingr-'+i).classList.toggle('removed',mRemoved.includes(i));}
+function selChoice(el,c){mChoice=c;document.querySelectorAll('#m-choices .ingr-tag').forEach(b=>b.classList.remove('choice-active'));el.classList.add('choice-active');}
 function updMT(){const ext=mExtras.reduce((a,i)=>{const e=mProd.extras.filter(x=>x.price>0)[i];return a+(e?e.price:0);},0);document.getElementById('m-total').textContent=((mProd.price+ext)*mQty).toFixed(2)+' €';}
 function addFromModal(){
   const p=mProd,ei=mExtras.map(i=>p.extras.filter(e=>e.price>0)[i]).filter(Boolean),et=ei.reduce((a,e)=>a+e.price,0);
   const removed=mRemoved.map(i=>p.ingredients[i]);
-  cart.push({id:p.id,name:p.name,img:p.img,unitPrice:p.price+et,qty:mQty,lineTotal:(p.price+et)*mQty,extras:ei,removed});
-  updCount();closePM();toast(p.name+' añadida al carrito');
+  if(p.choices&&p.choices.length&&!mChoice){toast('Elige tu plato principal');return;}
+  const name=mChoice?`${p.name} (${mChoice})`:p.name;
+  cart.push({id:p.id,name,img:p.img,unitPrice:p.price+et,qty:mQty,lineTotal:(p.price+et)*mQty,extras:ei,removed});
+  updCount();closePM();toast(name+' añadida al carrito');
 }
 function qAdd(id){openProd(id);}
 
@@ -1406,7 +1417,7 @@ function setOT(t){
   if(t==='domicilio'){
     const cp=(document.getElementById('co-cp')||{}).value||'';
     if(cp.length===5&&DELIVERY_ZONES[cp]) shipCost=DELIVERY_ZONES[cp].price;
-    else shipCost=1.99;
+    else shipCost=2.50;
   } else { shipCost=0; }
   updCS();
 }
@@ -1427,7 +1438,7 @@ function updCS(){
 function calcDelCP(){
   const cp=(document.getElementById('co-cp').value||'').trim();
   const div=document.getElementById('dinfo-wrap');
-  if(cp.length<5){div.innerHTML='';shipCost=1.99;updCS();return;}
+  if(cp.length<5){div.innerHTML='';shipCost=2.50;updCS();return;}
   const zone=DELIVERY_ZONES[cp];
   const btn=document.getElementById('co-confirm-btn');
   if(!zone){
