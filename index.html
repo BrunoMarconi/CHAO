@@ -399,16 +399,17 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
 .badge-domicilio{background:rgba(58,140,92,.12);color:#6dc994;border:1px solid rgba(58,140,92,.3)}
 .kb-client{display:flex;align-items:center;gap:.4rem;margin-bottom:.25rem}
 .kb-client-name{font-size:.9rem;font-weight:700;color:#f5f0e8}
-.kb-client-info{font-size:.76rem;color:#555;margin-bottom:.7rem;padding-left:1.1rem}
+.kb-client-info{font-size:.76rem;color:#c8c7c0;margin-bottom:.4rem;padding-left:1.1rem}
+.kb-address{font-size:.76rem;color:#6dc994;margin-bottom:.7rem;padding-left:1.1rem;font-weight:600}
 .kb-items{display:flex;flex-direction:column;gap:.3rem;margin-bottom:.7rem}
 .kb-item-row{display:flex;justify-content:space-between;align-items:center;font-size:.82rem;gap:.4rem}
 .kb-item-name{color:#c8c7c0;display:flex;align-items:center;gap:.35rem;min-width:0}
 .kb-item-name-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.kb-item-qty{font-size:.68rem;background:#1e1e1e;border:1px solid #222;border-radius:100px;padding:.05rem .42rem;color:#555;font-weight:600;flex-shrink:0}
-.kb-item-price{color:#555;flex-shrink:0;font-size:.8rem}
+.kb-item-qty{font-size:.68rem;background:#1e1e1e;border:1px solid #222;border-radius:100px;padding:.05rem .42rem;color:#9a9990;font-weight:600;flex-shrink:0}
+.kb-item-price{color:#c8c7c0;flex-shrink:0;font-size:.8rem}
 .kb-note{background:#1e1e1e;border-left:2px solid #3a8c5c;padding:.35rem .65rem;border-radius:0 6px 6px 0;font-size:.78rem;color:#666;margin-bottom:.7rem;font-style:italic}
 .kb-card-foot{display:flex;align-items:center;justify-content:space-between;margin-top:.2rem}
-.kb-time{font-size:.72rem;color:#555}
+.kb-time{font-size:.72rem;color:#9a9990}
 .kb-total{font-family:'Black Han Sans',sans-serif;font-size:1.1rem;color:#6dc994}
 .kb-card-actions{display:flex;gap:.4rem;margin-top:.7rem;flex-wrap:wrap}
 .ka-btn{padding:.35rem .75rem;border-radius:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;border:none;white-space:nowrap}
@@ -420,6 +421,8 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
 .ka-deliver:hover{background:#3a8c5c;color:#fff}
 .ka-cancel{background:rgba(214,68,68,.12);color:#d64444;border:1px solid rgba(214,68,68,.3)}
 .ka-cancel:hover{background:#d64444;color:#fff}
+.ka-print{background:rgba(100,100,100,.12);color:#9a9990;border:1px solid rgba(100,100,100,.3)}
+.ka-print:hover{background:#444;color:#f5f0e8}
 .kb-empty{text-align:center;color:#2a2a2a;padding:1.5rem .5rem;font-size:.78rem;border:1px dashed #222;border-radius:8px}
 .adm-sidebar{width:230px;flex:0 0 230px;background:#0f0f0f;border-left:1px solid #222;overflow-y:auto;padding:1.1rem;display:flex;flex-direction:column}
 .adm-sidebar::-webkit-scrollbar{width:3px}
@@ -882,6 +885,23 @@ const _printer = {
     }
   }
 };
+
+async function reprintTicket(id) {
+  const o = (fbOrders||[]).find(x => x.id===id || x.fbId===id);
+  if (!o) { toast('Pedido no encontrado'); return; }
+  try {
+    const r = await fetch('http://localhost:3001/print', {
+      method : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body   : JSON.stringify({ pedido: o })
+    });
+    const data = await r.json();
+    if (data.ok) { toast('🖨 Ticket reimpreso'); }
+    else { toast('Error al reimprimir: ' + (data.error||'desconocido')); }
+  } catch(e) {
+    toast('Sin conexión con la impresora (localhost:3001)');
+  }
+}
 
 window.addEventListener('load', () => {
   // Widget abierto/cerrado
@@ -1814,6 +1834,7 @@ function kbCard(o){
     </div>
     <div class="kb-client"><span style="font-size:.78rem;opacity:.55;flex-shrink:0">👤</span><span class="kb-client-name">${o.name}</span></div>
     <div class="kb-client-info">📞 ${o.phone} &nbsp;🕐 ${o.time}</div>
+    ${o.type==='domicilio'&&o.address?`<div class="kb-address">📍 ${o.address}</div>`:''}
     <div class="kb-items">
       ${o.items.map(it=>`
         <div class="kb-item-row">
@@ -1839,6 +1860,9 @@ function kbCard(o){
       ${o.status==='listos'?`<button class="ka-btn ka-deliver" onclick="admSt('${o.id}','${o.type==='domicilio'?'reparto':'entregado'}')">🛵 Entregar</button>`:''}
       <button class="ka-btn ka-cancel" onclick="askCancel('${o.id}')">✕ Cancelar</button>
     </div>`:''}
+    <div class="kb-card-actions" style="margin-top:.4rem">
+      <button class="ka-btn ka-print" onclick="reprintTicket('${o.id}')">🖨 Reimprimir</button>
+    </div>
   </div>`;
 }
 
