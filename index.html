@@ -399,17 +399,17 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
 .badge-domicilio{background:rgba(58,140,92,.12);color:#6dc994;border:1px solid rgba(58,140,92,.3)}
 .kb-client{display:flex;align-items:center;gap:.4rem;margin-bottom:.25rem}
 .kb-client-name{font-size:.9rem;font-weight:700;color:#f5f0e8}
-.kb-client-info{font-size:.76rem;color:#c8c7c0;margin-bottom:.4rem;padding-left:1.1rem}
-.kb-address{font-size:.76rem;color:#6dc994;margin-bottom:.7rem;padding-left:1.1rem;font-weight:600}
+.kb-client-info{font-size:.82rem;color:#f5f0e8;margin-bottom:.4rem;padding-left:1.1rem;font-weight:600}
+.kb-address{font-size:.82rem;color:#6dc994;margin-bottom:.7rem;padding-left:1.1rem;font-weight:700}
 .kb-items{display:flex;flex-direction:column;gap:.3rem;margin-bottom:.7rem}
-.kb-item-row{display:flex;justify-content:space-between;align-items:center;font-size:.82rem;gap:.4rem}
-.kb-item-name{color:#c8c7c0;display:flex;align-items:center;gap:.35rem;min-width:0}
+.kb-item-row{display:flex;justify-content:space-between;align-items:center;font-size:.88rem;gap:.4rem}
+.kb-item-name{color:#f5f0e8;display:flex;align-items:center;gap:.35rem;min-width:0;font-weight:600}
 .kb-item-name-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.kb-item-qty{font-size:.68rem;background:#1e1e1e;border:1px solid #222;border-radius:100px;padding:.05rem .42rem;color:#9a9990;font-weight:600;flex-shrink:0}
-.kb-item-price{color:#c8c7c0;flex-shrink:0;font-size:.8rem}
-.kb-note{background:#1e1e1e;border-left:2px solid #3a8c5c;padding:.35rem .65rem;border-radius:0 6px 6px 0;font-size:.78rem;color:#666;margin-bottom:.7rem;font-style:italic}
+.kb-item-qty{font-size:.72rem;background:#252525;border:1px solid #333;border-radius:100px;padding:.05rem .45rem;color:#c8c7c0;font-weight:700;flex-shrink:0}
+.kb-item-price{color:#f5f0e8;flex-shrink:0;font-size:.88rem;font-weight:700}
+.kb-note{background:#1e1e1e;border-left:2px solid #3a8c5c;padding:.35rem .65rem;border-radius:0 6px 6px 0;font-size:.8rem;color:#c8c7c0;margin-bottom:.7rem;font-style:italic}
 .kb-card-foot{display:flex;align-items:center;justify-content:space-between;margin-top:.2rem}
-.kb-time{font-size:.72rem;color:#9a9990}
+.kb-time{font-size:.76rem;color:#c8c7c0;font-weight:600}
 .kb-total{font-family:'Black Han Sans',sans-serif;font-size:1.1rem;color:#6dc994}
 .kb-card-actions{display:flex;gap:.4rem;margin-top:.7rem;flex-wrap:wrap}
 .ka-btn{padding:.35rem .75rem;border-radius:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;border:none;white-space:nowrap}
@@ -887,7 +887,8 @@ const _printer = {
 };
 
 async function reprintTicket(id) {
-  const o = (fbOrders||[]).find(x => x.id===id || x.fbId===id);
+  const allOrders = fbOrders !== null ? fbOrders : JSON.parse(localStorage.getItem('bb2_orders')||'[]');
+  const o = allOrders.find(x => x.id===id || x.fbId===id);
   if (!o) { toast('Pedido no encontrado'); return; }
   try {
     const r = await fetch('http://localhost:3001/print', {
@@ -895,11 +896,12 @@ async function reprintTicket(id) {
       headers: { 'Content-Type': 'application/json' },
       body   : JSON.stringify({ pedido: o })
     });
+    if (!r.ok) { toast('Error del servidor de impresión'); return; }
     const data = await r.json();
-    if (data.ok) { toast('🖨 Ticket reimpreso'); }
+    if (data.ok) { toast('🖨 Ticket reimpreso — ' + id); }
     else { toast('Error al reimprimir: ' + (data.error||'desconocido')); }
   } catch(e) {
-    toast('Sin conexión con la impresora (localhost:3001)');
+    toast('Sin conexión con la impresora — ¿está panel.bat abierto?');
   }
 }
 
