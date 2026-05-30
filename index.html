@@ -894,7 +894,7 @@ async function reprintTicket(id) {
     const r = await fetch('http://localhost:3001/print', {
       method : 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body   : JSON.stringify({ pedido: o })
+      body   : JSON.stringify({ pedido: o, force: true })
     });
     if (!r.ok) { toast('Error del servidor de impresión'); return; }
     const data = await r.json();

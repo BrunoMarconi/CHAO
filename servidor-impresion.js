@@ -58,14 +58,15 @@ app.get('/impresoras', (_req, res) => {
 
 // ── Imprimir ticket ───────────────────────────────────────────
 app.post('/print', (req, res) => {
-  const { pedido } = req.body || {};
+  const { pedido, force } = req.body || {};
   if (!pedido) return res.status(400).json({ error: 'Falta pedido' });
 
   const oid = pedido.fbId || pedido.id;
-  if (printedIds.has(oid)) {
+  if (!force && printedIds.has(oid)) {
     console.log(`[PRINT] Ya impreso: ${oid}`);
     return res.json({ ok: true, msg: 'Ya impreso' });
   }
+  printedIds.delete(oid);
 
   const rawStr = buildTicket(pedido);
   const buf    = Buffer.from(rawStr, 'binary');
