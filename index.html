@@ -249,6 +249,48 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
 .cat-btn.mundial:hover{background:rgba(192,0,30,.08);color:#c0001e;border-color:#c0001e}
 .cat-btn.mundial.active{background:linear-gradient(135deg,#c0001e,#8b0015);color:var(--yellow);border-color:#c0001e}
 
+/* MUNDIAL MENU ITEM */
+.mitem.mundial-item{background:linear-gradient(135deg,#1a0005 0%,#2e0008 100%);border-color:#c0001e;box-shadow:0 4px 20px rgba(192,0,30,.25)}
+.mitem.mundial-item:hover{border-color:var(--yellow);box-shadow:0 6px 28px rgba(192,0,30,.4);transform:translateX(4px)}
+.mitem.mundial-item .mitem-name{color:#fff;font-size:1.25rem}
+.mitem.mundial-item .mitem-desc{color:rgba(255,255,255,.65)}
+.mitem.mundial-item .mitem-price{color:var(--yellow)}
+.mitem.mundial-item .btn-plus{background:var(--yellow);color:#8b0015}
+.mitem.mundial-item .btn-plus:hover{background:#f0c838}
+.mw-badge{display:inline-block;white-space:nowrap;background:rgba(245,200,66,.2);border:1.5px solid rgba(245,200,66,.5);color:var(--yellow);border-radius:100px;padding:.18rem .65rem;font-size:.68rem;font-weight:900;letter-spacing:.04em;text-transform:uppercase;margin-bottom:.35rem}
+
+/* MUNDIAL PRODUCT MODAL */
+.modal.mundial-modal{background:linear-gradient(160deg,#1a0005 0%,#2e0008 60%,#1a0005 100%);border-color:rgba(245,200,66,.35)}
+.mundial-modal .modal-img{opacity:.55;filter:saturate(.4) brightness(.8)}
+.mundial-modal-hero{background:linear-gradient(135deg,#c0001e,#8b0015);padding:1.2rem 1.6rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;border-bottom:2px solid rgba(245,200,66,.25)}
+.mundial-modal-hero-text{font-family:'Black Han Sans',sans-serif;font-size:1.1rem;color:#fff;line-height:1.2}
+.mundial-modal-hero-text span{color:var(--yellow);display:block;font-size:.72rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase;font-family:'Nunito',sans-serif;margin-bottom:.15rem}
+.mundial-modal-gift{background:var(--yellow);color:#8b0015;border-radius:100px;padding:.38rem 1rem;font-weight:900;font-size:.8rem;white-space:nowrap;text-align:center;line-height:1.3}
+.mundial-modal .modal-cat{color:var(--yellow)!important;opacity:1}
+.mundial-modal .modal-name{color:#fff}
+.mundial-modal .modal-desc{color:rgba(255,255,255,.7)}
+.mundial-modal p[style*="quitar"]{color:rgba(255,255,255,.4)!important}
+.mundial-modal .ingr-tag{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:rgba(255,255,255,.7)}
+.mundial-modal .ingr-tag.removed{opacity:.25}
+.mundial-modal #m-drink-wrap h4{color:var(--yellow)!important}
+.mundial-modal .ingr-tag.choice-active{background:var(--yellow);color:#8b0015;border-color:var(--yellow)}
+.mundial-modal .qty-ctrl{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15)}
+.mundial-modal .qty-n{color:#fff}
+.mundial-modal .qty-btn{background:rgba(245,200,66,.85);color:#8b0015}
+.mundial-modal .qty-btn:hover{background:var(--yellow)}
+.mundial-modal .modal-total{color:var(--yellow)}
+.mundial-modal .btn-add-cart{background:var(--yellow);color:#8b0015;box-shadow:0 3px 14px rgba(245,200,66,.35)}
+.mundial-modal .btn-add-cart:hover{background:#f0c838}
+.mundial-modal .modal-x{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.2);color:#fff}
+.mundial-modal .modal-x:hover{background:var(--red);border-color:var(--red)}
+
+/* MUNDIAL CATEGORY HEADER */
+.mundial-cat-header{background:linear-gradient(135deg,#c0001e,#7a0010);border-radius:var(--r);padding:1.4rem 1.6rem;margin-bottom:1.4rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;border:2px solid rgba(245,200,66,.3)}
+.mundial-cat-header-text h3{font-family:'Black Han Sans',sans-serif;font-size:1.5rem;color:#fff;margin-bottom:.25rem}
+.mundial-cat-header-text p{font-size:.83rem;color:rgba(255,255,255,.75);font-weight:600}
+.mundial-cat-header-text p strong{color:var(--yellow)}
+.mundial-cat-badge{background:var(--yellow);color:#8b0015;border-radius:100px;padding:.5rem 1.2rem;font-weight:900;font-size:.88rem;white-space:nowrap;text-align:center;line-height:1.3}
+
 .grecaptcha-badge{visibility:hidden!important}
 .extras-section{margin-bottom:1.3rem}
 .extras-section h4{font-size:.74rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:.7rem}
@@ -1437,10 +1479,22 @@ function renderCats(){document.getElementById('menu-cats').innerHTML=CATS.map(c=
 function fCat(c){activeCat=c;renderCats();renderMenu(c);document.getElementById('menu').scrollIntoView({behavior:'smooth'});}
 function renderMenu(cat){
   const items=cat==="Todo"?PRODUCTS:PRODUCTS.filter(p=>p.cat===cat);
-  document.getElementById('menu-grid').innerHTML=items.map(p=>`
-    <div class="mitem" onclick="openProd(${p.id})">
+  const header=cat==='Menú Mundial'?`
+    <div class="mundial-cat-header">
+      <div class="mundial-cat-header-text">
+        <h3>⚽ MENÚ MUNDIAL 2026</h3>
+        <p>Hamburguesa + patatas + bebida por <strong>14,95€</strong> · <strong>🇪🇸 Camiseta de España de regalo</strong></p>
+      </div>
+      <div class="mundial-cat-badge">🎁 CAMISETA<br>DE REGALO</div>
+    </div>`:'';
+  document.getElementById('menu-grid').innerHTML=header+items.map(p=>`
+    <div class="mitem${p.cat==='Menú Mundial'?' mundial-item':''}" onclick="openProd(${p.id})">
       <img class="mitem-img" src="${p.img}" alt="${p.name}" loading="lazy"/>
-      <div class="mitem-info"><h4 class="mitem-name">${p.name}</h4><p class="mitem-desc">${p.desc}</p></div>
+      <div class="mitem-info">
+        ${p.cat==='Menú Mundial'?'<span class="mw-badge">🇪🇸 Camiseta gratis</span>':''}
+        <h4 class="mitem-name">${p.name}</h4>
+        <p class="mitem-desc">${p.desc}</p>
+      </div>
       <div class="mitem-right"><span class="mitem-price">${p.price.toFixed(2)}€</span><button class="btn-plus" onclick="event.stopPropagation();qAdd(${p.id})">+</button></div>
     </div>`).join('');
 }
@@ -1464,6 +1518,15 @@ function openProd(id){
   if(pe.length){ew.style.display='block';ed.innerHTML=pe.map((e,i)=>`<div class="extra-row"><span style="font-size:.85rem">${e.name}</span><div style="display:flex;align-items:center;gap:.7rem"><span class="extra-price">+${e.price.toFixed(2)}€</span><input class="extra-check" type="checkbox" id="ex-${i}" onchange="tgEx(${i})"/></div></div>`).join('');}
   else ew.style.display='none';
   document.getElementById('m-qty').textContent=1;updMT();
+  const modal=document.querySelector('#prod-modal .modal');
+  const isMundial=p.cat==='Menú Mundial';
+  modal.classList.toggle('mundial-modal',isMundial);
+  let mhero=document.getElementById('mundial-modal-hero');
+  if(isMundial){
+    if(!mhero){mhero=document.createElement('div');mhero.id='mundial-modal-hero';mhero.className='mundial-modal-hero';modal.insertBefore(mhero,modal.querySelector('.modal-body'));}
+    mhero.innerHTML=`<div class="mundial-modal-hero-text"><span>⚽ Mundial 2026</span>🇪🇸 ¡Camiseta de España de regalo!</div><div class="mundial-modal-gift">🎁 REGALO<br>INCLUIDO</div>`;
+    mhero.style.display='flex';
+  } else if(mhero){mhero.style.display='none';}
   document.getElementById('prod-modal').classList.add('open');document.body.style.overflow='hidden';
 }
 function closePM(){document.getElementById('prod-modal').classList.remove('open');document.body.style.overflow='';}
