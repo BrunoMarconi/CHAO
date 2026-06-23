@@ -861,6 +861,9 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
         <div class="fg"><label class="flabel">Nombre</label><input class="finput" id="co-name" type="text" placeholder="Tu nombre"/></div>
         <div class="fg"><label class="flabel">Teléfono</label><input class="finput" id="co-phone" type="tel" placeholder="+34 600 000 000"/></div>
         <div class="fg full"><label class="flabel">Tipo de pedido</label>
+          <div id="no-delivery-day-warn" style="display:none;background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:.6rem .9rem;margin-bottom:.6rem;font-size:.85rem;color:#856404;">
+            🏪 Los <strong>lunes y martes</strong> solo servimos <strong>recogida en local</strong>. ¡Gracias por entenderlo!
+          </div>
           <div class="otype-wrap">
             <button class="otype-btn active" id="ot-dom" onclick="setOT('domicilio')">🛵 A domicilio</button>
             <button class="otype-btn" id="ot-local" onclick="setOT('local')">🏪 Recoger en local</button>
@@ -1577,6 +1580,21 @@ function oCO(){
   if(saved.num) document.getElementById('co-num').value=saved.num;
   // Reset payment UI to default (card)
   payMethod='card';cashExact=false;cashAmount=0;
+  // Lunes y martes: solo recogida en local
+  const _noDelivery=isNoDeliveryDay();
+  const _btnDom=document.getElementById('ot-dom');
+  const _noDeliveryWarn=document.getElementById('no-delivery-day-warn');
+  if(_noDelivery){
+    oType='local';
+    if(_btnDom){_btnDom.disabled=true;_btnDom.classList.remove('active');_btnDom.style.opacity='0.4';_btnDom.style.cursor='not-allowed';}
+    document.getElementById('ot-local').classList.add('active');
+    document.getElementById('addr-group').style.display='none';
+    shipCost=0;
+    if(_noDeliveryWarn)_noDeliveryWarn.style.display='block';
+  } else {
+    if(_btnDom){_btnDom.disabled=false;_btnDom.style.opacity='';_btnDom.style.cursor='';}
+    if(_noDeliveryWarn)_noDeliveryWarn.style.display='none';
+  }
   updCS();
   document.getElementById('checkout-ov').classList.add('open');
   document.body.style.overflow='hidden';
@@ -1598,7 +1616,12 @@ function oCO(){
   },50);
 }
 function closeCO(){document.getElementById('checkout-ov').classList.remove('open');document.body.style.overflow='';}
+function isNoDeliveryDay(){const d=new Date().getDay();return d===1||d===2;} // 1=lunes, 2=martes
 function setOT(t){
+  if(t==='domicilio'&&isNoDeliveryDay()){
+    toast('Los lunes y martes solo recogida en local 🏪');
+    return;
+  }
   oType=t;
   document.getElementById('ot-dom').classList.toggle('active',t==='domicilio');
   document.getElementById('ot-local').classList.toggle('active',t==='local');
