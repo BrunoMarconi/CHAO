@@ -821,7 +821,7 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
       <p style="font-size:.74rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:.7rem">Toca para quitar ingredientes</p>
       <div class="ingr-wrap" id="m-ingr"></div>
       <div id="m-choices-wrap" style="display:none;margin-bottom:1rem">
-        <h4 style="font-size:.8rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);margin-bottom:.6rem">Elige tu plato principal</h4>
+        <h4 id="m-choices-label" style="font-size:.8rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);margin-bottom:.6rem">Elige tu plato principal</h4>
         <div id="m-choices" style="display:flex;gap:.5rem;flex-wrap:wrap"></div>
       </div>
       <div id="m-drink-wrap" style="display:none;margin-bottom:1rem">
@@ -1208,8 +1208,8 @@ const PRODUCTS=[
   {id:30,name:"Pizza Chao",cat:"Pizzas",price:7.50,badge:null,desc:"Base de mozarella y tomate. Personaliza tu pizza añadiendo los ingredientes que quieras.",img:"./pizza_jamon_queso.jpeg",ingredients:["Base de masa","Mozarella","Tomate"],extras:[{name:"Jamón serrano",price:0.50},{name:"Bacon",price:0.50},{name:"Pollo",price:0.50},{name:"Carne picada",price:0.50},{name:"Atún",price:0.50},{name:"Chorizo",price:0.50},{name:"Queso extra",price:0.50},{name:"Pimiento",price:0.50},{name:"Cebolla",price:0.50},{name:"Aceitunas",price:0.50},{name:"Rúcula",price:0.50},{name:"Verduras mix",price:0.50}]},
 
   // ── BOCATAS ──
-  {id:31,name:"Bocata Serranito",cat:"Bocatas",price:5.00,badge:null,desc:"Pollo ó cerdo, pimiento, jamón serrano y mahonesa.",img:"./Bocata_chao_pollo.jpeg",ingredients:["Pollo o cerdo","Pimiento","Jamón serrano","Mahonesa","Pan"],extras:[{name:"Extra jamón",price:1.00}]},
-  {id:32,name:"Bocata Pepito",cat:"Bocatas",price:5.00,badge:null,desc:"Pollo ó cerdo, lechuga, tomate y mahonesa.",img:"./sin_foto.jpeg",ingredients:["Pollo o cerdo","Lechuga","Tomate","Mahonesa","Pan"],extras:[{name:"Extra queso",price:0.80}]},
+  {id:31,name:"Bocata Serranito",cat:"Bocatas",price:5.00,badge:null,desc:"Pollo ó cerdo, pimiento, jamón serrano y mahonesa.",img:"./Bocata_chao_pollo.jpeg",ingredients:["Pimiento","Jamón serrano","Mahonesa","Pan"],choices:["Cerdo","Pollo"],choicesLabel:"Elige la carne",extras:[{name:"Extra jamón",price:1.00}]},
+  {id:32,name:"Bocata Pepito",cat:"Bocatas",price:5.00,badge:null,desc:"Pollo ó cerdo, lechuga, tomate y mahonesa.",img:"./sin_foto.jpeg",ingredients:["Lechuga","Tomate","Mahonesa","Pan"],choices:["Cerdo","Pollo"],choicesLabel:"Elige la carne",extras:[{name:"Extra queso",price:0.80}]},
   {id:33,name:"Bocata Chao Pollo",cat:"Bocatas",price:6.90,badge:null,desc:"Lechuga, tomate, queso, pollo crujiente y mahonesa.",img:"./Bocata_chao_pollo.jpeg",ingredients:["Lechuga","Tomate","Queso","Pollo crujiente","Mahonesa","Pan"],extras:[{name:"Extra pollo",price:1.50},{name:"Extra queso",price:0.80}]},
 
   // ── PERRITOS ──
@@ -1506,7 +1506,7 @@ function renderMenu(cat){
 function openProd(id){
   const p=PRODUCTS.find(x=>x.id===id);mProd=p;mQty=1;mExtras=[];mRemoved=[];mChoice=null;mDrink=null;
   const cw=document.getElementById('m-choices-wrap'),cd=document.getElementById('m-choices');
-  if(p.choices&&p.choices.length){cw.style.display='block';mChoice=p.choices[0];cd.innerHTML=p.choices.map(c=>`<button class="ingr-tag${c===p.choices[0]?' choice-active':''}" onclick="selChoice(this,'${c}')">${c}</button>`).join('');}
+  if(p.choices&&p.choices.length){cw.style.display='block';mChoice=p.choices[0];cd.innerHTML=p.choices.map(c=>`<button class="ingr-tag${c===p.choices[0]?' choice-active':''}" onclick="selChoice(this,'${c}')">${c}</button>`).join('');document.getElementById('m-choices-label').textContent=p.choicesLabel||'Elige tu plato principal';}
   else{cw.style.display='none';}
   const dw=document.getElementById('m-drink-wrap'),dd=document.getElementById('m-drinks');
   if(p.drinkChoices&&p.drinkChoices.length){dw.style.display='block';mDrink=p.drinkChoices[0];dd.innerHTML=p.drinkChoices.map(d=>`<button class="ingr-tag${d===p.drinkChoices[0]?' choice-active':''}" onclick="selDrink(this,'${d}')">${d}</button>`).join('');}
