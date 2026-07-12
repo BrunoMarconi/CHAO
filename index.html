@@ -1196,7 +1196,7 @@ const PRODUCTS=[
   // ── ENTRANTES ──
   {id:21,name:"Patatas Fritas",cat:"Entrantes",price:3.50,badge:null,desc:"Patatas fritas crujientes.",img:"./sin_foto.jpeg",ingredients:["Patatas"],extras:[{name:"Extra salsa",price:0.50}]},
   {id:22,name:"Patatas Supremas",cat:"Entrantes",price:7.50,badge:null,desc:"Patatas con pollo, cheddar y yogurt.",img:"./patatas_suprema.jpeg",ingredients:["Patatas","Pollo","Cheddar","Yogurt"],extras:[{name:"Extra queso",price:0.80}]},
-  {id:23,name:"Patatas Chao",cat:"Entrantes",price:7.00,badge:"Más pedido",desc:"Patatas con bacon y cheddar.",img:"./patatas_chao.jpeg",ingredients:["Patatas","Bacon","Cheddar"],extras:[{name:"Extra bacon",price:1.00},{name:"Extra queso",price:0.80}]},
+  {id:23,name:"Patatas Chao",cat:"Entrantes",price:7.50,badge:"Más pedido",desc:"Patatas con bacon y cheddar.",img:"./patatas_chao.jpeg",ingredients:["Patatas","Bacon","Cheddar"],extras:[{name:"Extra bacon",price:1.00},{name:"Extra queso",price:0.80}]},
   {id:24,name:"Patatas Kebab",cat:"Entrantes",price:7.50,badge:null,desc:"Patatas con kebab y yogurt.",img:"./sin_foto.jpeg",ingredients:["Patatas","Carne kebab","Salsa yogurt"],extras:[{name:"Extra kebab",price:1.50}]},
   {id:25,name:"Salchipapa",cat:"Entrantes",price:7.00,badge:null,desc:"Salchicha con patatas y salsa.",img:"./salchipapa.jpeg",ingredients:["Salchicha","Patatas","Salsa"],extras:[{name:"Extra salsa",price:0.50}]},
   {id:26,name:"Pulled & Cheese Fries",cat:"Entrantes",price:9.50,badge:null,desc:"Pullpork, BBQ y queso gratinado.",img:"./pulled_cheese_fries.jpeg",ingredients:["Patatas","Pullpork","Salsa BBQ","Queso gratinado"],extras:[{name:"Extra pullpork",price:1.50}]},
@@ -1722,6 +1722,8 @@ async function placeOrder(){
   const notes=document.getElementById('co-notes').value.trim();
   if(!name||!phone){toast('Rellena nombre y teléfono');return;}
   if(oType==='domicilio'){
+    const _sub=cart.reduce((a,i)=>a+i.lineTotal,0);
+    if(_sub<12.50){toast('El pedido mínimo a domicilio es 12,50 €');return;}
     if(!cp||cp.length<5){toast('Introduce el código postal');return;}
     if(!DELIVERY_ZONES[cp]){toast('Código postal fuera de zona de reparto');return;}
     if(!calle){toast('Introduce la calle');return;}
