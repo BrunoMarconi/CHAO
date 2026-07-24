@@ -207,13 +207,14 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
 .ingr-tag.ingr-locked{cursor:default;opacity:.5;pointer-events:none}
 .ingr-tag.choice-active{background:var(--green);color:#fff;border-color:var(--green)}
 /* MUNDIAL BANNER */
-.mundial-banner{background:linear-gradient(135deg,#c0001e 0%,#8b0015 55%,#c0001e 100%);padding:2.8rem 6%;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;position:relative;overflow:hidden}
+.mundial-banner{background:linear-gradient(135deg,#c0001e 0%,#8b0015 55%,#c0001e 100%);padding:2.8rem 6%;display:flex;justify-content:center;align-items:center;position:relative;overflow:hidden}
 .mundial-banner::before{content:'⚽';position:absolute;font-size:22rem;opacity:.07;right:-3rem;top:-4rem;line-height:1;pointer-events:none}
-.mundial-banner-text .mb-eyebrow{font-size:.72rem;font-weight:900;letter-spacing:.2em;text-transform:uppercase;color:var(--yellow);margin-bottom:.6rem;display:flex;align-items:center;gap:.5rem}
+.mundial-banner-text{text-align:center;max-width:600px}
+.mundial-banner-text .mb-eyebrow{font-size:.72rem;font-weight:900;letter-spacing:.2em;text-transform:uppercase;color:var(--yellow);margin-bottom:.6rem;display:flex;align-items:center;justify-content:center;gap:.5rem}
 .mundial-banner-text .mb-eyebrow::before{content:'';width:20px;height:2.5px;background:var(--yellow);border-radius:2px}
 .mundial-banner-text h2{font-family:'Black Han Sans',sans-serif;font-size:clamp(2rem,4.5vw,3.4rem);color:#fff;margin-bottom:.8rem;line-height:1}
 .mundial-banner-text h2 span{color:var(--yellow)}
-.mundial-banner-text p{color:rgba(255,255,255,.75);font-size:.95rem;font-weight:600;line-height:1.65;margin-bottom:1.5rem;max-width:400px}
+.mundial-banner-text p{color:rgba(255,255,255,.75);font-size:.95rem;font-weight:600;line-height:1.65;margin-bottom:1.5rem;max-width:400px;margin-left:auto;margin-right:auto}
 .btn-mundial{background:var(--yellow);color:#8b0015;padding:.85rem 2rem;border-radius:100px;font-weight:900;font-size:.95rem;letter-spacing:.03em;border:none;box-shadow:0 4px 20px rgba(245,200,66,.4);display:inline-flex;align-items:center;gap:.5rem;cursor:pointer}
 .btn-mundial:hover{background:#f0c838;transform:translateY(-2px);box-shadow:0 6px 28px rgba(245,200,66,.5)}
 .mundial-video-wrap{border-radius:var(--r);overflow:hidden;aspect-ratio:9/16;max-height:480px;width:auto;margin:0 auto;box-shadow:0 8px 40px rgba(0,0,0,.4);border:3px solid rgba(245,200,66,.3)}
@@ -593,27 +594,6 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
 </head>
 <body>
 
-<!-- ── MUNDIAL WELCOME MODAL ── -->
-<div class="mw-ov" id="mw-ov">
-  <div class="mw-modal">
-    <button class="mw-x" onclick="closeMundialModal()">✕</button>
-    <div class="mw-video-wrap">
-      <video id="mw-video" muted playsinline preload="metadata">
-        <source src="menu_la_roja.mp4" type="video/mp4"/>
-      </video>
-    </div>
-    <div class="mw-body">
-      <p class="mw-eyebrow">⚽ Mundial 2026 · Menú especial</p>
-      <h2>VEN A VER <span style="color:var(--yellow)">LA ROJA</span><br>CON NOSOTROS</h2>
-      <p>Hamburguesa + patatas + bebida por <strong style="color:var(--yellow)">14,95€</strong>. Y con cada menú te <strong style="color:var(--yellow)">regalamos una camiseta de España 🇪🇸👕</strong></p>
-      <div class="mw-foot">
-        <button class="btn-mundial" onclick="closeMundialModal();fCat('Menú Mundial')">⚽ Ver Menú Mundial</button>
-        <button class="btn-mundial-skip" onclick="closeMundialModal()">Ahora no</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <nav>
   <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false" style="display:flex;align-items:center;gap:.5rem;text-decoration:none">
     <img class="nav-logo-img" src="./chao_logo.png" alt="Burger Chao"
@@ -666,21 +646,6 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
 <div class="marquee-wrap">
   <div class="marquee-track">
     <span class="mq-item">Es simple</span><span class="mq-item">Es Chao</span><span class="mq-item">Es natural</span><span class="mq-item">Carne artesanal</span><span class="mq-item">Salsas propias</span><span class="mq-item">Pan brioche</span><span class="mq-item">Málaga de barrio</span><span class="mq-item">Smash burger</span><span class="mq-item">Es simple</span><span class="mq-item">Es Chao</span><span class="mq-item">Es natural</span><span class="mq-item">Carne artesanal</span><span class="mq-item">Salsas propias</span><span class="mq-item">Pan brioche</span><span class="mq-item">Málaga de barrio</span><span class="mq-item">Smash burger</span>
-  </div>
-</div>
-
-<!-- ── BANNER MUNDIAL ── -->
-<div class="mundial-banner">
-  <div class="mundial-banner-text">
-    <p class="mb-eyebrow">⚽ Mundial 2026</p>
-    <h2>VEN A VER<br><span>LA ROJA</span><br>CON NOSOTROS</h2>
-    <p>Hamburguesa + patatas + bebida por solo <strong style="color:var(--yellow)">14,95€</strong>. Y por cada menú, <strong style="color:var(--yellow)">🇪🇸 regalamos una camiseta de España.</strong></p>
-    <button class="btn-mundial" onclick="fCat('Menú Mundial')">⚽ Ver Menú Mundial</button>
-  </div>
-  <div class="mundial-video-wrap">
-    <video autoplay muted loop playsinline>
-      <source src="menu_la_roja.mp4" type="video/mp4"/>
-    </video>
   </div>
 </div>
 
@@ -1163,7 +1128,7 @@ function fbLogout() {
 // ── DATA ──────────────────────────────────────────────────────────────────────
 const PRODUCTS=[
   // ── MENÚ MUNDIAL ──
-  {id:100,name:"Menú Mundial",cat:"Menú Mundial",price:14.95,badge:"⚽ Especial",desc:"Hamburguesa + patatas fritas + bebida a elegir. ¡Y de regalo una camiseta de España! 🇪🇸👕",img:"./sin_foto.jpeg",ingredients:["Hamburguesa","Patatas fritas","🇪🇸 Camiseta de España de regalo"],drinkChoices:["Coca-Cola","Coca-Cola Zero","Fanta Naranja","Fanta Limón","Agua","Cerveza"],extras:[]},
+  {id:100,name:"Menú Mundial",cat:"Menú Mundial",price:14.95,badge:"⚽ Especial",desc:"Hamburguesa + patatas fritas + bebida a elegir.",img:"./sin_foto.jpeg",ingredients:["Hamburguesa","Patatas fritas"],drinkChoices:["Coca-Cola","Coca-Cola Zero","Fanta Naranja","Fanta Limón","Agua","Cerveza"],extras:[]},
 
   // ── BURGERS ──
   {id:1,name:"Burger Normal",cat:"Burgers",price:6.00,badge:null,desc:"Lechuga, tomate, cebolla y mahonesa.",img:"./sin_foto.jpeg",ingredients:["Carne","Lechuga","Tomate","Cebolla","Mahonesa","Pan"],extras:[{name:"Extra queso",price:0.80},{name:"Extra bacon",price:1.00},{name:"Huevo",price:0.80}]},
@@ -1484,15 +1449,13 @@ function renderMenu(cat){
     <div class="mundial-cat-header">
       <div class="mundial-cat-header-text">
         <h3>⚽ MENÚ MUNDIAL 2026</h3>
-        <p>Hamburguesa + patatas + bebida por <strong>14,95€</strong> · <strong>🇪🇸 Camiseta de España de regalo</strong></p>
+        <p>Hamburguesa + patatas + bebida por <strong>14,95€</strong></p>
       </div>
-      <div class="mundial-cat-badge">🎁 CAMISETA<br>DE REGALO</div>
     </div>`:'';
   document.getElementById('menu-grid').innerHTML=header+items.map(p=>`
     <div class="mitem${p.cat==='Menú Mundial'?' mundial-item':''}" onclick="openProd(${p.id})">
       <img class="mitem-img" src="${p.img}" alt="${p.name}" loading="lazy"/>
       <div class="mitem-info">
-        ${p.cat==='Menú Mundial'?'<span class="mw-badge">🇪🇸 Camiseta gratis</span>':''}
         <h4 class="mitem-name">${p.name}</h4>
         <p class="mitem-desc">${p.desc}</p>
       </div>
@@ -1525,7 +1488,7 @@ function openProd(id){
   let mhero=document.getElementById('mundial-modal-hero');
   if(isMundial){
     if(!mhero){mhero=document.createElement('div');mhero.id='mundial-modal-hero';mhero.className='mundial-modal-hero';modal.insertBefore(mhero,modal.querySelector('.modal-body'));}
-    mhero.innerHTML=`<div class="mundial-modal-hero-text"><span>⚽ Mundial 2026</span>🇪🇸 ¡Camiseta de España de regalo!</div><div class="mundial-modal-gift">🎁 REGALO<br>INCLUIDO</div>`;
+    mhero.innerHTML=`<div class="mundial-modal-hero-text"><span>⚽ Mundial 2026</span>Menú especial</div>`;
     mhero.style.display='flex';
   } else if(mhero){mhero.style.display='none';}
   document.getElementById('prod-modal').classList.add('open');document.body.style.overflow='hidden';
