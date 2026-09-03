@@ -728,6 +728,7 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
   <h2>VISITANOS Y QUE NO TE LO CUENTEN</h2>
   <p>Estamos abiertos de Martes a Domingo. Cualquier momento es bueno para una burger hecha con alma.</p>
   <div class="hours">
+    <div class="visit-hour-item">🚫 Lunes: Cerrado</div>
     <div class="visit-hour-item">🌙 Noche: 19:00 – 00:00</div>
     <div class="visit-hour-item">📍 Alhaurin de la Torre</div>
   </div>
@@ -827,7 +828,7 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
         <div class="fg"><label class="flabel">Teléfono</label><input class="finput" id="co-phone" type="tel" placeholder="+34 600 000 000"/></div>
         <div class="fg full"><label class="flabel">Tipo de pedido</label>
           <div id="no-delivery-day-warn" style="display:none;background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:.6rem .9rem;margin-bottom:.6rem;font-size:.85rem;color:#856404;">
-            🏪 Los <strong>lunes y martes</strong> solo servimos <strong>recogida en local</strong>. ¡Gracias por entenderlo!
+            🏪 Los <strong>martes</strong> solo servimos <strong>recogida en local</strong>. ¡Gracias por entenderlo!
           </div>
           <div class="otype-wrap">
             <button class="otype-btn active" id="ot-dom" onclick="setOT('domicilio')">🛵 A domicilio</button>
@@ -998,8 +999,8 @@ async function reprintTicket(id) {
 window.addEventListener('load', () => {
   // Widget abierto/cerrado
   function updateOpenWidget(){
-    const n=new Date(),h=n.getHours(),m=n.getMinutes();
-    const open=(h>=19)||(h===0&&m===0); // 19:00 – 00:00
+    const n=new Date(),h=n.getHours(),m=n.getMinutes(),isMonday=n.getDay()===1;
+    const open=!isMonday&&((h>=19)||(h===0&&m===0)); // 19:00 – 00:00, cerrado los lunes
     const tag=document.getElementById('hero-tagline');
     const dot=document.getElementById('hero-tagline-dot');
     const txt=document.getElementById('hero-tagline-txt');
@@ -1011,7 +1012,7 @@ window.addEventListener('load', () => {
     } else {
       tag.style.background='rgba(160,60,40,.85)';
       dot.style.background='#ff9966';
-      txt.textContent='Cerrado · Abrimos a las 19:00';
+      txt.textContent=isMonday?'Cerrado los lunes · Abrimos martes':'Cerrado · Abrimos a las 19:00';
     }
   }
   updateOpenWidget();
@@ -1518,11 +1519,13 @@ function closeCart(){document.getElementById('cart-ov').classList.remove('open')
 function renderCart(){
   const el=document.getElementById('cart-items-list'),ft=document.getElementById('cart-footer');
   const _now=new Date(),_h=_now.getHours(),_open=(_h>=19)||(_h===0);
-  const _warn=!_open?`<div style="background:#fff3cd;border:1.5px solid #f0a500;border-radius:10px;padding:.7rem .95rem;font-size:.81rem;font-weight:700;color:#7a4f00;margin-bottom:.7rem;line-height:1.45">⏰ <strong>Fuera de horario</strong> — Cocina abierta de 19:00 a 23:30.<br>Puedes hacer tu pedido ahora pero no empezará a prepararse hasta las 19:00 y puede tardar más de lo habitual.</div>`:'';
-  if(!cart.length){el.innerHTML=`<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Tu carrito está vacío.</p></div>`;ft.innerHTML=_warn+`<button class="btn-checkout" disabled>Ir al pago</button>`;return;}
+  const _closed=isClosedDay();
+  const _closedWarn=_closed?`<div style="background:#f8d7da;border:1.5px solid #dc3545;border-radius:10px;padding:.7rem .95rem;font-size:.81rem;font-weight:700;color:#721c24;margin-bottom:.7rem;line-height:1.45">🚫 <strong>Cerrado los lunes</strong><br>Hoy no podemos aceptar pedidos. ¡Te esperamos el martes a partir de las 19:00!</div>`:'';
+  const _warn=(!_closed&&!_open)?`<div style="background:#fff3cd;border:1.5px solid #f0a500;border-radius:10px;padding:.7rem .95rem;font-size:.81rem;font-weight:700;color:#7a4f00;margin-bottom:.7rem;line-height:1.45">⏰ <strong>Fuera de horario</strong> — Cocina abierta de 19:00 a 23:30.<br>Puedes hacer tu pedido ahora pero no empezará a prepararse hasta las 19:00 y puede tardar más de lo habitual.</div>`:'';
+  if(!cart.length){el.innerHTML=`<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Tu carrito está vacío.</p></div>`;ft.innerHTML=_closedWarn+_warn+`<button class="btn-checkout" disabled>Ir al pago</button>`;return;}
   el.innerHTML=cart.map((it,i)=>`<div class="c-item"><img class="c-item-img" src="${it.img}" alt="${it.name}"/><div class="c-item-info"><p class="c-item-name">${it.name}</p><p class="c-item-ext">${it.extras&&it.extras.length?'+ '+it.extras.map(e=>e.name).join(', '):''}${it.extras&&it.extras.length&&it.removed&&it.removed.length?' · ':''}${it.removed&&it.removed.length?'<span style="color:#e07b39">SIN: '+it.removed.join(', ')+'</span>':it.extras&&it.extras.length?'':'Sin cambios'}</p><div class="c-item-bot"><span class="c-item-price">${it.lineTotal.toFixed(2)}€</span><div class="c-item-qty"><button class="cqb" onclick="cCQ(${i},-1)">−</button><span style="font-size:.85rem;font-weight:600;min-width:14px;text-align:center">${it.qty}</span><button class="cqb" onclick="cCQ(${i},1)">+</button></div></div></div><button class="c-item-del" onclick="dCI(${i})">🗑</button></div>`).join('');
   const sub=cart.reduce((a,i)=>a+i.lineTotal,0),ship=oType==='domicilio'?shipCost:0;
-  ft.innerHTML=_warn+`<div class="cart-row"><span>Subtotal</span><span>${sub.toFixed(2)} €</span></div><div class="cart-row"><span>Envío</span><span>${oType==='domicilio'?shipCost.toFixed(2)+' €':'Gratis'}</span></div><hr class="cart-divider"/><div class="cart-row total"><span>TOTAL</span><span>${(sub+ship).toFixed(2)} €</span></div><button class="btn-checkout" onclick="oCO()">Ir al pago →</button>`;
+  ft.innerHTML=_closedWarn+_warn+`<div class="cart-row"><span>Subtotal</span><span>${sub.toFixed(2)} €</span></div><div class="cart-row"><span>Envío</span><span>${oType==='domicilio'?shipCost.toFixed(2)+' €':'Gratis'}</span></div><hr class="cart-divider"/><div class="cart-row total"><span>TOTAL</span><span>${(sub+ship).toFixed(2)} €</span></div><button class="btn-checkout" ${_closed?'disabled':''} onclick="oCO()">Ir al pago →</button>`;
 }
 function cCQ(i,d){cart[i].qty=Math.max(1,cart[i].qty+d);cart[i].lineTotal=cart[i].unitPrice*cart[i].qty;renderCart();updCount();}
 function dCI(i){cart.splice(i,1);renderCart();updCount();}
@@ -1530,6 +1533,7 @@ function updCount(){document.getElementById('cart-count').textContent=cart.reduc
 
 // ── CHECKOUT ──────────────────────────────────────────────────────────────────
 function oCO(){
+  if(isClosedDay()){toast('Los lunes permanecemos cerrados 🚫 ¡Te esperamos martes a partir de las 19:00!');return;}
   closeCart();
   if(!cart.length){toast('Añade productos primero');return;}
   // Autorellenar datos guardados
@@ -1577,10 +1581,11 @@ function oCO(){
   },50);
 }
 function closeCO(){document.getElementById('checkout-ov').classList.remove('open');document.body.style.overflow='';}
-function isNoDeliveryDay(){const d=new Date().getDay();return d===1||d===2;} // 1=lunes, 2=martes
+function isClosedDay(){return new Date().getDay()===1;} // 1=lunes: cerrado todo el día
+function isNoDeliveryDay(){return new Date().getDay()===2;} // 2=martes: solo recogida
 function setOT(t){
   if(t==='domicilio'&&isNoDeliveryDay()){
-    toast('Los lunes y martes solo recogida en local 🏪');
+    toast('Los martes solo recogida en local 🏪');
     return;
   }
   oType=t;
@@ -1675,6 +1680,7 @@ function calcChange(){
 }
 
 async function placeOrder(){
+  if(isClosedDay()){toast('Los lunes permanecemos cerrados 🚫 ¡Te esperamos martes a partir de las 19:00!');closeCO();return;}
   const name=document.getElementById('co-name').value.trim(),phone=document.getElementById('co-phone').value.trim();
   const cp=oType==='domicilio'?(document.getElementById('co-cp').value||'').trim():'';
   const calle=oType==='domicilio'?(document.getElementById('co-calle').value||'').trim():'';
@@ -1746,8 +1752,8 @@ async function placeOrder(){
 // ── STATUS ────────────────────────────────────────────────────────────────────
 const STSTEPS=['nuevos','preparacion','listos','reparto','entregado'];
 const STLBLS=['Recibido','Confirmado','Cocinando','En reparto','Entregado'];
-const STTITLES={nuevos:'PEDIDO RECIBIDO',preparacion:'EN PREPARACIÓN',listos:'¡LISTO!',reparto:'EN CAMINO 🛵',entregado:'¡ENTREGADO!'};
-const STMSGS={nuevos:'Acabamos de recibir tu pedido. En breve lo confirmaremos.',preparacion:'¡Confirmado! Nuestros cocineros están en ello.',listos:'Tu pedido está listo y sale en breve.',reparto:'El repartidor está en camino.',entregado:'¡Buen provecho! Gracias por confiar en Brutal.'};
+const STTITLES={nuevos:'¡EN PREPARACIÓN!',preparacion:'EN PREPARACIÓN',listos:'¡LISTO!',reparto:'EN CAMINO 🛵',entregado:'¡ENTREGADO!'};
+const STMSGS={nuevos:'Hemos recibido tu pedido y ya lo estamos preparando en cocina.',preparacion:'¡Confirmado! Nuestros cocineros están en ello.',listos:'Tu pedido está listo y sale en breve.',reparto:'El repartidor está en camino.',entregado:'¡Buen provecho! Gracias por confiar en Brutal.'};
 
 let _custUnsub=null;
 function openSt(id){
