@@ -1002,8 +1002,8 @@ async function reprintTicket(id) {
 window.addEventListener('load', () => {
   // Widget abierto/cerrado
   function updateOpenWidget(){
-    const n=new Date(),h=n.getHours(),m=n.getMinutes(),isMonday=n.getDay()===1;
-    const open=!isMonday&&((h>=19)||(h===0&&m===0)); // 19:00 – 00:00, cerrado los lunes
+    const n=new Date(),h=n.getHours(),m=n.getMinutes(),closedToday=isClosedDay();
+    const open=!closedToday&&((h>=19)||(h===0&&m===0)); // 19:00 – 00:00, cerrado los lunes (salvo excepción)
     const tag=document.getElementById('hero-tagline');
     const dot=document.getElementById('hero-tagline-dot');
     const txt=document.getElementById('hero-tagline-txt');
@@ -1015,7 +1015,7 @@ window.addEventListener('load', () => {
     } else {
       tag.style.background='rgba(160,60,40,.85)';
       dot.style.background='#ff9966';
-      txt.textContent=isMonday?'Cerrado los lunes · Abrimos martes':'Cerrado · Abrimos a las 19:00';
+      txt.textContent=closedToday?'Cerrado los lunes · Abrimos martes':'Cerrado · Abrimos a las 19:00';
     }
   }
   updateOpenWidget();
@@ -1582,7 +1582,13 @@ function oCO(){
   },50);
 }
 function closeCO(){document.getElementById('checkout-ov').classList.remove('open');document.body.style.overflow='';}
-function isClosedDay(){return new Date().getDay()===1;} // 1=lunes: cerrado todo el día
+const OPEN_MONDAY_EXCEPTIONS=['2026-09-07']; // lunes puntuales abiertos por excepción
+function isClosedDay(){
+  const n=new Date();
+  if(n.getDay()!==1) return false; // solo cerramos los lunes
+  const ymd=n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0');
+  return !OPEN_MONDAY_EXCEPTIONS.includes(ymd);
+}
 function isNoDeliveryDay(){return new Date().getDay()===2;} // 2=martes: solo recogida
 function setOT(t){
   if(t==='domicilio'&&isNoDeliveryDay()){
