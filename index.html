@@ -225,18 +225,6 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
   .mundial-video-wrap{order:-1}
 }
 
-/* EVENT BANNER */
-.event-banner{background:#0d0d0d;padding:2.5rem 6%;display:flex;justify-content:center}
-.event-banner img{max-width:340px;width:100%;border-radius:var(--r);box-shadow:0 8px 40px rgba(0,0,0,.5);display:block}
-
-/* EVENT WELCOME MODAL */
-.ev-ov{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:800;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(8px)}
-.ev-ov.open{opacity:1;pointer-events:all}
-.ev-modal{width:100%;max-width:380px;position:relative;transform:scale(.95) translateY(20px);transition:transform .3s}
-.ev-ov.open .ev-modal{transform:scale(1) translateY(0)}
-.ev-modal img{width:100%;display:block;border-radius:var(--r);box-shadow:0 24px 80px rgba(0,0,0,.6)}
-.ev-x{position:absolute;top:-14px;right:-14px;background:var(--white);border:none;color:var(--brown2);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;cursor:pointer;font-weight:700;transition:all .18s;z-index:10;box-shadow:0 4px 14px rgba(0,0,0,.4)}
-.ev-x:hover{background:var(--cream2)}
 .cat-btn.mundial{background:var(--white);color:#c0001e;border-color:#c0001e}
 .cat-btn.mundial:hover{background:rgba(192,0,30,.08);color:#c0001e;border-color:#c0001e}
 .cat-btn.mundial.active{background:linear-gradient(135deg,#c0001e,#8b0015);color:var(--yellow);border-color:#c0001e}
@@ -637,18 +625,6 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
 <div class="marquee-wrap">
   <div class="marquee-track">
     <span class="mq-item">Es simple</span><span class="mq-item">Es Chao</span><span class="mq-item">Es natural</span><span class="mq-item">Carne artesanal</span><span class="mq-item">Salsas propias</span><span class="mq-item">Pan brioche</span><span class="mq-item">Málaga de barrio</span><span class="mq-item">Smash burger</span><span class="mq-item">Es simple</span><span class="mq-item">Es Chao</span><span class="mq-item">Es natural</span><span class="mq-item">Carne artesanal</span><span class="mq-item">Salsas propias</span><span class="mq-item">Pan brioche</span><span class="mq-item">Málaga de barrio</span><span class="mq-item">Smash burger</span>
-  </div>
-</div>
-
-<section class="event-banner">
-  <img src="anuncio_chao.jpeg" alt="Miércoles 9 de Septiembre — La última fiesta del verano con Silverio Soto, en Chao Burgers x La Parada del Marengo, Alhaurín de la Torre" loading="lazy"/>
-</section>
-
-<!-- EVENT WELCOME MODAL -->
-<div class="ev-ov" id="ev-ov" onclick="if(event.target===this)closeEventModal()">
-  <div class="ev-modal">
-    <button class="ev-x" onclick="closeEventModal()">✕</button>
-    <img src="anuncio_chao.jpeg" alt="Miércoles 9 de Septiembre — La última fiesta del verano con Silverio Soto, en Chao Burgers x La Parada del Marengo, Alhaurín de la Torre"/>
   </div>
 </div>
 
@@ -1410,12 +1386,6 @@ function getRevenueStats(){
   };
 }
 
-// ── EVENT WELCOME MODAL ─────────────────────────────────────────────────────────
-function closeEventModal(){
-  const ov=document.getElementById('ev-ov');
-  if(ov) ov.classList.remove('open');
-}
-
 // ── INIT ──────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded',()=>{
   fbInit();
@@ -1424,10 +1394,6 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('addr-group').style.display='block';
   setInterval(checkMidnightReset, 30000);
   if(location.hash==='#admin') setTimeout(openAdmin, 300);
-  setTimeout(()=>{
-    const ov=document.getElementById('ev-ov');
-    if(ov) ov.classList.add('open');
-  }, 1000);
 });
 
 // ── PRODUCTS ──────────────────────────────────────────────────────────────────
