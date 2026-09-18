@@ -150,6 +150,35 @@ section{padding:5rem 6%}
 .ft-cta{background:var(--yellow);color:var(--brown);padding:.82rem 1.8rem;border-radius:100px;font-weight:900;font-size:.92rem;display:inline-flex;align-items:center;gap:.5rem;letter-spacing:.03em;text-decoration:none;box-shadow:0 4px 16px rgba(245,200,66,.3)}
 .ft-cta:hover{background:#f0c838;transform:translateY(-2px);box-shadow:0 6px 22px rgba(245,200,66,.4)}
 
+/* PIZZA PROMO */
+.pizza-sec{background:linear-gradient(140deg,#2a1206 0%,#7d2410 55%,#c0501a 100%);color:var(--white);padding:3.8rem 6%;position:relative;overflow:hidden}
+.pizza-sec::before{content:'🍕';position:absolute;right:-2.5rem;top:-3.5rem;font-size:15rem;line-height:1;opacity:.09;transform:rotate(-14deg);pointer-events:none}
+.pizza-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:3rem;align-items:center;position:relative;z-index:1}
+.pizza-eyebrow{font-size:.72rem;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:var(--yellow);margin-bottom:.7rem;display:flex;align-items:center;gap:.5rem}
+.pizza-eyebrow::before{content:'';width:20px;height:2.5px;background:var(--yellow);border-radius:2px}
+.pizza-sec h2{font-family:'Black Han Sans',sans-serif;font-size:clamp(2.2rem,5.5vw,3.8rem);line-height:1;margin-bottom:1rem;color:var(--white)}
+.pizza-sec h2 span{color:var(--yellow)}
+.pizza-sec p{font-size:.93rem;color:rgba(255,253,248,.78);line-height:1.7;margin-bottom:.8rem;font-weight:600;max-width:460px}
+.pizza-sec p strong{color:var(--white)}
+.pizza-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.2rem 0}
+.pizza-tag{background:rgba(245,200,66,.15);border:1.5px solid rgba(245,200,66,.35);color:var(--yellow);border-radius:100px;padding:.28rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.pizza-price{display:inline-block;background:rgba(0,0,0,.28);border:1.5px solid rgba(245,200,66,.3);border-radius:var(--r2);padding:.6rem 1rem;font-size:.86rem;margin-bottom:1.4rem}
+.pizza-price strong{color:var(--yellow);font-size:1.05rem}
+.pizza-ctas{display:flex;gap:.8rem;flex-wrap:wrap;align-items:center}
+.pizza-cta{background:var(--yellow);color:var(--brown);padding:.82rem 1.8rem;border-radius:100px;font-weight:900;font-size:.92rem;letter-spacing:.03em;border:none;cursor:pointer;box-shadow:0 4px 16px rgba(245,200,66,.3)}
+.pizza-cta:hover{background:#f0c838;transform:translateY(-2px);box-shadow:0 6px 22px rgba(245,200,66,.4)}
+.pizza-cta-ghost{background:transparent;color:var(--white);padding:.82rem 1.6rem;border-radius:100px;font-weight:800;font-size:.9rem;border:2px solid rgba(255,253,248,.45);text-decoration:none;display:inline-flex;align-items:center;gap:.4rem}
+.pizza-cta-ghost:hover{border-color:var(--white);background:rgba(255,253,248,.1)}
+.pizza-imgs{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.pizza-imgs img{width:100%;max-width:100%;aspect-ratio:1;object-fit:cover;border-radius:var(--r);border:3px solid rgba(245,200,66,.3);box-shadow:0 14px 40px rgba(0,0,0,.45);display:block}
+.pizza-imgs img:first-child{transform:rotate(-2.5deg)}
+.pizza-imgs img:last-child{transform:rotate(2.5deg)}
+@media(max-width:860px){
+  .pizza-inner{grid-template-columns:1fr;gap:2rem}
+  .pizza-imgs{order:-1}
+  .pizza-sec p{max-width:none}
+}
+
 /* WHY */
 .why-sec{background:var(--cream2)}
 .why-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1.3rem;margin-top:2.8rem}
@@ -581,6 +610,7 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
   </a>
   <ul class="nav-links">
     <li><a href="#menu">La Carta</a></li>
+    <li><a href="#pizzas">🍕 Pizzas</a></li>
     <li><a href="#destacados">Destacados</a></li>
     <li><a href="#foodtruck">Food Truck</a></li>
     <li><a href="#nosotros">Nosotros</a></li>
@@ -637,6 +667,33 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
     <button class="btn-ghost" style="font-size:.85rem;padding:.65rem 1.5rem;color:var(--brown2);border-color:var(--cream3)" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Pedir</button>
   </div>
   <div class="featured-grid" id="featured-grid"></div>
+</section>
+
+<!-- PIZZAS -->
+<section class="pizza-sec" id="pizzas">
+  <div class="pizza-inner">
+    <div class="pizza-content">
+      <p class="pizza-eyebrow">🍕 También en Chao</p>
+      <h2>TENEMOS<br><span>PIZZAS</span></h2>
+      <p>Masa fresca, base de tomate y mozzarella fundida. Hechas al momento, con la misma actitud y el mismo producto que nuestras burgers.</p>
+      <p><strong>Tú mandas:</strong> móntala a tu gusto con jamón serrano, bacon, pollo, carne picada, atún, chorizo, pimiento, cebolla, aceitunas, rúcula, verduras o un extra de queso.</p>
+      <div class="pizza-tags">
+        <span class="pizza-tag">Masa fresca</span>
+        <span class="pizza-tag">100% personalizable</span>
+        <span class="pizza-tag">Hecha al momento</span>
+        <span class="pizza-tag">A domicilio</span>
+      </div>
+      <p class="pizza-price">Desde <strong>7,50€</strong> &nbsp;·&nbsp; cada ingrediente extra <strong>0,50€</strong></p>
+      <div class="pizza-ctas">
+        <button class="pizza-cta" onclick="fCat('Pizzas')">🍕 Monta tu pizza</button>
+        <a href="tel:952416853" class="pizza-cta-ghost">📞 952 416 853</a>
+      </div>
+    </div>
+    <div class="pizza-imgs">
+      <img src="pizza_jamon_queso.jpeg" alt="Pizza de jamón y queso de Burger Chao" loading="lazy"/>
+      <img src="pizza_margarita.jpeg" alt="Pizza margarita de Burger Chao" loading="lazy"/>
+    </div>
+  </div>
 </section>
 
 <section class="menu-sec" id="menu">
@@ -1130,15 +1187,15 @@ const PRODUCTS=[
   {id:11,name:"Chesse Boom",cat:"Smash Burger",price:14.50,badge:"Especial",desc:"Doble ternera smash, cebolla, huevo, bacon, salsa bbq y bautizo de cheddar.",img:"./burger_cheese_boom.jpeg",ingredients:["Doble ternera smash","Cebolla","Huevo","Bacon","Salsa BBQ","Bautizo cheddar","Pan"],extras:[{name:"Triple carne",price:3.00},{name:"Extra bacon",price:1.00}]},
 
   // ── CAMPEROS ──
-  {id:13,name:"Campero Normal",cat:"Camperos",price:5.50,badge:null,desc:"Lechuga, tomate, cebolla y mahonesa.",img:"./campero_normal.jpeg",ingredients:["Pollo","Lechuga","Tomate","Cebolla","Mahonesa","Pan campero"],extras:[{name:"Extra queso",price:0.80},{name:"Extra jamón",price:0.80}]},
+  {id:13,name:"Campero Normal",cat:"Camperos",price:5.50,badge:null,desc:"Lechuga, tomate, york, queso y mahonesa.",img:"./campero_normal.jpeg",ingredients:["Lechuga","Tomate","York","Queso","Mahonesa","Pan campero"],extras:[{name:"Extra queso",price:0.80},{name:"Extra jamón",price:0.80}]},
   {id:14,name:"Campero de Pollo",cat:"Camperos",price:6.50,badge:null,desc:"Pollo, lechuga, tomate, york, queso y mahonesa.",img:"./campero-pollo.jpeg",ingredients:["Pollo","Lechuga","Tomate","York","Queso","Mahonesa","Pan campero"],extras:[{name:"Extra pollo",price:1.50},{name:"Extra queso",price:0.80}]},
   {id:15,name:"Campero Parrillero",cat:"Camperos",price:7.50,badge:null,desc:"Pollo, lechuga, tomate, queso, bacon, huevo y mahonesa.",img:"./campero_pollo_asado.jpeg",ingredients:["Pollo","Lechuga","Tomate","Queso","Bacon","Huevo","Mahonesa","Pan campero"],extras:[{name:"Extra pollo",price:1.50},{name:"Extra bacon",price:1.00}]},
   {id:16,name:"Campero Chao",cat:"Camperos",price:7.80,badge:"Recomendado",desc:"Pollo, lechuga, tomate, york, queso, bacon, huevo, pimiento y mahonesa.",img:"./campero_chao.jpeg",ingredients:["Pollo","Lechuga","Tomate","York","Queso","Bacon","Huevo","Pimiento","Mahonesa","Pan campero"],extras:[{name:"Extra pollo",price:1.50},{name:"Extra bacon",price:1.00},{name:"Extra queso",price:0.80}]},
   {id:66,name:"Campero Pollo Asado",cat:"Camperos",price:7.80,badge:null,desc:"Pollo asado, lechuga, tomate, queso, pimiento y salsa ali oli.",img:"./sin_foto.jpeg",ingredients:["Pollo asado","Lechuga","Tomate","Queso","Pimiento","Salsa ali oli","Pan campero"],extras:[{name:"Extra pollo",price:1.50},{name:"Extra queso",price:0.80}]},
-  {id:17,name:"Campero Kebab",cat:"Camperos",price:7.50,badge:null,desc:"Pollo crujiente, lechuga, tomate, cebolla caramelo, queso y mahonesa.",img:"./campero_kebab.jpeg",ingredients:["Pollo crujiente","Lechuga","Tomate","Cebolla caramelo","Queso","Mahonesa","Pan campero"],extras:[{name:"Extra pollo",price:1.50},{name:"Extra salsa",price:0.50}]},
-  {id:18,name:"Campero Thor",cat:"Camperos",price:7.80,badge:null,desc:"Doble carne ternera, lechuga, tomate, cebolla, pepinillo y salsa big chao.",img:"./sin_foto.jpeg",ingredients:["Doble carne ternera","Lechuga","Tomate","Cebolla","Pepinillo","Salsa big chao","Pan campero"],extras:[{name:"Extra carne",price:2.50},{name:"Extra bacon",price:1.00}]},
-  {id:19,name:"Campero Serrano",cat:"Camperos",price:7.90,badge:null,desc:"Lechuga, tomate, queso, ketchup y cebolla.",img:"./sin_foto.jpeg",ingredients:["Pollo","Lechuga","Tomate","Queso","Ketchup","Cebolla","Pan campero"],extras:[{name:"Extra queso",price:0.80}]},
-  {id:65,name:"Campero Atún",cat:"Camperos",price:7.90,badge:null,desc:"Lechuga, tomate, queso, ketchup y cebolla.",img:"./sin_foto.jpeg",ingredients:["Atún","Lechuga","Tomate","Queso","Ketchup","Cebolla","Pan campero"],extras:[{name:"Extra atún",price:1.00}]},
+  {id:17,name:"Campero Kebab",cat:"Camperos",price:7.50,badge:null,desc:"Carne de kebab, lechuga, tomate y salsa de yogurt.",img:"./campero_kebab.jpeg",ingredients:["Carne de kebab","Lechuga","Tomate","Salsa de yogurt","Pan campero"],extras:[{name:"Extra kebab",price:1.50},{name:"Extra salsa",price:0.50}]},
+  {id:18,name:"Campero Thor",cat:"Camperos",price:7.80,badge:null,desc:"Pollo crujiente, lechuga, tomate, cebolla caramelo, queso y mahonesa.",img:"./sin_foto.jpeg",ingredients:["Pollo crujiente","Lechuga","Tomate","Cebolla caramelo","Queso","Mahonesa","Pan campero"],extras:[{name:"Extra pollo",price:1.50},{name:"Extra queso",price:0.80}]},
+  {id:19,name:"Campero Serrano",cat:"Camperos",price:7.90,badge:null,desc:"Pollo, jamón serrano, lechuga, tomate y salsa ali oli.",img:"./sin_foto.jpeg",ingredients:["Pollo","Jamón serrano","Lechuga","Tomate","Salsa ali oli","Pan campero"],extras:[{name:"Extra jamón",price:1.00},{name:"Extra queso",price:0.80}]},
+  {id:65,name:"Campero Atún",cat:"Camperos",price:7.90,badge:null,desc:"Lechuga, tomate, queso, pimiento y atún.",img:"./sin_foto.jpeg",ingredients:["Atún","Lechuga","Tomate","Queso","Pimiento","Pan campero"],extras:[{name:"Extra atún",price:1.00}]},
   {id:70,name:"Campero Cresta",cat:"Camperos",price:7.90,badge:null,desc:"Burger cresta, lechuga, tomate, cebolla, queso, huevo y salsa alio oli.",img:"./sin_foto.jpeg",ingredients:["Burger cresta","Lechuga","Tomate","Cebolla","Queso","Huevo","Salsa alio oli","Pan campero"],extras:[{name:"Extra queso",price:0.80},{name:"Extra huevo",price:0.80}]},
 
   // ── ENTRANTES ──
@@ -1150,7 +1207,10 @@ const PRODUCTS=[
   {id:25,name:"Salchipapa",cat:"Entrantes",price:7.50,badge:null,desc:"Salchichas de pavo y salsa salchipapa.",img:"./salchipapa.jpeg",ingredients:["Salchichas de pavo","Patatas","Salsa salchipapa"],extras:[{name:"Extra salsa",price:0.50}]},
   {id:27,name:"Alitas",cat:"Entrantes",price:7.50,badge:null,desc:"8 unidades con patatas.",img:"./alitas_pollo.jpeg",ingredients:["8 alitas de pollo","Patatas"],extras:[{name:"Extra alitas",price:2.50},{name:"Extra salsa",price:0.50}]},
   {id:28,name:"Nuggets",cat:"Entrantes",price:5.50,badge:null,desc:"6 unidades con patatas.",img:"./nuggests.jpeg",ingredients:["6 nuggets","Patatas"],extras:[{name:"Extra nuggets",price:1.50},{name:"Extra salsa",price:0.50}]},
-  {id:29,name:"Nachos",cat:"Entrantes",price:8.50,badge:null,desc:"Nachos con mix de verdura cheddar y queso gratinado.",img:"./nachos_tex_mex.jpeg",ingredients:["Nachos","Mix de verdura","Cheddar","Queso gratinado"],extras:[{name:"Extra queso",price:0.80},{name:"Extra guacamole",price:1.00}]},
+  {id:29,name:"Nachos",cat:"Entrantes",price:8.50,badge:null,desc:"Nachos con mix de verdura, ternera picada, cheddar y queso gratinado.",img:"./nachos_tex_mex.jpeg",ingredients:["Nachos","Mix de verdura","Ternera picada","Cheddar","Queso gratinado"],extras:[{name:"Extra queso",price:0.80},{name:"Extra guacamole",price:1.00}]},
+
+  // ── PIZZAS ──
+  {id:30,name:"Pizza Chao",cat:"Pizzas",price:7.50,badge:"🍕 A tu gusto",desc:"Base de mozzarella y tomate. Personaliza tu pizza añadiendo los ingredientes que quieras.",img:"./pizza_jamon_queso.jpeg",ingredients:["Masa fresca","Mozzarella","Tomate"],extras:[{name:"Jamón serrano",price:0.50},{name:"Bacon",price:0.50},{name:"Pollo",price:0.50},{name:"Carne picada",price:0.50},{name:"Atún",price:0.50},{name:"Chorizo",price:0.50},{name:"Queso extra",price:0.50},{name:"Pimiento",price:0.50},{name:"Cebolla",price:0.50},{name:"Aceitunas",price:0.50},{name:"Rúcula",price:0.50},{name:"Verduras mix",price:0.50}]},
 
   // ── BOCATAS ──
   {id:71,name:"Pepito de Pollo",cat:"Bocatas",price:5.50,badge:null,desc:"Lechuga, tomate, queso y mahonesa.",img:"./sin_foto.jpeg",ingredients:["Pollo","Lechuga","Tomate","Queso","Mahonesa","Pan"],extras:[{name:"Extra queso",price:0.80}]},
@@ -1165,7 +1225,7 @@ const PRODUCTS=[
 
   // ── QUESADILLAS ──
   {id:38,name:"York y Queso",cat:"Quesadillas",price:5.50,badge:null,desc:"York, queso y mahonesa.",img:"./quesadilla.jpeg",ingredients:["Tortilla","York","Queso","Mahonesa"],extras:[{name:"Extra queso",price:0.80}]},
-  {id:39,name:"Quesadilla de Kebab",cat:"Quesadillas",price:5.50,badge:null,desc:"Lechuga, tomate, cebolla y mahonesa.",img:"./quesadilla.jpeg",ingredients:["Tortilla","Carne kebab","Lechuga","Tomate","Cebolla","Mahonesa"],extras:[{name:"Extra kebab",price:1.50}]},
+  {id:39,name:"Quesadilla de Kebab",cat:"Quesadillas",price:5.50,badge:null,desc:"Carne de kebab, queso y salsa yogurt.",img:"./quesadilla.jpeg",ingredients:["Tortilla","Carne de kebab","Queso","Salsa yogurt"],extras:[{name:"Extra kebab",price:1.50}]},
   {id:41,name:"Quesadilla Suprema",cat:"Quesadillas",price:6.00,badge:null,desc:"Pollo, queso fundido, salsa cheddar y salsa yogurt.",img:"./quesadilla.jpeg",ingredients:["Tortilla","Pollo","Queso fundido","Salsa cheddar","Salsa yogurt"],extras:[{name:"Extra pollo",price:1.50},{name:"Extra queso",price:0.80}]},
 
   // ── ROLLOS ──
@@ -1196,7 +1256,7 @@ const PRODUCTS=[
   {id:63,name:"Cerveza Sin",cat:"Bebidas",price:2.50,badge:null,desc:"Cerveza sin alcohol.",img:"./sin_foto.jpeg",ingredients:["Cerveza sin alcohol"],extras:[]},
   {id:64,name:"Zumo de Piña",cat:"Bebidas",price:2.00,badge:null,desc:"Zumo de piña.",img:"./sin_foto.jpeg",ingredients:["Zumo de piña"],extras:[]},
 ];
-const CATS=["Todo","Menú Mundial","Burgers","Smash Burger","Camperos","Entrantes","Bocatas","Perritos","Quesadillas","Rollos","Ensaladas","Bebidas"];
+const CATS=["Todo","Menú Mundial","Burgers","Smash Burger","Camperos","Entrantes","Pizzas","Bocatas","Perritos","Quesadillas","Rollos","Ensaladas","Bebidas"];
 // ── ZONAS DE ENVÍO POR CÓDIGO POSTAL ─────────────────────────────────────────
 // Edita este objeto para añadir/quitar zonas y precios
 const DELIVERY_ZONES = {
