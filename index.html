@@ -173,6 +173,41 @@ section{padding:5rem 6%}
 .pizza-imgs img{width:100%;max-width:100%;aspect-ratio:1;object-fit:cover;border-radius:var(--r);border:3px solid rgba(245,200,66,.3);box-shadow:0 14px 40px rgba(0,0,0,.45);display:block}
 .pizza-imgs img:first-child{transform:rotate(-2.5deg)}
 .pizza-imgs img:last-child{transform:rotate(2.5deg)}
+
+/* OFERTAS MARTES A JUEVES */
+.ofertas-sec{background:var(--brown);padding:3.5rem 6%}
+.ofertas-hd{max-width:1180px;margin:0 auto 2rem;text-align:center}
+.ofertas-hd .oferta-eyebrow{font-size:.72rem;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:var(--yellow);margin-bottom:.6rem}
+.ofertas-hd h2{font-family:'Black Han Sans',sans-serif;font-size:clamp(2rem,4.5vw,3.2rem);color:var(--white);line-height:1.05}
+.ofertas-hd h2 span{color:var(--yellow)}
+.ofertas-hd p{color:rgba(255,253,248,.65);font-weight:600;font-size:.9rem;margin-top:.6rem}
+.ofertas-grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+.oferta-card{border-radius:var(--r);padding:2.1rem 1.8rem;position:relative;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 14px 40px rgba(0,0,0,.35)}
+.oferta-card.recogida{background:linear-gradient(150deg,#b3ac1f 0%,#8d8716 100%);color:#1b1905}
+.oferta-card.duo{background:linear-gradient(150deg,#52a75f 0%,#2a5c31 100%);color:var(--white)}
+.oferta-deco{position:absolute;right:-1.2rem;bottom:-2rem;font-size:8rem;line-height:1;opacity:.16;pointer-events:none}
+.oferta-chip{align-self:flex-start;border-radius:100px;padding:.3rem .85rem;font-size:.72rem;font-weight:900;text-transform:uppercase;letter-spacing:.06em;margin-bottom:1rem}
+.oferta-card.recogida .oferta-chip{background:rgba(27,25,5,.18);color:#1b1905}
+.oferta-card.duo .oferta-chip{background:rgba(255,255,255,.2);color:var(--white)}
+.oferta-chip.hoy{background:var(--yellow)!important;color:#1b1905!important;box-shadow:0 0 0 2px rgba(245,200,66,.35)}
+.oferta-card h3{font-family:'Black Han Sans',sans-serif;font-size:clamp(1.5rem,3.2vw,2.15rem);line-height:1.05;margin-bottom:.8rem}
+.oferta-card .oferta-txt{font-size:.9rem;font-weight:700;line-height:1.6;opacity:.85;margin-bottom:1rem;position:relative;z-index:1}
+.oferta-precio{display:inline-flex;align-items:baseline;gap:.35rem;background:var(--white);color:#1b1905;border-radius:100px;padding:.5rem 1.1rem;font-family:'Black Han Sans',sans-serif;font-size:1.6rem;margin-bottom:1rem;align-self:flex-start;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.oferta-precio small{font-family:'Inter',sans-serif;font-size:.72rem;font-weight:900;text-transform:uppercase;letter-spacing:.05em;opacity:.7}
+.oferta-cond{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:1.3rem;position:relative;z-index:1}
+.oferta-cond span{border-radius:100px;padding:.26rem .75rem;font-size:.74rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.oferta-card.recogida .oferta-cond span{background:rgba(27,25,5,.14);color:#1b1905}
+.oferta-card.duo .oferta-cond span{background:rgba(255,255,255,.16);color:var(--white)}
+.oferta-btn{margin-top:auto;align-self:flex-start;border:none;cursor:pointer;border-radius:100px;padding:.78rem 1.6rem;font-weight:900;font-size:.88rem;letter-spacing:.03em;background:#1b1905;color:var(--white);position:relative;z-index:1}
+.oferta-card.duo .oferta-btn{background:var(--yellow);color:#1b1905}
+.oferta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.3)}
+.oferta-legal{max-width:1180px;margin:1.4rem auto 0;text-align:center;font-size:.78rem;font-weight:700;color:rgba(255,253,248,.5)}
+@media(max-width:800px){.ofertas-grid{grid-template-columns:1fr}.oferta-deco{font-size:6rem}}
+.promo-box{background:var(--greendim);border:1.5px dashed var(--green);border-radius:var(--r2);padding:.9rem 1rem}
+.promo-box-hd{font-weight:900;font-size:.92rem;color:var(--green3);margin-bottom:.3rem}
+.promo-box-txt{font-size:.8rem;font-weight:600;color:var(--gray);line-height:1.5;margin-bottom:.6rem}
+.promo-note{background:rgba(212,101,26,.1);border:1.5px solid var(--orangeborder);border-radius:var(--r2);padding:.6rem .85rem;font-size:.8rem;font-weight:700;color:var(--orange2);line-height:1.45;margin-top:.6rem}
+.cart-promo{background:var(--greendim);border:1.5px dashed var(--green);border-radius:10px;padding:.6rem .9rem;font-size:.79rem;font-weight:700;color:var(--green3);margin-bottom:.7rem;line-height:1.45}
 @media(max-width:860px){
   .pizza-inner{grid-template-columns:1fr;gap:2rem}
   .pizza-imgs{order:-1}
@@ -254,6 +289,9 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
   .mundial-video-wrap{order:-1}
 }
 
+.cat-btn.oferta{background:var(--white);color:var(--orange2);border-color:var(--orange)}
+.cat-btn.oferta:hover{background:var(--orangedim);color:var(--orange2);border-color:var(--orange)}
+.cat-btn.oferta.active{background:linear-gradient(135deg,var(--orange),var(--orange2));color:var(--white);border-color:var(--orange2)}
 .cat-btn.mundial{background:var(--white);color:#c0001e;border-color:#c0001e}
 .cat-btn.mundial:hover{background:rgba(192,0,30,.08);color:#c0001e;border-color:#c0001e}
 .cat-btn.mundial.active{background:linear-gradient(135deg,#c0001e,#8b0015);color:var(--yellow);border-color:#c0001e}
@@ -610,6 +648,7 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
   </a>
   <ul class="nav-links">
     <li><a href="#menu">La Carta</a></li>
+    <li><a href="#ofertas">🔥 Ofertas</a></li>
     <li><a href="#pizzas">🍕 Pizzas</a></li>
     <li><a href="#destacados">Destacados</a></li>
     <li><a href="#foodtruck">Food Truck</a></li>
@@ -657,6 +696,47 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
     <span class="mq-item">Es simple</span><span class="mq-item">Es Chao</span><span class="mq-item">Es natural</span><span class="mq-item">Carne artesanal</span><span class="mq-item">Salsas propias</span><span class="mq-item">Pan brioche</span><span class="mq-item">Málaga de barrio</span><span class="mq-item">Smash burger</span><span class="mq-item">Es simple</span><span class="mq-item">Es Chao</span><span class="mq-item">Es natural</span><span class="mq-item">Carne artesanal</span><span class="mq-item">Salsas propias</span><span class="mq-item">Pan brioche</span><span class="mq-item">Málaga de barrio</span><span class="mq-item">Smash burger</span>
   </div>
 </div>
+
+<!-- OFERTAS MARTES A JUEVES -->
+<section class="ofertas-sec" id="ofertas">
+  <div class="ofertas-hd">
+    <p class="oferta-eyebrow">🔥 Ofertas de la semana</p>
+    <h2>MARTES, MIÉRCOLES<br>Y <span>JUEVES</span></h2>
+    <p>Dos motivos para pedir entre semana. Solo estos tres días.</p>
+  </div>
+  <div class="ofertas-grid">
+
+    <div class="oferta-card recogida">
+      <span class="oferta-deco">🥤</span>
+      <span class="oferta-chip" id="chip-recogida">Martes a jueves</span>
+      <h3>TÚ VIENES A RECOGER.<br>NOSOTROS PONEMOS LA BEBIDA.</h3>
+      <p class="oferta-txt">Haz tu pedido online, elige <strong>recoger en local</strong> y te invitamos a la bebida que quieras de la carta. Sin mínimo y sin letra pequeña.</p>
+      <div class="oferta-precio">GRATIS <small>la bebida</small></div>
+      <div class="oferta-cond">
+        <span>🏪 Solo recogida en local</span>
+        <span>📅 Martes a jueves</span>
+        <span>1 bebida por pedido</span>
+      </div>
+      <button class="oferta-btn" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Pedir y recoger</button>
+    </div>
+
+    <div class="oferta-card duo">
+      <span class="oferta-deco">🍔</span>
+      <span class="oferta-chip" id="chip-duo">Martes a jueves</span>
+      <h3>¡NUEVO!<br>EL PACK DÚO BURGER</h3>
+      <p class="oferta-txt">Dos <strong>smash burgers iguales</strong> a elegir, de la que tú quieras de la carta smash. Las dos por un precio que no vas a ver otro día.</p>
+      <div class="oferta-precio">15,99€ <small>las 2</small></div>
+      <div class="oferta-cond">
+        <span>🛵 Solo a domicilio</span>
+        <span>📅 Martes a jueves</span>
+        <span>2 smash iguales</span>
+      </div>
+      <button class="oferta-btn" onclick="irAlPackDuo()">Quiero el Pack DÚo</button>
+    </div>
+
+  </div>
+  <p class="oferta-legal">Ofertas válidas únicamente martes, miércoles y jueves. No acumulables entre sí ni con otras promociones.</p>
+</section>
 
 <section class="featured" id="destacados">
   <div class="featured-header">
@@ -820,7 +900,7 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
       <p class="modal-cat" id="m-cat"></p>
       <h2 class="modal-name" id="m-name"></h2>
       <p class="modal-desc" id="m-desc"></p>
-      <p style="font-size:.74rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:.7rem">Toca para quitar ingredientes</p>
+      <p id="m-ingr-hint" style="font-size:.74rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:.7rem">Toca para quitar ingredientes</p>
       <div class="ingr-wrap" id="m-ingr"></div>
       <div id="m-choices-wrap" style="display:none;margin-bottom:1rem">
         <h4 id="m-choices-label" style="font-size:.8rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);margin-bottom:.6rem">Elige tu plato principal</h4>
@@ -864,12 +944,22 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
         <div class="fg"><label class="flabel">Teléfono</label><input class="finput" id="co-phone" type="tel" placeholder="+34 600 000 000"/></div>
         <div class="fg full"><label class="flabel">Tipo de pedido</label>
           <div id="no-delivery-day-warn" style="display:none;background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:.6rem .9rem;margin-bottom:.6rem;font-size:.85rem;color:#856404;">
-            🏪 Los <strong>lunes y martes</strong> solo servimos <strong>recogida en local</strong>. ¡Gracias por entenderlo!
+            🏪 Los <strong>lunes</strong> solo servimos <strong>recogida en local</strong>. ¡Gracias por entenderlo!
           </div>
           <div class="otype-wrap">
             <button class="otype-btn active" id="ot-dom" onclick="setOT('domicilio')">🛵 A domicilio</button>
             <button class="otype-btn" id="ot-local" onclick="setOT('local')">🏪 Recoger en local</button>
           </div>
+        </div>
+        <div class="fg full" id="promo-drink-wrap" style="display:none">
+          <div class="promo-box">
+            <div class="promo-box-hd">🥤 ¡Bebida GRATIS!</div>
+            <p class="promo-box-txt">Por recoger tu pedido en el local de martes a jueves te invitamos a la bebida. Elige la tuya:</p>
+            <select class="finput" id="promo-drink" onchange="setFreeDrink(this.value)"></select>
+          </div>
+        </div>
+        <div class="fg full" id="promo-duo-note" style="display:none">
+          <div class="promo-note">🛵 Tu pedido lleva el <strong>Pack Dúo</strong>: es una oferta <strong>solo a domicilio</strong> y válida de martes a jueves.</div>
         </div>
         <div class="fg full" id="addr-group">
           <div class="addr-3col" style="display:grid;grid-template-columns:110px 1fr 90px;gap:.7rem">
@@ -1167,6 +1257,9 @@ const PRODUCTS=[
   // ── MENÚ MUNDIAL ──
   {id:100,name:"Menú Mundial",cat:"Menú Mundial",price:14.95,badge:"⚽ Especial",desc:"Hamburguesa + patatas fritas + bebida a elegir.",img:"./sin_foto.jpeg",ingredients:["Hamburguesa","Patatas fritas"],drinkChoices:["Coca-Cola","Coca-Cola Zero","Fanta Naranja","Fanta Limón","Agua","Cerveza"],extras:[]},
 
+  // ── OFERTAS (solo martes, miércoles y jueves) ──
+  {id:200,name:"Pack Dúo Smash Burger",cat:"Ofertas",price:15.99,badge:"🔥 Oferta",desc:"Dos smash burgers iguales a elegir por 15,99€. Solo a domicilio, de martes a jueves.",img:"./cheese_burger.jpeg",ingredients:[],promoDays:[2,3,4],onlyType:"domicilio",choices:["Chesee Burger","Smash Deluxe","Jam Bacon","Pull Berry","Adictiva","Chesse Boom"],choicesLabel:"Elige tu smash — te llevamos 2 iguales",extras:[]},
+
   // ── BURGERS ──
   {id:1,name:"Burger Normal",cat:"Burgers",price:6.00,badge:null,desc:"Lechuga, tomate, cebolla y mahonesa.",img:"./sin_foto.jpeg",ingredients:["Carne","Lechuga","Tomate","Cebolla","Mahonesa","Pan"],extras:[{name:"Extra queso",price:0.80},{name:"Extra bacon",price:1.00},{name:"Huevo",price:0.80}]},
   {id:2,name:"Burger Cresta",cat:"Burgers",price:6.00,badge:null,desc:"Lechuga, tomate, cebolla y mahonesa.",img:"./sin_foto.jpeg",ingredients:["Burger cresta","Lechuga","Tomate","Cebolla","Mahonesa","Pan"],extras:[{name:"Extra queso",price:0.80},{name:"Extra bacon",price:1.00}]},
@@ -1256,7 +1349,7 @@ const PRODUCTS=[
   {id:63,name:"Cerveza Sin",cat:"Bebidas",price:2.50,badge:null,desc:"Cerveza sin alcohol.",img:"./sin_foto.jpeg",ingredients:["Cerveza sin alcohol"],extras:[]},
   {id:64,name:"Zumo de Piña",cat:"Bebidas",price:2.00,badge:null,desc:"Zumo de piña.",img:"./sin_foto.jpeg",ingredients:["Zumo de piña"],extras:[]},
 ];
-const CATS=["Todo","Menú Mundial","Burgers","Smash Burger","Camperos","Entrantes","Pizzas","Bocatas","Perritos","Quesadillas","Rollos","Ensaladas","Bebidas"];
+const CATS=["Todo","Ofertas","Menú Mundial","Burgers","Smash Burger","Camperos","Entrantes","Pizzas","Bocatas","Perritos","Quesadillas","Rollos","Ensaladas","Bebidas"];
 // ── ZONAS DE ENVÍO POR CÓDIGO POSTAL ─────────────────────────────────────────
 // Edita este objeto para añadir/quitar zonas y precios
 const DELIVERY_ZONES = {
@@ -1454,6 +1547,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('addr-group').style.display='block';
   setInterval(checkMidnightReset, 30000);
   if(location.hash==='#admin') setTimeout(openAdmin, 300);
+  initPromoUI();
 });
 
 // ── PRODUCTS ──────────────────────────────────────────────────────────────────
@@ -1469,10 +1563,11 @@ function renderFeatured(){
       </div>
     </div>`).join('');
 }
-function renderCats(){document.getElementById('menu-cats').innerHTML=CATS.map(c=>`<button class="cat-btn${c===activeCat?' active':''}${c==='Menú Mundial'?' mundial':''}" onclick="fCat('${c}')">${c==='Menú Mundial'?'⚽ '+c:c}</button>`).join('');}
+function renderCats(){const _disp=availableProducts();const _cats=CATS.filter(c=>c==='Todo'||_disp.some(p=>p.cat===c));document.getElementById('menu-cats').innerHTML=_cats.map(c=>`<button class="cat-btn${c===activeCat?' active':''}${c==='Menú Mundial'?' mundial':''}${c==='Ofertas'?' oferta':''}" onclick="fCat('${c}')">${c==='Menú Mundial'?'⚽ '+c:(c==='Ofertas'?'🔥 '+c:c)}</button>`).join('');}
 function fCat(c){activeCat=c;renderCats();renderMenu(c);document.getElementById('menu').scrollIntoView({behavior:'smooth'});}
 function renderMenu(cat){
-  const items=cat==="Todo"?PRODUCTS:PRODUCTS.filter(p=>p.cat===cat);
+  const disponibles=availableProducts();
+  const items=cat==="Todo"?disponibles:disponibles.filter(p=>p.cat===cat);
   const header=cat==='Menú Mundial'?`
     <div class="mundial-cat-header">
       <div class="mundial-cat-header-text">
@@ -1505,6 +1600,8 @@ function openProd(id){
   document.getElementById('m-name').textContent=p.name;
   document.getElementById('m-desc').textContent=p.desc;
   document.getElementById('m-ingr').innerHTML=p.ingredients.map((ing,i)=>{if(p.cat==='Rollos'&&ing==='Tortilla')return'';return`<span class="ingr-tag" id="ingr-${i}" onclick="tgIngr(${i})">${ing}</span>`;}).join('');
+  const _hint=document.getElementById('m-ingr-hint');
+  if(_hint)_hint.style.display=p.ingredients.length?'block':'none';
   const ew=document.getElementById('m-extras-wrap'),ed=document.getElementById('m-extras');
   const pe=p.extras.filter(e=>e.price>0);
   if(pe.length){ew.style.display='block';ed.innerHTML=pe.map((e,i)=>`<div class="extra-row"><span style="font-size:.85rem">${e.name}</span><div style="display:flex;align-items:center;gap:.7rem"><span class="extra-price">+${e.price.toFixed(2)}€</span><input class="extra-check" type="checkbox" id="ex-${i}" onchange="tgEx(${i})"/></div></div>`).join('');}
@@ -1534,7 +1631,7 @@ function addFromModal(){
   if(p.choices&&p.choices.length&&!mChoice){toast('Elige tu plato principal');return;}
   if(p.drinkChoices&&p.drinkChoices.length&&!mDrink){toast('Elige tu bebida');return;}
   const nameParts=[mChoice,mDrink].filter(Boolean);
-  const name=nameParts.length?`${p.name} (${nameParts.join(' + ')})`:p.name;
+  const name=p.id===200?`${p.name} (2× ${mChoice})`:(nameParts.length?`${p.name} (${nameParts.join(' + ')})`:p.name);
   cart.push({id:p.id,name,img:p.img,unitPrice:p.price+et,qty:mQty,lineTotal:(p.price+et)*mQty,extras:ei,removed});
   updCount();closePM();toast(name+' añadida al carrito');
 }
@@ -1552,7 +1649,9 @@ function renderCart(){
   if(!cart.length){el.innerHTML=`<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Tu carrito está vacío.</p></div>`;ft.innerHTML=_closedWarn+_warn+`<button class="btn-checkout" disabled>Ir al pago</button>`;return;}
   el.innerHTML=cart.map((it,i)=>`<div class="c-item"><img class="c-item-img" src="${it.img}" alt="${it.name}"/><div class="c-item-info"><p class="c-item-name">${it.name}</p><p class="c-item-ext">${it.extras&&it.extras.length?'+ '+it.extras.map(e=>e.name).join(', '):''}${it.extras&&it.extras.length&&it.removed&&it.removed.length?' · ':''}${it.removed&&it.removed.length?'<span style="color:#e07b39">SIN: '+it.removed.join(', ')+'</span>':it.extras&&it.extras.length?'':'Sin cambios'}</p><div class="c-item-bot"><span class="c-item-price">${it.lineTotal.toFixed(2)}€</span><div class="c-item-qty"><button class="cqb" onclick="cCQ(${i},-1)">−</button><span style="font-size:.85rem;font-weight:600;min-width:14px;text-align:center">${it.qty}</span><button class="cqb" onclick="cCQ(${i},1)">+</button></div></div></div><button class="c-item-del" onclick="dCI(${i})">🗑</button></div>`).join('');
   const sub=cart.reduce((a,i)=>a+i.lineTotal,0),ship=oType==='domicilio'?shipCost:0;
-  ft.innerHTML=_closedWarn+_warn+`<div class="cart-row"><span>Subtotal</span><span>${sub.toFixed(2)} €</span></div><div class="cart-row"><span>Envío</span><span>${oType==='domicilio'?shipCost.toFixed(2)+' €':'Gratis'}</span></div><hr class="cart-divider"/><div class="cart-row total"><span>TOTAL</span><span>${(sub+ship).toFixed(2)} €</span></div><button class="btn-checkout" ${_closed?'disabled':''} onclick="oCO()">Ir al pago →</button>`;
+  const _promoDrink=isPromoDay()?`<div class="cart-promo">🥤 <strong>Recoge en local y te regalamos la bebida.</strong> Elige "Recoger en local" en el pago y escoge la que quieras.</div>`:'';
+  const _promoDuo=cartHasDuo()?`<div class="cart-promo" style="background:rgba(212,101,26,.1);border-color:var(--orange);color:var(--orange2)">🛵 El <strong>Pack Dúo</strong> es una oferta <strong>solo a domicilio</strong>, de martes a jueves.</div>`:'';
+  ft.innerHTML=_closedWarn+_warn+_promoDrink+_promoDuo+`<div class="cart-row"><span>Subtotal</span><span>${sub.toFixed(2)} €</span></div><div class="cart-row"><span>Envío</span><span>${oType==='domicilio'?shipCost.toFixed(2)+' €':'Gratis'}</span></div><hr class="cart-divider"/><div class="cart-row total"><span>TOTAL</span><span>${(sub+ship).toFixed(2)} €</span></div><button class="btn-checkout" ${_closed?'disabled':''} onclick="oCO()">Ir al pago →</button>`;
 }
 function cCQ(i,d){cart[i].qty=Math.max(1,cart[i].qty+d);cart[i].lineTotal=cart[i].unitPrice*cart[i].qty;renderCart();updCount();}
 function dCI(i){cart.splice(i,1);renderCart();updCount();}
@@ -1587,6 +1686,7 @@ function oCO(){
     if(_btnDom){_btnDom.disabled=false;_btnDom.style.opacity='';_btnDom.style.cursor='';}
     if(_noDeliveryWarn)_noDeliveryWarn.style.display='none';
   }
+  updPromoUI();
   updCS();
   document.getElementById('checkout-ov').classList.add('open');
   document.body.style.overflow='hidden';
@@ -1609,16 +1709,59 @@ function oCO(){
 }
 function closeCO(){document.getElementById('checkout-ov').classList.remove('open');document.body.style.overflow='';}
 const OPEN_MONDAY_EXCEPTIONS=['2026-09-07']; // lunes puntuales abiertos por excepción
+// ── PROMOS MARTES A JUEVES ─────────────────────────────────────
+const PROMO_DAYS=[2,3,4]; // 2=martes, 3=miércoles, 4=jueves
+function isPromoDay(){return PROMO_DAYS.includes(new Date().getDay());}
+function availableProducts(){return PRODUCTS.filter(p=>!p.promoDays||p.promoDays.includes(new Date().getDay()));}
+function cartHasDuo(){return cart.some(i=>{const p=PRODUCTS.find(x=>x.id===i.id);return p&&p.onlyType==='domicilio';});}
+function irAlPackDuo(){
+  if(!isPromoDay()){toast('El Pack Dúo vuelve el martes 🛵');document.getElementById('menu').scrollIntoView({behavior:'smooth'});return;}
+  openProd(200);
+}
+let freeDrink=null;
+function freeDrinkEligible(){return oType==='local'&&isPromoDay();}
+function setFreeDrink(v){freeDrink=v;}
+function updPromoUI(){
+  const w=document.getElementById('promo-drink-wrap');
+  if(w){
+    const ok=freeDrinkEligible();
+    w.style.display=ok?'block':'none';
+    if(ok){
+      const sel=document.getElementById('promo-drink');
+      if(sel){
+        if(!sel.options.length){
+          const drinks=PRODUCTS.filter(x=>x.cat==='Bebidas');
+          sel.innerHTML=drinks.map(d=>`<option value="${d.name}">${d.name}</option>`).join('');
+        }
+        freeDrink=sel.value||null;
+      }
+    } else freeDrink=null;
+  }
+  const dn=document.getElementById('promo-duo-note');
+  if(dn)dn.style.display=cartHasDuo()?'block':'none';
+}
+function initPromoUI(){
+  const hoy=isPromoDay();
+  [['chip-recogida','Disponible hoy'],['chip-duo','Disponible hoy']].forEach(([id,txt])=>{
+    const el=document.getElementById(id);
+    if(el&&hoy){el.textContent='✅ '+txt;el.classList.add('hoy');}
+  });
+}
+
 function isClosedDay(){
   const n=new Date();
   if(n.getDay()!==1) return false; // solo cerramos los lunes
   const ymd=n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0');
   return !OPEN_MONDAY_EXCEPTIONS.includes(ymd);
 }
-function isNoDeliveryDay(){const d=new Date().getDay();return d===1||d===2;} // 1=lunes, 2=martes: solo recogida
+function isNoDeliveryDay(){return new Date().getDay()===1;} // 1=lunes: solo recogida
 function setOT(t){
+  if(t==='local'&&cartHasDuo()){
+    toast('El Pack Dúo es solo a domicilio 🛵 — quítalo del carrito para recoger en local');
+    return;
+  }
   if(t==='domicilio'&&isNoDeliveryDay()){
-    toast('Los lunes y martes solo recogida en local 🏪');
+    toast('Los lunes solo recogida en local 🏪');
     return;
   }
   oType=t;
@@ -1631,6 +1774,7 @@ function setOT(t){
     if(cp.length===5&&DELIVERY_ZONES[cp]) shipCost=DELIVERY_ZONES[cp].price;
     else shipCost=2.50;
   } else { shipCost=0; }
+  updPromoUI();
   updCS();
 }
 function updCS(){
@@ -1721,7 +1865,9 @@ async function placeOrder(){
   const addr=oType==='domicilio'?`${calle}${num?' '+num:''}, CP ${cp}`:'Recogida en local';
   const notes=document.getElementById('co-notes').value.trim();
   if(!name||!phone){toast('Rellena nombre y teléfono');return;}
-  if(oType==='domicilio'&&isNoDeliveryDay()){toast('Los lunes y martes solo recogida en local 🏪');setOT('local');return;}
+  if(oType==='domicilio'&&isNoDeliveryDay()){toast('Los lunes solo recogida en local 🏪');setOT('local');return;}
+  if(cartHasDuo()&&!isPromoDay()){toast('El Pack Dúo solo está disponible de martes a jueves');return;}
+  if(cartHasDuo()&&oType!=='domicilio'){toast('El Pack Dúo es solo a domicilio 🛵');return;}
   if(oType==='domicilio'){
     const _sub=cart.reduce((a,i)=>a+i.lineTotal,0);
     if(_sub<12.50){toast('El pedido mínimo a domicilio es 12,50 €');return;}
@@ -1765,7 +1911,15 @@ async function placeOrder(){
     payInfo.amount=cashExact?total:cashAmount;
     payInfo.change=cashExact?0:parseFloat((cashAmount-total).toFixed(2));
   }
-  const order={id,name,phone,address:addr,notes,type:oType,items:[...cart],subtotal:sub,shipping:ship,total,payment:payInfo,status:'nuevos',time:tStr,timestamp:Date.now(),isNew:true};
+  // Promo: bebida gratis al recoger en local de martes a jueves
+  const items=[...cart];
+  let promoDrink=null;
+  if(freeDrinkEligible()&&freeDrink){
+    promoDrink=freeDrink;
+    const _d=PRODUCTS.find(x=>x.cat==='Bebidas'&&x.name===freeDrink);
+    items.push({id:'promo-bebida',name:'🥤 '+freeDrink+' — GRATIS (promo recogida)',img:_d?_d.img:'./sin_foto.jpeg',unitPrice:0,qty:1,lineTotal:0,extras:[],removed:[],promo:true});
+  }
+  const order={id,name,phone,address:addr,notes,type:oType,items,subtotal:sub,shipping:ship,total,payment:payInfo,promoDrink,status:'nuevos',time:tStr,timestamp:Date.now(),isNew:true};
   // Save to Firestore (async, non-blocking)
   fbSaveOrder(order).then(fbId => {
     if(fbId) {
@@ -1779,7 +1933,7 @@ async function placeOrder(){
   });
   orders.unshift(order);saveOrders();curOId=id;cart=[];updCount();updFab();
   // Reset payment fields
-  payMethod='card';cashExact=false;cashAmount=0;
+  payMethod='card';cashExact=false;cashAmount=0;freeDrink=null;
   closeCO();openSt(id);toast('¡Pedido confirmado! 🔥');
 }
 
