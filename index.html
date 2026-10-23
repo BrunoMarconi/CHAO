@@ -72,6 +72,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:68px;background:var(-
 
 /* MARQUEE */
 .marquee-wrap{background:var(--green);padding:.9rem 0;overflow:hidden;border-top:3px solid var(--green3);border-bottom:3px solid var(--green3)}
+.aviso-envio{background:#fff3cd;border-bottom:3px solid #f0a500;padding:1rem 6%;display:flex;align-items:center;justify-content:center;gap:.9rem;flex-wrap:wrap;text-align:center}
+.aviso-envio-ico{font-size:1.5rem;line-height:1}
+.aviso-envio p{font-size:.88rem;font-weight:700;color:#7a4f00;line-height:1.5;margin:0}
+.aviso-envio-btn{background:#7a4f00;color:var(--white);border:none;cursor:pointer;border-radius:100px;padding:.6rem 1.3rem;font-weight:900;font-size:.82rem;letter-spacing:.02em;white-space:nowrap}
+.aviso-envio-btn:hover{background:#5c3b00;transform:translateY(-1px)}
 .marquee-track{display:flex;gap:2rem;animation:marquee 20s linear infinite;width:max-content}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .mq-item{font-family:'Black Han Sans',sans-serif;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase;color:var(--white);white-space:nowrap;display:flex;align-items:center;gap:.7rem}
@@ -633,6 +638,13 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
   </div>
 </div>
 
+<!-- AVISO: REPARTO SUSPENDIDO -->
+<div class="aviso-envio" id="aviso-envio" style="display:none">
+  <span class="aviso-envio-ico">🏪</span>
+  <p><strong>Estos días solo servimos recogida en local.</strong> <span id="aviso-envio-txt"></span></p>
+  <button class="aviso-envio-btn" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Pedir para recoger</button>
+</div>
+
 <!-- OFERTAS MARTES A JUEVES -->
 <section class="ofertas-sec" id="ofertas">
   <div class="ofertas-hd">
@@ -879,9 +891,7 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
         <div class="fg"><label class="flabel">Nombre</label><input class="finput" id="co-name" type="text" placeholder="Tu nombre"/></div>
         <div class="fg"><label class="flabel">Teléfono</label><input class="finput" id="co-phone" type="tel" placeholder="+34 600 000 000"/></div>
         <div class="fg full"><label class="flabel">Tipo de pedido</label>
-          <div id="no-delivery-day-warn" style="display:none;background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:.6rem .9rem;margin-bottom:.6rem;font-size:.85rem;color:#856404;">
-            🏪 Los <strong>lunes</strong> solo servimos <strong>recogida en local</strong>. ¡Gracias por entenderlo!
-          </div>
+          <div id="no-delivery-day-warn" style="display:none;background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:.6rem .9rem;margin-bottom:.6rem;font-size:.85rem;color:#856404;"></div>
           <div class="otype-wrap">
             <button class="otype-btn active" id="ot-dom" onclick="setOT('domicilio')">🛵 A domicilio</button>
             <button class="otype-btn" id="ot-local" onclick="setOT('local')">🏪 Recoger en local</button>
@@ -1480,6 +1490,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('addr-group').style.display='block';
   setInterval(checkMidnightReset, 30000);
   if(location.hash==='#admin') setTimeout(openAdmin, 300);
+  initAvisoEnvio();
   initPromoUI();
 });
 
@@ -1566,9 +1577,10 @@ function renderCart(){
   if(!cart.length){el.innerHTML=`<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Tu carrito está vacío.</p></div>`;ft.innerHTML=_closedWarn+_warn+`<button class="btn-checkout" disabled>Ir al pago</button>`;return;}
   el.innerHTML=cart.map((it,i)=>`<div class="c-item"><img class="c-item-img" src="${it.img}" alt="${it.name}"/><div class="c-item-info"><p class="c-item-name">${it.name}</p><p class="c-item-ext">${it.extras&&it.extras.length?'+ '+it.extras.map(e=>e.name).join(', '):''}${it.extras&&it.extras.length&&it.removed&&it.removed.length?' · ':''}${it.removed&&it.removed.length?'<span style="color:#e07b39">SIN: '+it.removed.join(', ')+'</span>':it.extras&&it.extras.length?'':'Sin cambios'}</p><div class="c-item-bot"><span class="c-item-price">${it.lineTotal.toFixed(2)}€</span><div class="c-item-qty"><button class="cqb" onclick="cCQ(${i},-1)">−</button><span style="font-size:.85rem;font-weight:600;min-width:14px;text-align:center">${it.qty}</span><button class="cqb" onclick="cCQ(${i},1)">+</button></div></div></div><button class="c-item-del" onclick="dCI(${i})">🗑</button></div>`).join('');
   const sub=cart.reduce((a,i)=>a+i.lineTotal,0),ship=oType==='domicilio'?shipCost:0;
+  const _noDel=isDeliveryPaused()?`<div class="cart-promo" style="background:#fff3cd;border-color:#f0a500;color:#7a4f00">🏪 <strong>Sin reparto a domicilio</strong> hasta el ${deliveryBackText()}. Puedes recoger tu pedido en el local.</div>`:'';
   const _promoDrink=isPromoDay()?`<div class="cart-promo">🥤 <strong>Recoge en local y te regalamos la bebida.</strong> Elige "Recoger en local" en el pago y escoge la que quieras.</div>`:'';
   const _promoDuo=cartHasDuo()?`<div class="cart-promo" style="background:rgba(212,101,26,.1);border-color:var(--orange);color:var(--orange2)">🛵 El <strong>Pack Dúo</strong> es una oferta <strong>solo a domicilio</strong>, de martes a jueves.</div>`:'';
-  ft.innerHTML=_closedWarn+_warn+_promoDrink+_promoDuo+`<div class="cart-row"><span>Subtotal</span><span>${sub.toFixed(2)} €</span></div><div class="cart-row"><span>Envío</span><span>${oType==='domicilio'?shipCost.toFixed(2)+' €':'Gratis'}</span></div><hr class="cart-divider"/><div class="cart-row total"><span>TOTAL</span><span>${(sub+ship).toFixed(2)} €</span></div><button class="btn-checkout" ${_closed?'disabled':''} onclick="oCO()">Ir al pago →</button>`;
+  ft.innerHTML=_closedWarn+_warn+_noDel+_promoDrink+_promoDuo+`<div class="cart-row"><span>Subtotal</span><span>${sub.toFixed(2)} €</span></div><div class="cart-row"><span>Envío</span><span>${oType==='domicilio'?shipCost.toFixed(2)+' €':'Gratis'}</span></div><hr class="cart-divider"/><div class="cart-row total"><span>TOTAL</span><span>${(sub+ship).toFixed(2)} €</span></div><button class="btn-checkout" ${_closed?'disabled':''} onclick="oCO()">Ir al pago →</button>`;
 }
 function cCQ(i,d){cart[i].qty=Math.max(1,cart[i].qty+d);cart[i].lineTotal=cart[i].unitPrice*cart[i].qty;renderCart();updCount();}
 function dCI(i){cart.splice(i,1);renderCart();updCount();}
@@ -1598,7 +1610,12 @@ function oCO(){
     document.getElementById('ot-local').classList.add('active');
     document.getElementById('addr-group').style.display='none';
     shipCost=0;
-    if(_noDeliveryWarn)_noDeliveryWarn.style.display='block';
+    if(_noDeliveryWarn){
+      _noDeliveryWarn.innerHTML=isDeliveryPaused()
+        ? '🛵 El <strong>reparto a domicilio está suspendido temporalmente</strong>. Vuelve el <strong>'+deliveryBackText()+'</strong>. Mientras tanto puedes <strong>recoger tu pedido en el local</strong>.'
+        : '🏪 Los <strong>lunes</strong> solo servimos <strong>recogida en local</strong>. ¡Gracias por entenderlo!';
+      _noDeliveryWarn.style.display='block';
+    }
   } else {
     if(_btnDom){_btnDom.disabled=false;_btnDom.style.opacity='';_btnDom.style.cursor='';}
     if(_noDeliveryWarn)_noDeliveryWarn.style.display='none';
@@ -1629,7 +1646,7 @@ const OPEN_MONDAY_EXCEPTIONS=['2026-09-07']; // lunes puntuales abiertos por exc
 // ── PROMOS MARTES A JUEVES ─────────────────────────────────────
 const PROMO_DAYS=[2,3,4]; // 2=martes, 3=miércoles, 4=jueves
 function isPromoDay(){return PROMO_DAYS.includes(new Date().getDay());}
-function availableProducts(){return PRODUCTS.filter(p=>!p.promoDays||p.promoDays.includes(new Date().getDay()));}
+function availableProducts(){return PRODUCTS.filter(p=>(!p.promoDays||p.promoDays.includes(new Date().getDay()))&&!(p.onlyType==='domicilio'&&isDeliveryPaused()));}
 function cartHasDuo(){return cart.some(i=>{const p=PRODUCTS.find(x=>x.id===i.id);return p&&p.onlyType==='domicilio';});}
 function irAlPackDuo(){
   if(!isPromoDay()){toast('El Pack Dúo vuelve el martes 🛵');document.getElementById('menu').scrollIntoView({behavior:'smooth'});return;}
@@ -1657,12 +1674,22 @@ function updPromoUI(){
   const dn=document.getElementById('promo-duo-note');
   if(dn)dn.style.display=cartHasDuo()?'block':'none';
 }
+function initAvisoEnvio(){
+  if(isNoDeliveryDay()){oType='local';shipCost=0;}
+  const el=document.getElementById('aviso-envio');
+  if(!el||!isDeliveryPaused())return;
+  const txt=document.getElementById('aviso-envio-txt');
+  if(txt)txt.textContent='El reparto a domicilio vuelve el '+deliveryBackText()+'.';
+  el.style.display='flex';
+}
 function initPromoUI(){
   const hoy=isPromoDay();
   [['chip-recogida','Disponible hoy'],['chip-duo','Disponible hoy']].forEach(([id,txt])=>{
     const el=document.getElementById(id);
     if(el&&hoy){el.textContent='✅ '+txt;el.classList.add('hoy');}
   });
+  const duo=document.getElementById('chip-duo');
+  if(duo&&isDeliveryPaused()){duo.textContent='⏸ Sin reparto — no disponible';duo.classList.remove('hoy');}
 }
 
 function isClosedDay(){
@@ -1671,14 +1698,29 @@ function isClosedDay(){
   const ymd=n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0');
   return !OPEN_MONDAY_EXCEPTIONS.includes(ymd);
 }
-function isNoDeliveryDay(){return new Date().getDay()===1;} // 1=lunes: solo recogida
+// ── REPARTO A DOMICILIO SUSPENDIDO ──────────────────────────────
+// Fecha (AAAA-MM-DD) en la que vuelve el reparto. Pon null para reactivarlo ya.
+const DELIVERY_BACK_ON='2026-10-26'; // lunes 26 de octubre
+function deliveryBackDate(){
+  if(!DELIVERY_BACK_ON) return null;
+  const d=new Date(DELIVERY_BACK_ON+'T00:00:00');
+  return (new Date()<d)?d:null;
+}
+function isDeliveryPaused(){return !!deliveryBackDate();}
+function deliveryBackText(){
+  const d=deliveryBackDate(); if(!d) return '';
+  const dias=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  const meses=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  return dias[d.getDay()]+' '+d.getDate()+' de '+meses[d.getMonth()];
+}
+function isNoDeliveryDay(){return isDeliveryPaused()||new Date().getDay()===1;} // suspensión temporal o lunes: solo recogida
 function setOT(t){
   if(t==='local'&&cartHasDuo()){
     toast('El Pack Dúo es solo a domicilio 🛵 — quítalo del carrito para recoger en local');
     return;
   }
   if(t==='domicilio'&&isNoDeliveryDay()){
-    toast('Los lunes solo recogida en local 🏪');
+    toast(isDeliveryPaused()?('Sin reparto a domicilio hasta el '+deliveryBackText()+' 🏪 Puedes recoger en el local'):'Los lunes solo recogida en local 🏪');
     return;
   }
   oType=t;
@@ -1782,7 +1824,7 @@ async function placeOrder(){
   const addr=oType==='domicilio'?`${calle}${num?' '+num:''}, CP ${cp}`:'Recogida en local';
   const notes=document.getElementById('co-notes').value.trim();
   if(!name||!phone){toast('Rellena nombre y teléfono');return;}
-  if(oType==='domicilio'&&isNoDeliveryDay()){toast('Los lunes solo recogida en local 🏪');setOT('local');return;}
+  if(oType==='domicilio'&&isNoDeliveryDay()){toast(isDeliveryPaused()?('Sin reparto a domicilio hasta el '+deliveryBackText()+' 🏪'):'Los lunes solo recogida en local 🏪');setOT('local');return;}
   if(cartHasDuo()&&!isPromoDay()){toast('El Pack Dúo solo está disponible de martes a jueves');return;}
   if(cartHasDuo()&&oType!=='domicilio'){toast('El Pack Dúo es solo a domicilio 🛵');return;}
   if(oType==='domicilio'){
