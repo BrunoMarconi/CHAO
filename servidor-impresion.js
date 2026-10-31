@@ -137,6 +137,7 @@ function buildTicket(pedido) {
     '\x1B\x61\x00' +                           // alinear izquierda
     lineas.join('') +
     sep +
+    (pedido.discount ? `Subtotal: ${Number(pedido.subtotal || 0).toFixed(2)} EUR\nDto. recogida 15%: -${Number(pedido.discount).toFixed(2)} EUR\n` : '') +
     '\x1B\x21\x10' +                           // negrita
     `TOTAL: ${Number(pedido.total || 0).toFixed(2)} EUR\n` +
     '\x1B\x21\x00' +

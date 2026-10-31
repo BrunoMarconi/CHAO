@@ -641,7 +641,7 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
 <!-- AVISO: REPARTO SUSPENDIDO -->
 <div class="aviso-envio" id="aviso-envio" style="display:none">
   <span class="aviso-envio-ico">🏪</span>
-  <p><strong>Estos días solo servimos recogida en local.</strong> <span id="aviso-envio-txt"></span></p>
+  <p><strong>Solo servimos recogida en local.</strong> <span id="aviso-envio-txt"></span></p>
   <button class="aviso-envio-btn" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Pedir para recoger</button>
 </div>
 
@@ -669,21 +669,21 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
     </div>
 
     <div class="oferta-card duo">
-      <span class="oferta-deco">🍔</span>
-      <span class="oferta-chip" id="chip-duo">Martes a jueves</span>
-      <h3>¡NUEVO!<br>EL PACK DÚO BURGER</h3>
-      <p class="oferta-txt">Dos <strong>smash burgers iguales</strong> a elegir, de la que tú quieras de la carta smash. Las dos por un precio que no vas a ver otro día.</p>
-      <div class="oferta-precio">15,99€ <small>las 2</small></div>
+      <span class="oferta-deco">🏪</span>
+      <span class="oferta-chip">Todos los días</span>
+      <h3>RECOGE EN EL LOCAL.<br>TE DESCONTAMOS UN 15%.</h3>
+      <p class="oferta-txt">Ya no hacemos reparto a domicilio. Por la molestia de venir a por tu pedido, te aplicamos un <strong>15% de descuento</strong> en todo lo que pidas online.</p>
+      <div class="oferta-precio">-15% <small>en tu pedido</small></div>
       <div class="oferta-cond">
-        <span>🛵 Solo a domicilio</span>
-        <span>📅 Martes a jueves</span>
-        <span>2 smash iguales</span>
+        <span>🏪 Recogida en local</span>
+        <span>📅 Todos los días</span>
+        <span>Sin mínimo</span>
       </div>
-      <button class="oferta-btn" onclick="irAlPackDuo()">Quiero el Pack DÚo</button>
+      <button class="oferta-btn" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Pedir y recoger</button>
     </div>
 
   </div>
-  <p class="oferta-legal">Ofertas válidas únicamente martes, miércoles y jueves. No acumulables entre sí ni con otras promociones.</p>
+  <p class="oferta-legal">Bebida gratis válida únicamente martes, miércoles y jueves. El 15% de descuento por recogida se aplica todos los días.</p>
 </section>
 
 <section class="featured" id="destacados">
@@ -709,7 +709,7 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
         <span class="pizza-tag">Masa fresca</span>
         <span class="pizza-tag">100% personalizable</span>
         <span class="pizza-tag">Hecha al momento</span>
-        <span class="pizza-tag">A domicilio</span>
+        <span class="pizza-tag">Para recoger</span>
       </div>
       <p class="pizza-price">Desde <strong>7,50€</strong> &nbsp;·&nbsp; cada ingrediente extra <strong>0,50€</strong></p>
       <div class="pizza-ctas">
@@ -783,7 +783,7 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
   <div class="why-grid">
     <div class="why-card"><div class="why-icon">🥩</div><h3 class="why-ttl">Carne de verdad</h3><p class="why-desc">Ternera fresca picada en el día. Sin mezclas raras. Solo producto con actitud.</p></div>
     <div class="why-card"><div class="why-icon">⚡</div><h3 class="why-ttl">Rapidez brutal</h3><p class="why-desc">Somos rápidos sin descuidar nada. Tu pedido listo en menos de 30 minutos.</p></div>
-    <div class="why-card"><div class="why-icon">📍</div><h3 class="why-ttl">Envío a tu zona</h3><p class="why-desc">Calculamos el coste por código postal. Sin sorpresas ni cobros raros.</p></div>
+    <div class="why-card"><div class="why-icon">🏪</div><h3 class="why-ttl">15% por recoger</h3><p class="why-desc">Pide online, pasa a por tu pedido y te descontamos un 15%. Sin letra pequeña.</p></div>
     <div class="why-card"><div class="why-icon">🔥</div><h3 class="why-ttl">Recetas propias</h3><p class="why-desc">Las salsas son nuestras. El pan también. No lo encontrarás en ningún otro sitio.</p></div>
   </div>
 </section>
@@ -893,8 +893,7 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
         <div class="fg full"><label class="flabel">Tipo de pedido</label>
           <div id="no-delivery-day-warn" style="display:none;background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:.6rem .9rem;margin-bottom:.6rem;font-size:.85rem;color:#856404;"></div>
           <div class="otype-wrap">
-            <button class="otype-btn active" id="ot-dom" onclick="setOT('domicilio')">🛵 A domicilio</button>
-            <button class="otype-btn" id="ot-local" onclick="setOT('local')">🏪 Recoger en local</button>
+            <button class="otype-btn active" id="ot-local" onclick="setOT('local')">🏪 Recoger en local · 15% dto.</button>
           </div>
         </div>
         <div class="fg full" id="promo-drink-wrap" style="display:none">
@@ -904,10 +903,7 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
             <select class="finput" id="promo-drink" onchange="setFreeDrink(this.value)"></select>
           </div>
         </div>
-        <div class="fg full" id="promo-duo-note" style="display:none">
-          <div class="promo-note">🛵 Tu pedido lleva el <strong>Pack Dúo</strong>: es una oferta <strong>solo a domicilio</strong> y válida de martes a jueves.</div>
-        </div>
-        <div class="fg full" id="addr-group">
+        <div class="fg full" id="addr-group" style="display:none">
           <div class="addr-3col" style="display:grid;grid-template-columns:110px 1fr 90px;gap:.7rem">
             <div class="fg addr-cp">
               <label class="flabel">Código postal</label>
@@ -929,18 +925,18 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
 
       <!-- PAGO -->
       <div class="pay-section" style="margin-top:1.1rem">
-        <div class="pay-notice">💳 Pago contra reembolso — pagas cuando recibes tu pedido</div>
+        <div class="pay-notice">💳 Pagas al recoger tu pedido en el local</div>
         <span class="pay-label">Método de pago</span>
         <div class="pay-btns">
           <button class="pay-btn active" id="pay-card" onclick="setPayMethod('card')">
             <span class="pay-btn-icon">💳</span>
             <span class="pay-btn-name">Tarjeta</span>
-            <span class="pay-btn-sub">TPV portátil en puerta</span>
+            <span class="pay-btn-sub">Datáfono en el local</span>
           </button>
           <button class="pay-btn" id="pay-cash" onclick="setPayMethod('cash')">
             <span class="pay-btn-icon">💵</span>
             <span class="pay-btn-name">Efectivo</span>
-            <span class="pay-btn-sub">El repartidor lleva cambio</span>
+            <span class="pay-btn-sub">Te damos el cambio</span>
           </button>
         </div>
         <div class="cash-detail" id="cash-detail">
@@ -960,12 +956,12 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
         <h4>RESUMEN</h4>
         <div id="co-sum-items"></div>
         <div style="display:flex;justify-content:space-between;padding:.6rem 0 0;font-size:.82rem;color:var(--gray)"><span>Subtotal</span><span id="co-sub"></span></div>
-        <div style="display:flex;justify-content:space-between;padding:.28rem 0;font-size:.82rem;color:var(--gray)"><span>Envío</span><span id="co-ship"></span></div>
+        <div style="display:flex;justify-content:space-between;padding:.28rem 0;font-size:.82rem;color:var(--gray)"><span>Descuento recogida (15%)</span><span id="co-ship" style="color:var(--green)"></span></div>
         <div style="display:flex;justify-content:space-between;padding:.6rem 0 0;font-family:'Black Han Sans',sans-serif;font-size:1.35rem;border-top:1.5px solid var(--cream3);margin-top:.3rem"><span>TOTAL</span><span id="co-total" style="color:var(--green)"></span></div>
       </div>
       <div style="margin-top:1.3rem;display:flex;align-items:center;gap:.6rem;background:var(--greendim);border:1px solid var(--greenborder);border-radius:var(--r2);padding:.7rem .9rem;font-size:.82rem;color:var(--green)">
         <span>💳</span>
-        <span>Pago <strong>contra reembolso</strong> — pagas cuando recibes tu pedido</span>
+        <span>Pagas <strong>al recoger</strong> tu pedido en el local</span>
       </div>
       <div style="margin-top:.75rem"><button id="co-confirm-btn" class="btn-primary" style="width:100%;padding:.9rem;font-size:.9rem;border-radius:var(--r)" onclick="placeOrder()">Confirmar pedido →</button></div>
     </div>
@@ -983,7 +979,7 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
       <div class="st-step"><div class="step-dot done" id="sdot0">✓</div><p class="slabel done">Recibido</p></div>
       <div class="st-step"><div class="step-dot" id="sdot1">2</div><p class="slabel" id="slbl1">Confirmado</p></div>
       <div class="st-step"><div class="step-dot" id="sdot2">3</div><p class="slabel" id="slbl2">Cocinando</p></div>
-      <div class="st-step"><div class="step-dot" id="sdot3">4</div><p class="slabel" id="slbl3">En reparto</p></div>
+      <div class="st-step"><div class="step-dot" id="sdot3">4</div><p class="slabel" id="slbl3">Listo para recoger</p></div>
       <div class="st-step"><div class="step-dot" id="sdot4">5</div><p class="slabel" id="slbl4">Entregado</p></div>
     </div>
     <button class="btn-st-close" onclick="document.getElementById('st-ov').classList.remove('open');if(_custUnsub){_custUnsub();_custUnsub=null;}updFab();">Cerrar</button>
@@ -1201,7 +1197,6 @@ function fbLogout() {
 // ── DATA ──────────────────────────────────────────────────────────────────────
 const PRODUCTS=[
   // ── OFERTAS (solo martes, miércoles y jueves) ──
-  {id:200,name:"Pack Dúo Smash Burger",cat:"Ofertas",price:15.99,badge:"🔥 Oferta",desc:"Dos smash burgers iguales a elegir por 15,99€. Solo a domicilio, de martes a jueves.",img:"./cheese_burger.jpeg",ingredients:[],promoDays:[2,3,4],onlyType:"domicilio",choices:["Chesee Burger","Smash Deluxe","Jam Bacon","Pull Berry","Adictiva","Chesse Boom"],choicesLabel:"Elige tu smash — te llevamos 2 iguales",extras:[]},
 
   // ── BURGERS ──
   {id:1,name:"Burger Normal",cat:"Burgers",price:6.00,badge:null,desc:"Lechuga, tomate, cebolla y mahonesa.",img:"./sin_foto.jpeg",ingredients:["Carne","Lechuga","Tomate","Cebolla","Mahonesa","Pan"],extras:[{name:"Extra queso",price:0.80},{name:"Extra bacon",price:1.00},{name:"Huevo",price:0.80}]},
@@ -1301,7 +1296,7 @@ const DELIVERY_ZONES = {
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
 // Declared with var so hoisting makes them available inside functions defined below
-var cart=[], mQty=1, mProd=null, mExtras=[], mRemoved=[], mChoice=null, mDrink=null, activeCat="Todo", oType="domicilio", shipCost=2.50;
+var cart=[], mQty=1, mProd=null, mExtras=[], mRemoved=[], mChoice=null, mDrink=null, activeCat="Todo", oType="local", shipCost=0;
 var orders=[], adminAuth=false, curOId=null, admTimer=null;
 var fbOrders=null; // null = not connected; [] = connected but empty; [...] = live data
 var soundEnabled=true;
@@ -1576,11 +1571,10 @@ function renderCart(){
   const _warn=(!_closed&&!_open)?`<div style="background:#fff3cd;border:1.5px solid #f0a500;border-radius:10px;padding:.7rem .95rem;font-size:.81rem;font-weight:700;color:#7a4f00;margin-bottom:.7rem;line-height:1.45">⏰ <strong>Fuera de horario</strong> — Cocina abierta de 19:00 a 23:30.<br>Puedes hacer tu pedido ahora pero no empezará a prepararse hasta las 19:00 y puede tardar más de lo habitual.</div>`:'';
   if(!cart.length){el.innerHTML=`<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Tu carrito está vacío.</p></div>`;ft.innerHTML=_closedWarn+_warn+`<button class="btn-checkout" disabled>Ir al pago</button>`;return;}
   el.innerHTML=cart.map((it,i)=>`<div class="c-item"><img class="c-item-img" src="${it.img}" alt="${it.name}"/><div class="c-item-info"><p class="c-item-name">${it.name}</p><p class="c-item-ext">${it.extras&&it.extras.length?'+ '+it.extras.map(e=>e.name).join(', '):''}${it.extras&&it.extras.length&&it.removed&&it.removed.length?' · ':''}${it.removed&&it.removed.length?'<span style="color:#e07b39">SIN: '+it.removed.join(', ')+'</span>':it.extras&&it.extras.length?'':'Sin cambios'}</p><div class="c-item-bot"><span class="c-item-price">${it.lineTotal.toFixed(2)}€</span><div class="c-item-qty"><button class="cqb" onclick="cCQ(${i},-1)">−</button><span style="font-size:.85rem;font-weight:600;min-width:14px;text-align:center">${it.qty}</span><button class="cqb" onclick="cCQ(${i},1)">+</button></div></div></div><button class="c-item-del" onclick="dCI(${i})">🗑</button></div>`).join('');
-  const sub=cart.reduce((a,i)=>a+i.lineTotal,0),ship=oType==='domicilio'?shipCost:0;
-  const _noDel=isDeliveryPaused()?`<div class="cart-promo" style="background:#fff3cd;border-color:#f0a500;color:#7a4f00">🏪 <strong>Sin reparto a domicilio</strong> hasta el ${deliveryBackText()}. Puedes recoger tu pedido en el local.</div>`:'';
-  const _promoDrink=isPromoDay()?`<div class="cart-promo">🥤 <strong>Recoge en local y te regalamos la bebida.</strong> Elige "Recoger en local" en el pago y escoge la que quieras.</div>`:'';
-  const _promoDuo=cartHasDuo()?`<div class="cart-promo" style="background:rgba(212,101,26,.1);border-color:var(--orange);color:var(--orange2)">🛵 El <strong>Pack Dúo</strong> es una oferta <strong>solo a domicilio</strong>, de martes a jueves.</div>`:'';
-  ft.innerHTML=_closedWarn+_warn+_noDel+_promoDrink+_promoDuo+`<div class="cart-row"><span>Subtotal</span><span>${sub.toFixed(2)} €</span></div><div class="cart-row"><span>Envío</span><span>${oType==='domicilio'?shipCost.toFixed(2)+' €':'Gratis'}</span></div><hr class="cart-divider"/><div class="cart-row total"><span>TOTAL</span><span>${(sub+ship).toFixed(2)} €</span></div><button class="btn-checkout" ${_closed?'disabled':''} onclick="oCO()">Ir al pago →</button>`;
+  const sub=cart.reduce((a,i)=>a+i.lineTotal,0),disc=pickupDiscount(sub);
+  const _noDel=`<div class="cart-promo">🏪 <strong>Solo recogida en local</strong> — y por recoger te descontamos un <strong>15%</strong>.</div>`;
+  const _promoDrink=isPromoDay()?`<div class="cart-promo">🥤 <strong>Recoge en local y te regalamos la bebida.</strong> Escoge la que quieras al hacer el pago.</div>`:'';
+  ft.innerHTML=_closedWarn+_warn+_noDel+_promoDrink+`<div class="cart-row"><span>Subtotal</span><span>${sub.toFixed(2)} €</span></div><div class="cart-row"><span>Descuento recogida (15%)</span><span>-${disc.toFixed(2)} €</span></div><hr class="cart-divider"/><div class="cart-row total"><span>TOTAL</span><span>${(sub-disc).toFixed(2)} €</span></div><button class="btn-checkout" ${_closed?'disabled':''} onclick="oCO()">Ir al pago →</button>`;
 }
 function cCQ(i,d){cart[i].qty=Math.max(1,cart[i].qty+d);cart[i].lineTotal=cart[i].unitPrice*cart[i].qty;renderCart();updCount();}
 function dCI(i){cart.splice(i,1);renderCart();updCount();}
@@ -1600,25 +1594,12 @@ function oCO(){
   if(saved.num) document.getElementById('co-num').value=saved.num;
   // Reset payment UI to default (card)
   payMethod='card';cashExact=false;cashAmount=0;
-  // Lunes y martes: solo recogida en local
-  const _noDelivery=isNoDeliveryDay();
-  const _btnDom=document.getElementById('ot-dom');
+  // Solo recogida en local (sin reparto a domicilio)
+  oType='local';shipCost=0;
   const _noDeliveryWarn=document.getElementById('no-delivery-day-warn');
-  if(_noDelivery){
-    oType='local';
-    if(_btnDom){_btnDom.disabled=true;_btnDom.classList.remove('active');_btnDom.style.opacity='0.4';_btnDom.style.cursor='not-allowed';}
-    document.getElementById('ot-local').classList.add('active');
-    document.getElementById('addr-group').style.display='none';
-    shipCost=0;
-    if(_noDeliveryWarn){
-      _noDeliveryWarn.innerHTML=isDeliveryPaused()
-        ? '🛵 El <strong>reparto a domicilio está suspendido temporalmente</strong>. Vuelve el <strong>'+deliveryBackText()+'</strong>. Mientras tanto puedes <strong>recoger tu pedido en el local</strong>.'
-        : '🏪 Los <strong>lunes</strong> solo servimos <strong>recogida en local</strong>. ¡Gracias por entenderlo!';
-      _noDeliveryWarn.style.display='block';
-    }
-  } else {
-    if(_btnDom){_btnDom.disabled=false;_btnDom.style.opacity='';_btnDom.style.cursor='';}
-    if(_noDeliveryWarn)_noDeliveryWarn.style.display='none';
+  if(_noDeliveryWarn){
+    _noDeliveryWarn.innerHTML='🏪 Ya <strong>no hacemos reparto a domicilio</strong>. Recoge tu pedido en el local y te aplicamos un <strong>15% de descuento</strong>.';
+    _noDeliveryWarn.style.display='block';
   }
   updPromoUI();
   updCS();
@@ -1671,25 +1652,21 @@ function updPromoUI(){
       }
     } else freeDrink=null;
   }
-  const dn=document.getElementById('promo-duo-note');
-  if(dn)dn.style.display=cartHasDuo()?'block':'none';
 }
 function initAvisoEnvio(){
-  if(isNoDeliveryDay()){oType='local';shipCost=0;}
+  oType='local';shipCost=0;
   const el=document.getElementById('aviso-envio');
-  if(!el||!isDeliveryPaused())return;
+  if(!el)return;
   const txt=document.getElementById('aviso-envio-txt');
-  if(txt)txt.textContent='El reparto a domicilio vuelve el '+deliveryBackText()+'.';
+  if(txt)txt.textContent='Ya no hacemos reparto a domicilio. Por recoger tu pedido te descontamos un 15%.';
   el.style.display='flex';
 }
 function initPromoUI(){
   const hoy=isPromoDay();
-  [['chip-recogida','Disponible hoy'],['chip-duo','Disponible hoy']].forEach(([id,txt])=>{
+  [['chip-recogida','Disponible hoy']].forEach(([id,txt])=>{
     const el=document.getElementById(id);
     if(el&&hoy){el.textContent='✅ '+txt;el.classList.add('hoy');}
   });
-  const duo=document.getElementById('chip-duo');
-  if(duo&&isDeliveryPaused()){duo.textContent='⏸ Sin reparto — no disponible';duo.classList.remove('hoy');}
 }
 
 function isClosedDay(){
@@ -1698,52 +1675,29 @@ function isClosedDay(){
   const ymd=n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0');
   return !OPEN_MONDAY_EXCEPTIONS.includes(ymd);
 }
-// ── REPARTO A DOMICILIO SUSPENDIDO ──────────────────────────────
-// Fecha (AAAA-MM-DD) en la que vuelve el reparto. Pon null para reactivarlo ya.
-const DELIVERY_BACK_ON='2026-10-26'; // lunes 26 de octubre
-function deliveryBackDate(){
-  if(!DELIVERY_BACK_ON) return null;
-  const d=new Date(DELIVERY_BACK_ON+'T00:00:00');
-  return (new Date()<d)?d:null;
-}
-function isDeliveryPaused(){return !!deliveryBackDate();}
-function deliveryBackText(){
-  const d=deliveryBackDate(); if(!d) return '';
-  const dias=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
-  const meses=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-  return dias[d.getDay()]+' '+d.getDate()+' de '+meses[d.getMonth()];
-}
-function isNoDeliveryDay(){return isDeliveryPaused()||new Date().getDay()===1;} // suspensión temporal o lunes: solo recogida
+// ── SIN REPARTO A DOMICILIO: SOLO RECOGIDA EN LOCAL ─────────────
+// Los pedidos para recoger en el local tienen un 15% de descuento.
+const PICKUP_DISCOUNT=0.15;
+function pickupDiscount(sub){return oType==='local'?Math.round(sub*PICKUP_DISCOUNT*100)/100:0;}
+function isDeliveryPaused(){return true;}
+function isNoDeliveryDay(){return true;}
 function setOT(t){
-  if(t==='local'&&cartHasDuo()){
-    toast('El Pack Dúo es solo a domicilio 🛵 — quítalo del carrito para recoger en local');
-    return;
-  }
-  if(t==='domicilio'&&isNoDeliveryDay()){
-    toast(isDeliveryPaused()?('Sin reparto a domicilio hasta el '+deliveryBackText()+' 🏪 Puedes recoger en el local'):'Los lunes solo recogida en local 🏪');
-    return;
-  }
-  oType=t;
-  document.getElementById('ot-dom').classList.toggle('active',t==='domicilio');
-  document.getElementById('ot-local').classList.toggle('active',t==='local');
-  document.getElementById('addr-group').style.display=t==='domicilio'?'block':'none';
-  document.getElementById('dinfo-wrap').innerHTML='';
-  if(t==='domicilio'){
-    const cp=(document.getElementById('co-cp')||{}).value||'';
-    if(cp.length===5&&DELIVERY_ZONES[cp]) shipCost=DELIVERY_ZONES[cp].price;
-    else shipCost=2.50;
-  } else { shipCost=0; }
+  if(t!=='local'){toast('Solo recogida en local 🏪 — ¡con un 15% de descuento!');}
+  oType='local';shipCost=0;
+  const bl=document.getElementById('ot-local');if(bl)bl.classList.add('active');
+  const ag=document.getElementById('addr-group');if(ag)ag.style.display='none';
+  const dw=document.getElementById('dinfo-wrap');if(dw)dw.innerHTML='';
   updPromoUI();
   updCS();
 }
 function updCS(){
-  const sub=cart.reduce((a,i)=>a+i.lineTotal,0),ship=oType==='domicilio'?shipCost:0;
+  const sub=cart.reduce((a,i)=>a+i.lineTotal,0),disc=pickupDiscount(sub);
   const si=document.getElementById('co-sum-items');
   if(si)si.innerHTML=cart.map(i=>`<div class="sum-item"><span class="sum-item-n">${i.qty}× ${i.name}</span><span class="sum-item-p">${i.lineTotal.toFixed(2)}€</span></div>`).join('');
   const s=document.getElementById('co-sub'),sh=document.getElementById('co-ship'),t=document.getElementById('co-total');
   if(s)s.textContent=sub.toFixed(2)+'€';
-  if(sh)sh.textContent=oType==='domicilio'?shipCost.toFixed(2)+'€':'Gratis';
-  if(t)t.textContent=(sub+ship).toFixed(2)+'€';
+  if(sh)sh.textContent='-'+disc.toFixed(2)+'€';
+  if(t)t.textContent=(sub-disc).toFixed(2)+'€';
   // Refresh change calculation if cash is selected
   if(payMethod==='cash'&&!cashExact){
     const ca=document.getElementById('cash-amount');
@@ -1798,7 +1752,7 @@ function toggleCashExact(){
   }
 }
 function calcChange(){
-  const total=cart.reduce((a,i)=>a+i.lineTotal,0)+(oType==='domicilio'?shipCost:0);
+  const _s=cart.reduce((a,i)=>a+i.lineTotal,0),total=_s-pickupDiscount(_s);
   const given=parseFloat(document.getElementById('cash-amount').value)||0;
   cashAmount=given;
   const infoDiv=document.getElementById('cash-change-info');
@@ -1824,19 +1778,10 @@ async function placeOrder(){
   const addr=oType==='domicilio'?`${calle}${num?' '+num:''}, CP ${cp}`:'Recogida en local';
   const notes=document.getElementById('co-notes').value.trim();
   if(!name||!phone){toast('Rellena nombre y teléfono');return;}
-  if(oType==='domicilio'&&isNoDeliveryDay()){toast(isDeliveryPaused()?('Sin reparto a domicilio hasta el '+deliveryBackText()+' 🏪'):'Los lunes solo recogida en local 🏪');setOT('local');return;}
-  if(cartHasDuo()&&!isPromoDay()){toast('El Pack Dúo solo está disponible de martes a jueves');return;}
-  if(cartHasDuo()&&oType!=='domicilio'){toast('El Pack Dúo es solo a domicilio 🛵');return;}
-  if(oType==='domicilio'){
-    const _sub=cart.reduce((a,i)=>a+i.lineTotal,0);
-    if(_sub<12.50){toast('El pedido mínimo a domicilio es 12,50 €');return;}
-    if(!cp||cp.length<5){toast('Introduce el código postal');return;}
-    if(!DELIVERY_ZONES[cp]){toast('Código postal fuera de zona de reparto');return;}
-    if(!calle){toast('Introduce la calle');return;}
-  }
+  if(oType!=='local'){setOT('local');}
   // Validate payment
   if(payMethod==='cash'&&!cashExact){
-    const total=cart.reduce((a,i)=>a+i.lineTotal,0)+(oType==='domicilio'?shipCost:0);
+    const _s=cart.reduce((a,i)=>a+i.lineTotal,0),total=_s-pickupDiscount(_s);
     if(!cashAmount||cashAmount<=0){toast('Indica con cuánto vas a pagar en efectivo');return;}
     if(cashAmount<total){toast('El importe no cubre el total del pedido');return;}
   }
@@ -1861,8 +1806,8 @@ async function placeOrder(){
   const id='Pedido '+orderNum;
   // Guardar datos del cliente para próximos pedidos
   localStorage.setItem('bb_customer', JSON.stringify({name,phone,cp,calle,num}));
-  const sub=cart.reduce((a,i)=>a+i.lineTotal,0),ship=oType==='domicilio'?shipCost:0;
-  const total=sub+ship;
+  const sub=cart.reduce((a,i)=>a+i.lineTotal,0),ship=0,discount=pickupDiscount(sub);
+  const total=parseFloat((sub-discount).toFixed(2));
   // Build payment info
   let payInfo={method:payMethod};
   if(payMethod==='cash'){
@@ -1878,7 +1823,7 @@ async function placeOrder(){
     const _d=PRODUCTS.find(x=>x.cat==='Bebidas'&&x.name===freeDrink);
     items.push({id:'promo-bebida',name:'🥤 '+freeDrink+' — GRATIS (promo recogida)',img:_d?_d.img:'./sin_foto.jpeg',unitPrice:0,qty:1,lineTotal:0,extras:[],removed:[],promo:true});
   }
-  const order={id,name,phone,address:addr,notes,type:oType,items,subtotal:sub,shipping:ship,total,payment:payInfo,promoDrink,status:'nuevos',time:tStr,timestamp:Date.now(),isNew:true};
+  const order={id,name,phone,address:addr,notes,type:oType,items,subtotal:sub,shipping:ship,discount,total,payment:payInfo,promoDrink,status:'nuevos',time:tStr,timestamp:Date.now(),isNew:true};
   // Save to Firestore (async, non-blocking)
   fbSaveOrder(order).then(fbId => {
     if(fbId) {
@@ -1898,9 +1843,9 @@ async function placeOrder(){
 
 // ── STATUS ────────────────────────────────────────────────────────────────────
 const STSTEPS=['nuevos','preparacion','listos','reparto','entregado'];
-const STLBLS=['Recibido','Confirmado','Cocinando','En reparto','Entregado'];
+const STLBLS=['Recibido','Confirmado','Cocinando','Listo para recoger','Entregado'];
 const STTITLES={nuevos:'¡EN PREPARACIÓN!',preparacion:'EN PREPARACIÓN',listos:'¡LISTO!',reparto:'EN CAMINO 🛵',entregado:'¡ENTREGADO!'};
-const STMSGS={nuevos:'Hemos recibido tu pedido y ya lo estamos preparando en cocina.',preparacion:'¡Confirmado! Nuestros cocineros están en ello.',listos:'Tu pedido está listo y sale en breve.',reparto:'El repartidor está en camino.',entregado:'¡Buen provecho! Gracias por confiar en Brutal.'};
+const STMSGS={nuevos:'Hemos recibido tu pedido y ya lo estamos preparando en cocina.',preparacion:'¡Confirmado! Nuestros cocineros están en ello.',listos:'Tu pedido está listo. ¡Pásate a recogerlo!',reparto:'El repartidor está en camino.',entregado:'¡Buen provecho! Gracias por confiar en Brutal.'};
 
 let _custUnsub=null;
 function openSt(id){
