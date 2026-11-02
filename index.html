@@ -1623,7 +1623,7 @@ function oCO(){
   },50);
 }
 function closeCO(){document.getElementById('checkout-ov').classList.remove('open');document.body.style.overflow='';}
-const OPEN_MONDAY_EXCEPTIONS=['2026-09-07']; // lunes puntuales abiertos por excepción
+const OPEN_MONDAY_EXCEPTIONS=['2026-09-07','2026-11-02']; // lunes puntuales abiertos por excepción
 // ── PROMOS MARTES A JUEVES ─────────────────────────────────────
 const PROMO_DAYS=[2,3,4]; // 2=martes, 3=miércoles, 4=jueves
 function isPromoDay(){return PROMO_DAYS.includes(new Date().getDay());}
