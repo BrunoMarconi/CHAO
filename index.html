@@ -1080,7 +1080,7 @@ window.addEventListener('load', () => {
     } else {
       tag.style.background='rgba(160,60,40,.85)';
       dot.style.background='#ff9966';
-      txt.textContent=closedToday?'Cerrado los lunes · Abrimos martes':'Cerrado · Abrimos a las 19:00';
+      txt.textContent=closedToday?(isRestDay()?'Hoy cerrado por descanso':'Cerrado los lunes · Abrimos martes'):'Cerrado · Abrimos a las 19:00';
     }
   }
   updateOpenWidget();
@@ -1567,7 +1567,7 @@ function renderCart(){
   const el=document.getElementById('cart-items-list'),ft=document.getElementById('cart-footer');
   const _now=new Date(),_h=_now.getHours(),_open=(_h>=19)||(_h===0);
   const _closed=isClosedDay();
-  const _closedWarn=_closed?`<div style="background:#f8d7da;border:1.5px solid #dc3545;border-radius:10px;padding:.7rem .95rem;font-size:.81rem;font-weight:700;color:#721c24;margin-bottom:.7rem;line-height:1.45">🚫 <strong>Cerrado los lunes</strong><br>Hoy no podemos aceptar pedidos. ¡Te esperamos el martes a partir de las 19:00!</div>`:'';
+  const _closedWarn=_closed?`<div style="background:#f8d7da;border:1.5px solid #dc3545;border-radius:10px;padding:.7rem .95rem;font-size:.81rem;font-weight:700;color:#721c24;margin-bottom:.7rem;line-height:1.45">🚫 <strong>${isRestDay()?'Hoy cerrado por descanso':'Cerrado los lunes'}</strong><br>Hoy no podemos aceptar pedidos. ¡Te esperamos ${isRestDay()?'mañana':'el martes'} a partir de las 19:00!</div>`:'';
   const _warn=(!_closed&&!_open)?`<div style="background:#fff3cd;border:1.5px solid #f0a500;border-radius:10px;padding:.7rem .95rem;font-size:.81rem;font-weight:700;color:#7a4f00;margin-bottom:.7rem;line-height:1.45">⏰ <strong>Fuera de horario</strong> — Cocina abierta de 19:00 a 23:30.<br>Puedes hacer tu pedido ahora pero no empezará a prepararse hasta las 19:00 y puede tardar más de lo habitual.</div>`:'';
   if(!cart.length){el.innerHTML=`<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Tu carrito está vacío.</p></div>`;ft.innerHTML=_closedWarn+_warn+`<button class="btn-checkout" disabled>Ir al pago</button>`;return;}
   el.innerHTML=cart.map((it,i)=>`<div class="c-item"><img class="c-item-img" src="${it.img}" alt="${it.name}"/><div class="c-item-info"><p class="c-item-name">${it.name}</p><p class="c-item-ext">${it.extras&&it.extras.length?'+ '+it.extras.map(e=>e.name).join(', '):''}${it.extras&&it.extras.length&&it.removed&&it.removed.length?' · ':''}${it.removed&&it.removed.length?'<span style="color:#e07b39">SIN: '+it.removed.join(', ')+'</span>':it.extras&&it.extras.length?'':'Sin cambios'}</p><div class="c-item-bot"><span class="c-item-price">${it.lineTotal.toFixed(2)}€</span><div class="c-item-qty"><button class="cqb" onclick="cCQ(${i},-1)">−</button><span style="font-size:.85rem;font-weight:600;min-width:14px;text-align:center">${it.qty}</span><button class="cqb" onclick="cCQ(${i},1)">+</button></div></div></div><button class="c-item-del" onclick="dCI(${i})">🗑</button></div>`).join('');
@@ -1582,7 +1582,7 @@ function updCount(){document.getElementById('cart-count').textContent=cart.reduc
 
 // ── CHECKOUT ──────────────────────────────────────────────────────────────────
 function oCO(){
-  if(isClosedDay()){toast('Los lunes permanecemos cerrados 🚫 ¡Te esperamos martes a partir de las 19:00!');return;}
+  if(isClosedDay()){toast(closedToast());return;}
   closeCart();
   if(!cart.length){toast('Añade productos primero');return;}
   // Autorellenar datos guardados
@@ -1624,6 +1624,10 @@ function oCO(){
 }
 function closeCO(){document.getElementById('checkout-ov').classList.remove('open');document.body.style.overflow='';}
 const OPEN_MONDAY_EXCEPTIONS=['2026-09-07','2026-11-02']; // lunes puntuales abiertos por excepción
+const EXTRA_CLOSED_DAYS=['2026-11-11']; // días puntuales cerrados por descanso
+function _ymd(n){return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0');}
+function isRestDay(){return EXTRA_CLOSED_DAYS.includes(_ymd(new Date()));}
+function closedToast(){return isRestDay()?'Hoy cerramos por descanso 🚫 ¡Te esperamos mañana a partir de las 19:00!':'Los lunes permanecemos cerrados 🚫 ¡Te esperamos martes a partir de las 19:00!';}
 // ── PROMOS MARTES A JUEVES ─────────────────────────────────────
 const PROMO_DAYS=[2,3,4]; // 2=martes, 3=miércoles, 4=jueves
 function isPromoDay(){return PROMO_DAYS.includes(new Date().getDay());}
@@ -1671,8 +1675,9 @@ function initPromoUI(){
 
 function isClosedDay(){
   const n=new Date();
+  const ymd=_ymd(n);
+  if(EXTRA_CLOSED_DAYS.includes(ymd)) return true; // cierre puntual por descanso
   if(n.getDay()!==1) return false; // solo cerramos los lunes
-  const ymd=n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0');
   return !OPEN_MONDAY_EXCEPTIONS.includes(ymd);
 }
 // ── SIN REPARTO A DOMICILIO: SOLO RECOGIDA EN LOCAL ─────────────
@@ -1770,7 +1775,7 @@ function calcChange(){
 }
 
 async function placeOrder(){
-  if(isClosedDay()){toast('Los lunes permanecemos cerrados 🚫 ¡Te esperamos martes a partir de las 19:00!');closeCO();return;}
+  if(isClosedDay()){toast(closedToast());closeCO();return;}
   const name=document.getElementById('co-name').value.trim(),phone=document.getElementById('co-phone').value.trim();
   const cp=oType==='domicilio'?(document.getElementById('co-cp').value||'').trim():'';
   const calle=oType==='domicilio'?(document.getElementById('co-calle').value||'').trim():'';
