@@ -69,7 +69,7 @@ app.post('/print', (req, res) => {
   printedIds.delete(oid);
 
   const rawStr = buildTicket(pedido);
-  const buf    = Buffer.from(rawStr, 'binary');
+  const buf    = Buffer.from(toPrinterText(rawStr), 'binary');
 
   if (printer) {
     // ── Método 1: node-printer (nativo Windows) ───────────────
@@ -102,6 +102,21 @@ app.post('/print', (req, res) => {
 });
 
 // ── Generar ESC/POS ───────────────────────────────────────────
+// La impresora usa la tabla de caracteres CP437/CP850 (no Latin-1):
+// sin esta conversión la "ú" sale como "·", etc.
+const CP_MAP = {
+  'á':'\xA0','é':'\x82','í':'\xA1','ó':'\xA2','ú':'\xA3','ñ':'\xA4','Ñ':'\xA5',
+  'ü':'\x81','Ü':'\x9A','É':'\x90','ç':'\x87','Ç':'\x80','¡':'\xAD','¿':'\xA8',
+  'º':'\xA7','ª':'\xA6','€':'EUR'
+};
+function toPrinterText(str) {
+  return String(str).replace(/[^\x00-\x7F]/gu, ch => {
+    if (CP_MAP[ch]) return CP_MAP[ch];
+    const base = ch.normalize('NFD').replace(/[̀-ͯ]/g, '');
+    return /^[\x00-\x7F]+$/.test(base) ? base : '?';
+  });
+}
+
 function buildTicket(pedido) {
   const sep   = '--------------------------------\n';
   const fecha = new Date().toLocaleString('es-ES', { hour12: false });
