@@ -1064,7 +1064,7 @@ async function reprintTicket(id) {
   }
 }
 
-window.addEventListener('load', () => {
+document.addEventListener('DOMContentLoaded', () => {
   // Widget abierto/cerrado
   function updateOpenWidget(){
     const n=new Date(),h=n.getHours(),m=n.getMinutes(),closedToday=isClosedDay();
@@ -1482,7 +1482,6 @@ document.addEventListener('DOMContentLoaded',()=>{
   fbInit();
   orders = loadOrders();
   renderFeatured();renderCats();renderMenu("Todo");updCount();
-  document.getElementById('addr-group').style.display='block';
   setInterval(checkMidnightReset, 30000);
   if(location.hash==='#admin') setTimeout(openAdmin, 300);
   initAvisoEnvio();
