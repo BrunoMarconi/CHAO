@@ -3,18 +3,21 @@ rules_version = '2';
 // Reglas de Firestore de Burger Chao.
 // Copia TODO este archivo en Firebase Console → Firestore Database → Reglas → Publicar.
 //
-// - orders y counters se dejan como estaban (abiertos), para no romper el flujo actual de pedidos.
-// - clientes (publicidad) está protegido: la web solo puede ESCRIBIR altas de clientes
+// - orders y counters: exactamente las reglas que ya estaban publicadas (sin cambios).
+// - clientes (publicidad) es lo único nuevo: la web solo puede ESCRIBIR altas de clientes
 //   que han aceptado; LEER la lista, dar de baja o borrar solo puede hacerlo el admin (sesión iniciada).
 
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    match /orders/{document=**} {
-      allow read, write: if true;
+    match /orders/{orderId} {
+      allow create: if true;
+      allow read:   if true;
+      allow update: if request.auth != null;
+      allow delete: if true;
     }
 
-    match /counters/{document=**} {
+    match /counters/{docId} {
       allow read, write: if true;
     }
 
