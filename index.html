@@ -395,6 +395,43 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
 @keyframes spulse{0%,100%{box-shadow:0 0 0 0 rgba(58,125,68,.5)}50%{box-shadow:0 0 0 8px rgba(58,125,68,0)}}
 .slabel{font-size:.62rem;color:var(--gray2);text-align:center;letter-spacing:.05em;text-transform:uppercase;line-height:1.3;font-weight:700}
 .slabel.active,.slabel.done{color:var(--green)}
+.st-modal{max-height:92vh;overflow-y:auto}
+.st-spin{width:48px;height:48px;border:4px solid var(--cream3);border-top-color:var(--green);border-radius:50%;animation:stSpin .8s linear infinite;margin:0 auto}
+@keyframes stSpin{to{transform:rotate(360deg)}}
+.st-eta{background:linear-gradient(135deg,rgba(58,125,68,.09),rgba(58,125,68,.03));border:2px solid var(--greenborder);border-radius:14px;padding:.85rem 1.1rem;margin:-.6rem 0 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:.8rem;text-align:left}
+.st-eta-l{font-size:.66rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--green)}
+.st-eta-sub{font-size:.8rem;color:var(--gray);font-weight:700;margin-top:.15rem}
+.st-eta-v{font-family:'Black Han Sans',sans-serif;font-size:2.3rem;color:var(--green);line-height:1;white-space:nowrap}
+.st-eta.late{background:rgba(212,101,26,.07);border-color:var(--orangeborder)}
+.st-eta.late .st-eta-l,.st-eta.late .st-eta-v{color:var(--orange)}
+.st-kitchen{display:inline-flex;align-items:center;gap:.4rem;background:var(--cream);border:1.5px solid var(--cream3);border-radius:100px;padding:.3rem .8rem;font-size:.76rem;font-weight:800;color:var(--brown2);margin:-.9rem 0 1.3rem}
+.st-btns{display:flex;gap:.6rem;margin:-.4rem 0 1.3rem}
+.st-btn{flex:1;padding:.75rem;border-radius:100px;font-weight:900;font-size:.88rem;text-decoration:none;text-align:center;display:inline-flex;align-items:center;justify-content:center;gap:.35rem}
+.st-btn.primary{background:var(--green);color:var(--white);box-shadow:0 4px 14px rgba(58,125,68,.3)}
+.st-btn.primary:hover{background:var(--greenl)}
+.st-btn.primary:disabled{opacity:.6;cursor:wait}
+.st-btn.ghost{background:var(--white);color:var(--brown2);border:2px solid var(--cream3)}
+.st-btn.ghost:hover{border-color:var(--green);color:var(--green)}
+.st-sum{text-align:left;background:var(--cream);border:2px solid var(--cream3);border-radius:14px;margin:0 0 1.2rem;overflow:hidden}
+.st-sum summary{list-style:none;cursor:pointer;padding:.75rem 1rem;display:flex;align-items:center;justify-content:space-between;font-weight:900;font-size:.86rem;color:var(--brown)}
+.st-sum summary::-webkit-details-marker{display:none}
+.st-sum summary::after{content:'▾';color:var(--gray);transition:transform .2s}
+.st-sum[open] summary::after{transform:rotate(180deg)}
+.st-sum-body{padding:0 1rem .9rem}
+.st-sum-item{display:flex;justify-content:space-between;gap:.8rem;padding:.4rem 0;border-bottom:1.5px solid var(--cream3);font-size:.84rem}
+.st-sum-item:last-of-type{border-bottom:none}
+.st-sum-n{color:var(--brown);font-weight:800}
+.st-sum-x{display:block;font-size:.72rem;color:var(--gray);font-weight:700}
+.st-sum-x.rm{color:var(--orange2)}
+.st-sum-p{color:var(--brown);font-weight:800;white-space:nowrap}
+.st-sum-tot{display:flex;justify-content:space-between;font-size:.82rem;color:var(--gray);font-weight:700;padding-top:.3rem}
+.st-sum-tot.big{font-family:'Black Han Sans',sans-serif;font-size:1.25rem;color:var(--brown);padding-top:.45rem;border-top:2px solid var(--cream3);margin-top:.35rem}
+.st-sum-tot.big span:last-child{color:var(--orange)}
+.st-sum-meta{margin-top:.75rem;display:flex;flex-direction:column;gap:.3rem;font-size:.8rem;color:var(--brown3);font-weight:700}
+.st-help{font-size:.76rem;color:var(--gray2);font-weight:700;margin:-.4rem 0 1rem}
+.st-help a{color:var(--gray);font-weight:900}
+.st-steps.st-4 .st-step{flex:1}
+@media(max-width:420px){.st-modal{padding:1.7rem 1.2rem}.slabel{font-size:.56rem}.st-eta-v{font-size:2rem}}
 .btn-st-close{background:var(--cream2);color:var(--brown2);border:2px solid var(--cream3);padding:.56rem 1.5rem;border-radius:100px;font-size:.85rem;font-weight:800}
 .btn-st-close:hover{border-color:var(--green);color:var(--green)}
 
@@ -411,6 +448,111 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
 .confirm-yes:hover{background:#a93226}
 .confirm-no{flex:1;background:var(--cream2);color:var(--brown2);border:2px solid var(--cream3);padding:.78rem;border-radius:100px;font-weight:800;font-size:.9rem}
 .confirm-no:hover{border-color:var(--green);color:var(--green)}
+
+/* NOVEDADES (consentimiento publicidad) */
+.nl-ov{position:fixed;inset:0;background:rgba(30,26,18,.72);z-index:450;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .25s;backdrop-filter:blur(5px)}
+.nl-ov.open{opacity:1;pointer-events:all}
+.nl-box{background:var(--white);border-radius:22px;width:100%;max-width:420px;max-height:92vh;overflow-y:auto;position:relative;box-shadow:0 24px 70px rgba(30,26,18,.35);transform:translateY(24px) scale(.97);transition:transform .32s cubic-bezier(.2,.9,.3,1.2)}
+.nl-ov.open .nl-box{transform:translateY(0) scale(1)}
+.nl-hd{background:linear-gradient(135deg,var(--green) 0%,var(--green3) 100%);color:var(--white);padding:1.7rem 1.6rem 1.4rem;border-radius:22px 22px 0 0;position:relative;overflow:hidden;text-align:center}
+.nl-hd::after{content:'CHAO';position:absolute;right:-12px;bottom:-22px;font-family:'Black Han Sans',sans-serif;font-size:5.5rem;opacity:.08;letter-spacing:.02em;transform:rotate(-8deg);pointer-events:none}
+.nl-emoji{font-size:2.6rem;line-height:1;display:inline-block;animation:nlWiggle 2.4s ease-in-out infinite}
+@keyframes nlWiggle{0%,100%{transform:rotate(0)}10%{transform:rotate(-12deg)}20%{transform:rotate(10deg)}30%{transform:rotate(0)}}
+.nl-hd h3{font-family:'Black Han Sans',sans-serif;font-size:1.85rem;margin:.55rem 0 .3rem;letter-spacing:.02em}
+.nl-hd p{font-size:.88rem;opacity:.9;font-weight:700;line-height:1.45}
+.nl-body{padding:1.3rem 1.5rem 1.4rem}
+.nl-perks{list-style:none;display:flex;flex-direction:column;gap:.55rem;margin-bottom:1.1rem}
+.nl-perks li{display:flex;align-items:center;gap:.7rem;font-size:.88rem;font-weight:700;color:var(--brown2)}
+.nl-perk-ico{width:34px;height:34px;flex-shrink:0;border-radius:10px;background:var(--orangedim);display:flex;align-items:center;justify-content:center;font-size:1.05rem}
+.nl-phone{background:var(--cream);border:2px dashed var(--cream3);border-radius:var(--r2);padding:.6rem .85rem;font-size:.82rem;color:var(--gray);font-weight:700;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+.nl-phone strong{color:var(--brown);font-weight:900}
+.nl-email{width:100%;margin-bottom:.35rem}
+.nl-email.err{border-color:var(--red)}
+.nl-hint{font-size:.72rem;color:var(--gray2);font-weight:700;margin-bottom:1.05rem}
+.nl-hint.err{color:var(--red)}
+.nl-btns{display:grid;grid-template-columns:1fr 1fr;gap:.65rem}
+.nl-yes,.nl-no{padding:.85rem .6rem;border-radius:100px;font-weight:900;font-size:.92rem;letter-spacing:.02em}
+.nl-yes{background:var(--green);color:var(--white);border:2px solid var(--green);box-shadow:0 4px 16px rgba(58,125,68,.3)}
+.nl-yes:hover{background:var(--greenl);border-color:var(--greenl);transform:translateY(-1px)}
+.nl-no{background:var(--white);color:var(--brown2);border:2px solid var(--cream3)}
+.nl-no:hover{border-color:var(--brown3);color:var(--brown)}
+.nl-yes:disabled,.nl-no:disabled{opacity:.6;cursor:wait;transform:none}
+.nl-legal{font-size:.68rem;color:var(--gray2);line-height:1.5;margin-top:1rem;text-align:center;font-weight:600}
+.nl-legal a{color:var(--gray);font-weight:800}
+.nl-x{position:absolute;top:.75rem;right:.75rem;background:rgba(255,255,255,.18);color:var(--white);width:32px;height:32px;border-radius:50%;font-size:.95rem;font-weight:800;z-index:2;display:flex;align-items:center;justify-content:center}
+.nl-x:hover{background:rgba(255,255,255,.32)}
+.nl-done{text-align:center;padding:2.2rem 1.6rem 1.8rem}
+.nl-done .nl-emoji{font-size:3rem;animation:none}
+.nl-done h3{font-family:'Black Han Sans',sans-serif;font-size:1.7rem;margin:.6rem 0 .35rem;color:var(--brown)}
+.nl-done p{font-size:.9rem;color:var(--gray);font-weight:700;margin-bottom:1.3rem}
+
+/* PRIVACIDAD */
+.priv-ov{z-index:700}
+.priv-modal{max-width:640px}
+.priv-modal h3{font-family:'Black Han Sans',sans-serif;font-size:1.05rem;color:var(--brown);margin:1.1rem 0 .35rem}
+.priv-modal p,.priv-modal li{font-size:.86rem;color:var(--brown3);line-height:1.65;font-weight:600}
+.priv-modal ul{padding-left:1.2rem;display:flex;flex-direction:column;gap:.25rem}
+.priv-link{background:none;border:none;color:inherit;font:inherit;text-decoration:underline;cursor:pointer;padding:0}
+
+/* ADMIN · CLIENTES */
+.cl-wrap{flex:1;min-height:0;overflow-y:auto;padding:1.2rem 1.4rem 2rem}
+.cl-wrap::-webkit-scrollbar{width:5px}
+.cl-wrap::-webkit-scrollbar-thumb{background:#222;border-radius:3px}
+.cl-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.7rem;margin-bottom:1.1rem}
+.cl-kpi{background:#161616;border:1px solid #222;border-radius:12px;padding:.85rem 1rem}
+.cl-kpi-l{font-size:.62rem;color:#666;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-bottom:.3rem}
+.cl-kpi-v{font-family:'Black Han Sans',sans-serif;font-size:1.7rem;color:#f5f0e8;line-height:1}
+.cl-kpi-v.green{color:#6dc994}.cl-kpi-v.orange{color:#e07b39}
+.cl-tools{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;margin-bottom:.9rem}
+.cl-search{flex:1;min-width:200px;background:#161616;border:1px solid #2a2a2a;border-radius:8px;padding:.55rem .8rem;color:#f5f0e8;font-size:.85rem;font-weight:600;outline:none}
+.cl-search:focus{border-color:#3a8c5c}
+.cl-search::placeholder{color:#555}
+.cl-filters{display:flex;gap:.35rem}
+.cl-filter{background:#161616;border:1px solid #2a2a2a;color:#888;padding:.45rem .8rem;border-radius:8px;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.cl-filter:hover{color:#6dc994;border-color:#3a8c5c}
+.cl-filter.active{background:rgba(58,140,92,.14);color:#6dc994;border-color:rgba(58,140,92,.4)}
+.cl-action{background:#245a3b;color:#e8fff0;border:1px solid rgba(58,140,92,.4);padding:.5rem .9rem;border-radius:8px;font-size:.74rem;font-weight:800;letter-spacing:.03em;white-space:nowrap}
+.cl-action:hover{background:#3a8c5c}
+.cl-action.ghost{background:#161616;color:#c8c7c0;border-color:#2a2a2a}
+.cl-action.ghost:hover{border-color:#6dc994;color:#6dc994}
+.cl-table{width:100%;border-collapse:separate;border-spacing:0;background:#111;border:1px solid #222;border-radius:12px;overflow:hidden}
+.cl-table th{text-align:left;font-size:.62rem;color:#666;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:.7rem .85rem;background:#161616;border-bottom:1px solid #222;white-space:nowrap}
+.cl-table td{padding:.7rem .85rem;border-bottom:1px solid #1b1b1b;font-size:.84rem;color:#e8e3d8;font-weight:600;vertical-align:middle}
+.cl-table tr:last-child td{border-bottom:none}
+.cl-table tr:hover td{background:#151515}
+.cl-table tr.baja td{opacity:.45}
+.cl-name{font-weight:800;color:#f5f0e8}
+.cl-muted{color:#666;font-size:.76rem}
+.cl-pill{display:inline-block;font-size:.62rem;font-weight:800;padding:.14rem .5rem;border-radius:100px;letter-spacing:.05em;text-transform:uppercase}
+.cl-pill.on{background:rgba(58,140,92,.14);color:#6dc994;border:1px solid rgba(58,140,92,.35)}
+.cl-pill.off{background:rgba(214,68,68,.1);color:#d47070;border:1px solid rgba(214,68,68,.3)}
+.cl-row-btns{display:flex;gap:.35rem;justify-content:flex-end}
+.cl-ico-btn{background:#1b1b1b;border:1px solid #2a2a2a;color:#c8c7c0;height:30px;padding:0 .6rem;border-radius:7px;font-size:.72rem;font-weight:700;white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center;gap:.25rem}
+.cl-ico-btn:hover{border-color:#6dc994;color:#6dc994}
+.cl-ico-btn.danger:hover{border-color:#d64444;color:#d64444}
+.cl-empty{text-align:center;color:#555;padding:3rem 1rem;border:1px dashed #222;border-radius:12px;font-size:.88rem;font-weight:600}
+.cl-empty strong{display:block;color:#888;font-size:1rem;margin-bottom:.3rem}
+.cl-note{font-size:.74rem;color:#555;margin-top:.9rem;line-height:1.5;font-weight:600}
+.adm-tab-btn{background:#1e1e1e;color:#c8c7c0;border:1px solid #2a2a2a;padding:.35rem .8rem;border-radius:8px;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.adm-tab-btn:hover{border-color:#6dc994;color:#6dc994}
+.adm-tab-btn.active{background:rgba(58,140,92,.16);border-color:rgba(58,140,92,.45);color:#6dc994}
+@media(max-width:900px){
+  .cl-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cl-table thead{display:none}
+  .cl-table,.cl-table tbody,.cl-table tr,.cl-table td{display:block;width:100%}
+  .cl-table tr{border-bottom:1px solid #222;padding:.55rem .2rem}
+  .cl-table td{border:none;padding:.18rem .75rem}
+  .cl-table td[data-label]::before{content:attr(data-label);display:inline-block;min-width:105px;color:#666;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700}
+  .cl-row-btns{justify-content:flex-start;margin-top:.35rem}
+}
+@media(max-width:768px){.adm-time{display:none}}
+@media(max-width:600px){.adm-tab-txt{display:none}.adm-tab-btn{padding:.35rem .55rem}}
+@media(max-width:520px){
+  .nl-hd{padding:1.4rem 1.2rem 1.2rem}
+  .nl-hd h3{font-size:1.55rem}
+  .nl-body{padding:1.1rem 1.15rem 1.2rem}
+  .cl-wrap{padding:.9rem .8rem 2rem}
+}
 
 /* ADMIN - dark theme */
 .adm-ov{position:fixed;inset:0;background:#080808;z-index:500;opacity:0;pointer-events:none;transition:opacity .22s;overflow:hidden;display:flex;flex-direction:column}
@@ -835,7 +977,8 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
       <a class="soc-link" href="#">TK</a>
     </div>
   </div>
-  <p style="text-align:center;font-size:.7rem;opacity:.35;margin-top:1rem">Protegido por <a href="https://policies.google.com/privacy" style="color:inherit">reCAPTCHA</a> — <a href="https://policies.google.com/privacy" style="color:inherit">Privacidad</a> y <a href="https://policies.google.com/terms" style="color:inherit">Términos</a> de Google.</p>
+  <p style="text-align:center;font-size:.72rem;opacity:.55;margin-top:1rem"><button class="priv-link" onclick="openPriv()">Política de privacidad</button></p>
+  <p style="text-align:center;font-size:.7rem;opacity:.35;margin-top:.4rem">Protegido por <a href="https://policies.google.com/privacy" style="color:inherit">reCAPTCHA</a> — <a href="https://policies.google.com/privacy" style="color:inherit">Privacidad</a> y <a href="https://policies.google.com/terms" style="color:inherit">Términos</a> de Google.</p>
 </footer>
 
 
@@ -974,19 +1117,75 @@ footer{background:var(--brown);color:var(--white);padding:3.5rem 6% 2rem}
 
 <!-- STATUS -->
 <div class="st-overlay" id="st-ov">
-  <div class="st-modal">
-    <div class="st-icon">✅</div>
+  <div class="st-modal" role="dialog" aria-modal="true" aria-labelledby="st-title">
+    <div id="st-icon" class="st-icon">✅</div>
     <p class="st-id" id="st-id"></p>
-    <h2 id="st-title">PEDIDO RECIBIDO</h2>
-    <p class="st-msg" id="st-msg"></p>
-    <div class="st-steps">
-      <div class="st-step"><div class="step-dot done" id="sdot0">✓</div><p class="slabel done">Recibido</p></div>
-      <div class="st-step"><div class="step-dot" id="sdot1">2</div><p class="slabel" id="slbl1">Confirmado</p></div>
-      <div class="st-step"><div class="step-dot" id="sdot2">3</div><p class="slabel" id="slbl2">Cocinando</p></div>
-      <div class="st-step"><div class="step-dot" id="sdot3">4</div><p class="slabel" id="slbl3">En reparto</p></div>
-      <div class="st-step"><div class="step-dot" id="sdot4">5</div><p class="slabel" id="slbl4">Entregado</p></div>
+    <h2 id="st-title"></h2>
+    <p class="st-msg" id="st-msg" aria-live="polite"></p>
+    <div id="st-eta"></div>
+    <div class="st-steps" id="st-steps"></div>
+    <div id="st-actions"></div>
+    <div id="st-summary"></div>
+    <button class="btn-st-close" onclick="closeSt()">Cerrar</button>
+  </div>
+</div>
+
+<!-- NOVEDADES: consentimiento para publicidad (se muestra tras confirmar el pedido) -->
+<div class="nl-ov" id="nl-ov" role="dialog" aria-modal="true" aria-labelledby="nl-title" onclick="if(event.target.id==='nl-ov')nlDismiss()">
+  <div class="nl-box" id="nl-box" onclick="event.stopPropagation()">
+    <div id="nl-ask">
+      <div class="nl-hd">
+        <button class="nl-x" onclick="nlDismiss()" aria-label="Cerrar">✕</button>
+        <span class="nl-emoji">🍔</span>
+        <h3 id="nl-title">¿TE AVISAMOS?</h3>
+        <p>Recibe novedades y ofertas de Burger Chao en tu móvil y en tu correo.</p>
+      </div>
+      <div class="nl-body">
+        <ul class="nl-perks">
+          <li><span class="nl-perk-ico">🔥</span>Ofertas y promos antes que nadie</li>
+          <li><span class="nl-perk-ico">🍟</span>Nuevas burgers y platos de la carta</li>
+          <li><span class="nl-perk-ico">🤝</span>Pocos mensajes y te das de baja cuando quieras</li>
+        </ul>
+        <div class="nl-phone">📱 Te escribiremos al <strong id="nl-phone-txt"></strong></div>
+        <input class="finput nl-email" id="nl-email" type="email" inputmode="email" autocomplete="email" placeholder="Tu correo (opcional)" oninput="nlClearErr()" onkeydown="if(event.key==='Enter')nlAnswer(true)"/>
+        <p class="nl-hint" id="nl-hint">Si nos dejas tu correo, también te enviamos las ofertas por email.</p>
+        <div class="nl-btns">
+          <button class="nl-no" id="nl-no" onclick="nlAnswer(false)">No, gracias</button>
+          <button class="nl-yes" id="nl-yes" onclick="nlAnswer(true)">Sí, avisadme</button>
+        </div>
+        <p class="nl-legal">Tu pedido ya está confirmado: elijas lo que elijas, no cambia nada. Usaremos tu teléfono y tu correo solo para enviarte comunicaciones de Burger Chao. <button class="priv-link" onclick="openPriv()">Política de privacidad</button></p>
+      </div>
     </div>
-    <button class="btn-st-close" onclick="document.getElementById('st-ov').classList.remove('open');if(_custUnsub){_custUnsub();_custUnsub=null;}updFab();">Cerrar</button>
+    <div class="nl-done" id="nl-done" style="display:none">
+      <span class="nl-emoji">🎉</span>
+      <h3>¡YA ESTÁS DENTRO!</h3>
+      <p>Serás de los primeros en enterarte de nuestras ofertas.</p>
+      <button class="btn-st-close" onclick="nlClose()">Ver mi pedido</button>
+    </div>
+  </div>
+</div>
+
+<!-- POLÍTICA DE PRIVACIDAD -->
+<div class="overlay priv-ov" id="priv-ov" onclick="if(event.target.id==='priv-ov')closePriv()">
+  <div class="modal priv-modal" onclick="event.stopPropagation()">
+    <button class="modal-x" onclick="closePriv()" aria-label="Cerrar">✕</button>
+    <div class="modal-body">
+      <p class="modal-cat">Información legal</p>
+      <h2 class="modal-name" style="font-size:1.8rem">POLÍTICA DE PRIVACIDAD</h2>
+      <h3>¿Quién es el responsable?</h3>
+      <p><!-- TODO: rellenar con los datos fiscales reales del negocio --><strong>[RAZÓN SOCIAL]</strong> (Burger Chao), con NIF <strong>[NIF]</strong> y domicilio en <strong>[DIRECCIÓN]</strong>, Málaga. Contacto: <strong>[EMAIL DE CONTACTO]</strong> · 952 416 853.</p>
+      <h3>¿Qué datos usamos y para qué?</h3>
+      <ul>
+        <li><strong>Pedidos:</strong> nombre, teléfono y dirección para preparar y entregar tu pedido y avisarte si surge alguna incidencia. Base legal: la ejecución del pedido que nos haces.</li>
+        <li><strong>Novedades y ofertas:</strong> solo si pulsas «Sí, avisadme», guardamos tu nombre, teléfono y, si nos lo das, tu correo, para enviarte promociones de Burger Chao por WhatsApp, SMS o email. Base legal: tu consentimiento.</li>
+      </ul>
+      <h3>¿Cuánto tiempo los guardamos?</h3>
+      <p>Los datos del pedido, el tiempo necesario para gestionarlo. Los de novedades, hasta que te des de baja.</p>
+      <h3>¿Los compartimos?</h3>
+      <p>No vendemos ni cedemos tus datos. Se almacenan en servidores de Google Firebase, que actúa como proveedor tecnológico.</p>
+      <h3>Tus derechos</h3>
+      <p>Puedes retirar tu consentimiento y darte de baja cuando quieras respondiendo «BAJA» a cualquier mensaje, llamándonos o escribiendo a <strong>[EMAIL DE CONTACTO]</strong>. También puedes pedir acceso, rectificación o supresión de tus datos y, si no estás conforme, reclamar ante la Agencia Española de Protección de Datos (aepd.es).</p>
+    </div>
   </div>
 </div>
 
@@ -1038,6 +1237,10 @@ const _printer = {
       const data = await r.json();
       if (data.ok) {
         console.log(`[PRINT] Impreso pedido #${pedido.id}`);
+        // Avisar al cliente de que su ticket ya ha salido en cocina
+        if (db && pedido.fbId) db.collection('orders').doc(pedido.fbId)
+          .update({ printedAt: firebase.firestore.FieldValue.serverTimestamp() })
+          .catch(e => console.warn('[PRINT] printedAt:', e.code || e));
       } else {
         console.error('[PRINT] Error del servidor:', data.error);
         this.printedIds.delete(oid);
@@ -1118,6 +1321,7 @@ function fbInit() {
       _firstSnap = true;
       fbSubscribeOrders(fbDocs => {
         fbOrders = fbDocs;
+        kitchenAck(fbDocs);
         if (curOId) {
           const match = fbDocs.find(o => o.id === curOId || o.fbId === curOId);
           if (match && document.getElementById('st-ov').classList.contains('open')) updSt(match.status);
@@ -1145,6 +1349,24 @@ function fbInit() {
       _notified.clear();
       _firstSnap = true;
     }
+  });
+}
+
+// El panel de cocina, al ver un pedido nuevo, lo marca como "en cocina" y fija la hora estimada
+// según la cola real. Es automático: nadie tiene que pulsar nada.
+const _acked = new Set();
+function kitchenAck(docs) {
+  if (!db) return;
+  const pending = docs.filter(o => ['nuevos','preparacion'].includes(o.status));
+  docs.forEach(o => {
+    if (o.status !== 'nuevos' || o.enCocinaAt || !o.fbId || _acked.has(o.fbId)) return;
+    _acked.add(o.fbId);
+    const ts = o.timestamp || Date.now();
+    const ahead = pending.filter(x => x.fbId !== o.fbId && (x.timestamp || 0) < ts).length;
+    const eta = Math.max(o.eta || 0, calcEta(ts, o.type, ahead));
+    db.collection('orders').doc(o.fbId)
+      .update({ enCocinaAt: firebase.firestore.FieldValue.serverTimestamp(), eta })
+      .catch(e => { _acked.delete(o.fbId); console.warn('kitchenAck:', e.code || e); });
   });
 }
 
@@ -1197,6 +1419,117 @@ function fbLogout() {
   if (!auth) return Promise.resolve();
   return auth.signOut();
 }
+
+// ── CLIENTES · NOVEDADES Y OFERTAS ───────────────────────────────────────────
+// Tras confirmar un pedido se pregunta al cliente si quiere recibir publicidad.
+// Solo si acepta se guarda en la colección `clientes` (doc id = teléfono normalizado).
+// Esta colección NO se borra con la limpieza diaria de pedidos.
+const NL_KEY     = 'bb_nl';          // localStorage: { "600123456": "si" | "no" }
+const NL_VERSION = '2026-11-v1';     // versión del texto de consentimiento
+const NL_TEXT    = 'Acepto recibir novedades y ofertas de Burger Chao por WhatsApp, SMS y correo electrónico.';
+let nlPending = null;                // { name, phone } del pedido recién hecho
+
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function normPhone(p){
+  let d=String(p||'').replace(/\D/g,'');
+  if(d.startsWith('0034')) d=d.slice(4);
+  else if(d.length===11&&d.startsWith('34')) d=d.slice(2);
+  return d;
+}
+function fmtPhone(d){return d&&d.length===9?d.replace(/(\d{3})(\d{3})(\d{3})/,'$1 $2 $3'):(d||'');}
+function isValidEmail(e){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);}
+function tsDate(v){if(!v)return null;if(typeof v.toDate==='function')return v.toDate();const d=new Date(v);return isNaN(d)?null:d;}
+function fmtDate(v){const d=tsDate(v);return d?d.toLocaleDateString('es-ES',{day:'2-digit',month:'2-digit',year:'numeric'}):'—';}
+function nlGetLocal(){try{return JSON.parse(localStorage.getItem(NL_KEY)||'{}')||{};}catch(e){return {};}}
+function nlSetLocal(phone,val){try{const m=nlGetLocal();m[phone]=val;localStorage.setItem(NL_KEY,JSON.stringify(m));}catch(e){}}
+
+async function fbSaveCliente({phone,name,email}){
+  fbInit();
+  if(!db) return false;
+  const FV=firebase.firestore.FieldValue, now=FV.serverTimestamp();
+  const data={
+    telefono:phone,
+    nombre:String(name||'').slice(0,80),
+    acepta:true,
+    consentimiento:{fecha:now,texto:NL_TEXT,version:NL_VERSION,origen:'web · aviso tras pedido'},
+    pedidos:FV.increment(1),
+    ultimoPedido:now,
+    actualizado:now
+  };
+  if(email) data.email=email.slice(0,120);
+  try{ await db.collection('clientes').doc(phone).set(data,{merge:true}); return true; }
+  catch(e){ console.error('fbSaveCliente:',e); return false; }
+}
+// Cliente ya suscrito que vuelve a pedir: solo se actualiza el contador
+function fbTouchCliente(phone){
+  if(!db) return;
+  const FV=firebase.firestore.FieldValue, now=FV.serverTimestamp();
+  db.collection('clientes').doc(phone).update({pedidos:FV.increment(1),ultimoPedido:now,actualizado:now})
+    .catch(e=>console.warn('fbTouchCliente:',e.code||e));
+}
+
+function nlAfterOrder(name,phone){
+  const p=normPhone(phone);
+  if(p.length<9) return;
+  const prev=nlGetLocal()[p];
+  if(prev==='si'){ fbTouchCliente(p); return; }
+  if(prev==='no') return;            // ya dijo que no: no insistimos
+  nlPending={name,phone:p};
+  // Dejamos ver un momento la confirmación del pedido antes de preguntar
+  setTimeout(openNl,1200);
+}
+function openNl(){
+  if(!nlPending) return;
+  let saved={};try{saved=JSON.parse(localStorage.getItem('bb_customer')||'{}');}catch(e){}
+  document.getElementById('nl-ask').style.display='';
+  document.getElementById('nl-done').style.display='none';
+  document.getElementById('nl-phone-txt').textContent=fmtPhone(nlPending.phone);
+  const em=document.getElementById('nl-email');
+  em.value=saved.email||'';
+  nlClearErr();
+  nlBusy(false);
+  document.getElementById('nl-ov').classList.add('open');
+}
+function nlBusy(b){
+  ['nl-yes','nl-no'].forEach(id=>{const el=document.getElementById(id);if(el)el.disabled=b;});
+  const y=document.getElementById('nl-yes');if(y)y.textContent=b?'Guardando…':'Sí, avisadme';
+}
+function nlClearErr(){
+  const em=document.getElementById('nl-email'),h=document.getElementById('nl-hint');
+  em.classList.remove('err');h.classList.remove('err');
+  h.textContent='Si nos dejas tu correo, también te enviamos las ofertas por email.';
+}
+function nlClose(){document.getElementById('nl-ov').classList.remove('open');nlPending=null;}
+// Cerrar sin elegir: no guardamos nada y se volverá a preguntar en el próximo pedido
+function nlDismiss(){nlClose();}
+async function nlAnswer(yes){
+  if(!nlPending) return;
+  const {name,phone}=nlPending;
+  if(!yes){
+    nlSetLocal(phone,'no');
+    nlClose();
+    toast('Sin problema 👍 ¡Que aproveche!');
+    return;
+  }
+  const emEl=document.getElementById('nl-email'),email=emEl.value.trim().toLowerCase();
+  if(email&&!isValidEmail(email)){
+    emEl.classList.add('err');
+    const h=document.getElementById('nl-hint');h.classList.add('err');h.textContent='Revisa el correo o déjalo en blanco.';
+    emEl.focus();
+    return;
+  }
+  nlBusy(true);
+  const ok=await fbSaveCliente({phone,name,email});
+  nlBusy(false);
+  if(!ok){ toast('No hemos podido guardarlo. Inténtalo en tu próximo pedido.'); nlClose(); return; }
+  nlSetLocal(phone,'si');
+  try{const c=JSON.parse(localStorage.getItem('bb_customer')||'{}');if(email)c.email=email;localStorage.setItem('bb_customer',JSON.stringify(c));}catch(e){}
+  document.getElementById('nl-ask').style.display='none';
+  document.getElementById('nl-done').style.display='';
+}
+
+function openPriv(){document.getElementById('priv-ov').classList.add('open');}
+function closePriv(){document.getElementById('priv-ov').classList.remove('open');}
 
 // ── DATA ──────────────────────────────────────────────────────────────────────
 const PRODUCTS=[
@@ -1486,6 +1819,7 @@ function getRevenueStats(){
 document.addEventListener('DOMContentLoaded',()=>{
   fbInit();
   orders = loadOrders();
+  restoreCurOrder();
   renderFeatured();renderCats();renderMenu("Todo");updCount();
   document.getElementById('addr-group').style.display='block';
   setInterval(checkMidnightReset, 30000);
@@ -1815,7 +2149,17 @@ function calcChange(){
   }
 }
 
+// Evita pedidos duplicados por doble clic en "Confirmar pedido"
+let _placing=false;
 async function placeOrder(){
+  if(_placing) return;
+  _placing=true;
+  const b=document.getElementById('co-confirm-btn'),txt=b?b.textContent:'';
+  if(b){b.disabled=true;b.textContent='Enviando pedido…';}
+  try{ await _placeOrder(); }
+  finally{ _placing=false; if(b){b.disabled=false;b.textContent=txt;} }
+}
+async function _placeOrder(){
   if(isClosedDay()){toast('Los lunes permanecemos cerrados 🚫 ¡Te esperamos martes a partir de las 19:00!');closeCO();return;}
   const name=document.getElementById('co-name').value.trim(),phone=document.getElementById('co-phone').value.trim();
   const cp=oType==='domicilio'?(document.getElementById('co-cp').value||'').trim():'';
@@ -1878,66 +2222,235 @@ async function placeOrder(){
     const _d=PRODUCTS.find(x=>x.cat==='Bebidas'&&x.name===freeDrink);
     items.push({id:'promo-bebida',name:'🥤 '+freeDrink+' — GRATIS (promo recogida)',img:_d?_d.img:'./sin_foto.jpeg',unitPrice:0,qty:1,lineTotal:0,extras:[],removed:[],promo:true});
   }
-  const order={id,name,phone,address:addr,notes,type:oType,items,subtotal:sub,shipping:ship,total,payment:payInfo,promoDrink,status:'nuevos',time:tStr,timestamp:Date.now(),isNew:true};
-  // Save to Firestore (async, non-blocking)
-  fbSaveOrder(order).then(fbId => {
-    if(fbId) {
-      order.fbId = fbId;
-      const idx = orders.findIndex(o=>o.id===id);
-      if(idx!==-1) orders[idx].fbId = fbId;
-      saveOrders();
-      // Start real-time listener now that we have fbId
-      _subCustOrder(orders[idx]||order);
-    }
-  });
-  orders.unshift(order);saveOrders();curOId=id;cart=[];updCount();updFab();
-  // Reset payment fields
-  payMethod='card';cashExact=false;cashAmount=0;freeDrink=null;
-  closeCO();openSt(id);toast('¡Pedido confirmado! 🔥');
+  const ts=Date.now();
+  const order={id,name,phone,address:addr,notes,type:oType,items,subtotal:sub,shipping:ship,total,payment:payInfo,promoDrink,status:'nuevos',time:tStr,timestamp:ts,isNew:true,
+    eta:calcEta(ts,oType,0)};
+  // ID del documento generado de antemano: si hay que reintentar, se reescribe el mismo pedido (sin duplicados)
+  if(db) order.fbId=db.collection('orders').doc().id;
+  order.sendState='enviando';
+  orders.unshift(order);saveOrders();setCurOrder(id);updFab();
+  closeCO();openSt(id);
+  const ok=await sendOrder(order);
+  if(ok){
+    // Solo ahora, con el pedido guardado de verdad, vaciamos el carrito
+    cart=[];updCount();
+    payMethod='card';cashExact=false;cashAmount=0;freeDrink=null;
+    toast('¡Pedido recibido! 🔥');
+    // Preguntar si quiere recibir novedades (solo la primera vez por teléfono)
+    nlAfterOrder(name,phone);
+  } else {
+    // Un envío fallido no cuenta para el límite de 3 pedidos por hora
+    try{const rl=JSON.parse(localStorage.getItem(rlKey)||'[]').filter(t=>t!==rlNow);localStorage.setItem(rlKey,JSON.stringify(rl));}catch(e){}
+  }
+}
+
+// Envía el pedido a Firestore y espera la confirmación del servidor.
+// Devuelve true solo si el pedido ha quedado guardado.
+function withTimeout(p,ms){return Promise.race([p,new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),ms))]);}
+async function sendOrder(order){
+  fbInit();
+  const isRetry=order.sendState==='error';
+  order.sendState='enviando';saveOrders();renderSt();
+  let ok=false;
+  if(db){
+    if(!order.fbId) order.fbId=db.collection('orders').doc().id;
+    const ref=db.collection('orders').doc(order.fbId);
+    try{
+      // En un reintento, el primer envío pudo llegar tarde: si ya está en el servidor no lo
+      // reescribimos (pisaría el estado que haya puesto la cocina).
+      if(isRetry){
+        const snap=await withTimeout(ref.get({source:'server'}),10000);
+        if(snap.exists) ok=true;
+      }
+      if(!ok){
+        const {sendState,...data}=order;
+        await withTimeout(ref.set({...data,createdAt:firebase.firestore.FieldValue.serverTimestamp()}),15000);
+        ok=true;
+      }
+    }catch(e){console.error('sendOrder:',e);}
+  }
+  order.sendState=ok?'ok':'error';
+  saveOrders();
+  // También en caso de error: si el envío llega más tarde, la pantalla se corrige sola
+  _subCustOrder(order);
+  renderSt();
+  return ok;
+}
+async function retrySend(){
+  const o=curOrder();if(!o)return;
+  const b=document.getElementById('st-retry');if(b){b.disabled=true;b.textContent='Reintentando…';}
+  const ok=await sendOrder(o);
+  if(ok){cart=[];updCount();payMethod='card';cashExact=false;cashAmount=0;freeDrink=null;toast('¡Pedido recibido! 🔥');nlAfterOrder(o.name,o.phone);}
 }
 
 // ── STATUS ────────────────────────────────────────────────────────────────────
-const STSTEPS=['nuevos','preparacion','listos','reparto','entregado'];
-const STLBLS=['Recibido','Confirmado','Cocinando','En reparto','Entregado'];
-const STTITLES={nuevos:'¡EN PREPARACIÓN!',preparacion:'EN PREPARACIÓN',listos:'¡LISTO!',reparto:'EN CAMINO 🛵',entregado:'¡ENTREGADO!'};
-const STMSGS={nuevos:'Hemos recibido tu pedido y ya lo estamos preparando en cocina.',preparacion:'¡Confirmado! Nuestros cocineros están en ello.',listos:'Tu pedido está listo y sale en breve.',reparto:'El repartidor está en camino.',entregado:'¡Buen provecho! Gracias por confiar en Brutal.'};
+// Todo el seguimiento es automático: no depende de que nadie del local pulse nada.
+//   enviando → (guardado en Firestore) Recibido → (el panel de cocina lo recibe / imprime el ticket) En cocina
+//   → Listo → En camino → Entregado   ·   también: error de envío y cancelado
+const LOCAL_TEL='952416853', LOCAL_TEL_TXT='952 416 853';
+const ORIG_TITLE=document.title;
 
-let _custUnsub=null;
+// Hora estimada. Ajusta aquí los minutos si hace falta.
+const ETA_CFG={
+  local:20,        // minutos para tenerlo listo si se recoge en el local
+  domicilio:35,    // minutos hasta que llega a casa
+  porPedido:3,     // minutos extra por cada pedido que hay por delante en cocina
+  apertura:19      // hora de apertura: los pedidos hechos antes cuentan desde esta hora
+};
+function calcEta(ts,type,ahead){
+  let start=ts;const d=new Date(ts);
+  if(d.getHours()<ETA_CFG.apertura&&d.getHours()>=6){const o=new Date(ts);o.setHours(ETA_CFG.apertura,0,0,0);start=o.getTime();}
+  const mins=(type==='domicilio'?ETA_CFG.domicilio:ETA_CFG.local)+Math.max(0,ahead||0)*ETA_CFG.porPedido;
+  return Math.ceil((start+mins*60000)/300000)*300000;   // redondeado a 5 min
+}
+function fmtHM(v){const d=tsDate(v);return d?String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'):'';}
+
+let _custUnsub=null, _stTicker=null;
+function curOrder(){return curOId?orders.find(x=>x.id===curOId):null;}
+function setCurOrder(id){curOId=id;try{localStorage.setItem('bb_cur_order',JSON.stringify({id,day:todayKey()}));}catch(e){}}
+// Al recargar la página se recupera el pedido en curso (botón "Mi pedido")
+function restoreCurOrder(){
+  try{
+    const c=JSON.parse(localStorage.getItem('bb_cur_order')||'null');
+    if(!c||c.day!==todayKey())return;
+    const o=orders.find(x=>x.id===c.id);
+    if(!o)return;
+    curOId=o.id;
+    if(o.sendState==='enviando')o.sendState='error';   // se recargó a mitad de envío
+    if(!['entregado','cancelado'].includes(o.status))_subCustOrder(o);
+    updFab();
+  }catch(e){}
+}
+
 function openSt(id){
   const o=orders.find(x=>x.id===id);
   if(!o)return;
-  document.getElementById('st-id').textContent=id;
-  updSt(o.status);
+  curOId=id;
   document.getElementById('st-ov').classList.add('open');
+  renderSt();
   updFab();
-  _subCustOrder(o);
+  if(_stTicker)clearInterval(_stTicker);
+  _stTicker=setInterval(()=>{if(document.getElementById('st-ov').classList.contains('open'))renderSt();},30000);
+  if(o.sendState!=='enviando')_subCustOrder(o);
+}
+function closeSt(){
+  document.getElementById('st-ov').classList.remove('open');
+  if(_stTicker){clearInterval(_stTicker);_stTicker=null;}
+  document.title=ORIG_TITLE;
+  updFab();
 }
 function _subCustOrder(order){
   if(_custUnsub){_custUnsub();_custUnsub=null;}
-  if(!db){console.warn('[custOrder] db no disponible');return;}
-  if(!order.fbId){console.warn('[custOrder] sin fbId, reintentando en 3s...');setTimeout(()=>{const o=orders.find(x=>x.id===order.id);if(o&&o.fbId)_subCustOrder(o);},3000);return;}
-  console.log('[custOrder] suscribiendo a',order.fbId);
+  if(!db||!order.fbId)return;
   _custUnsub=db.collection('orders').doc(order.fbId).onSnapshot(snap=>{
-    if(!snap.exists){console.warn('[custOrder] documento no existe');return;}
-    const d=snap.data();
-    console.log('[custOrder] estado recibido:',d&&d.status);
-    if(d&&d.status){
-      const idx=orders.findIndex(o=>o.id===order.id||o.fbId===order.fbId);
-      if(idx!==-1)orders[idx].status=d.status;
-      if(document.getElementById('st-ov').classList.contains('open'))updSt(d.status);
+    // Ignorar la copia local que aún no ha confirmado el servidor
+    if(!snap.exists||snap.metadata.hasPendingWrites)return;
+    const d=snap.data(),o=orders.find(x=>x.id===order.id||x.fbId===order.fbId);
+    if(!o||!d)return;
+    o.status=d.status||o.status;
+    const c=tsDate(d.enCocinaAt),p=tsDate(d.printedAt);
+    if(c)o.enCocinaAt=c.getTime();
+    if(p)o.printedAt=p.getTime();
+    if(d.eta)o.eta=d.eta;
+    if(o.sendState==='error'){
+      // El envío que parecía fallido ha llegado al servidor: ya está recibido
+      o.sendState='ok';
+      if(o.id===curOId){cart=[];updCount();toast('¡Pedido recibido! 🔥');}
     }
+    if(o.sendState!=='enviando')o.sendState='ok';
+    saveOrders();
+    if(o.id===curOId)renderSt();
   },e=>console.error('[custOrder] ERROR:',e));
 }
-function updSt(status){
-  const idx=STSTEPS.indexOf(status);
-  for(let i=0;i<5;i++){
-    const dot=document.getElementById('sdot'+i),lbl=document.getElementById('slbl'+i);
-    if(i<idx){dot.className='step-dot done';dot.textContent='✓';if(lbl)lbl.className='slabel done';}
-    else if(i===idx){dot.className='step-dot active';dot.textContent=STLBLS[i][0];if(lbl)lbl.className='slabel active';}
-    else{dot.className='step-dot';dot.textContent=i+1;if(lbl)lbl.className='slabel';}
+// Compatibilidad con llamadas antiguas
+function updSt(status){const o=curOrder();if(o&&status)o.status=status;renderSt();}
+
+function stStage(o){
+  if(o.status==='cancelado')return 'cancelado';
+  if(o.sendState==='enviando')return 'enviando';
+  if(o.sendState==='error')return 'error';
+  if(o.status==='entregado')return 'entregado';
+  if(o.status==='reparto')return 'reparto';
+  if(o.status==='listos')return 'listos';
+  if(o.status==='preparacion'||o.enCocinaAt||o.printedAt)return 'cocina';
+  return 'recibido';
+}
+function renderSt(){
+  const o=curOrder();
+  if(!o||!document.getElementById('st-ov').classList.contains('open'))return;
+  const dom=o.type==='domicilio', stage=stStage(o);
+  const $=id=>document.getElementById(id);
+  const steps=dom?[['recibido','Recibido'],['cocina','En cocina'],['listos','Listo'],['reparto','En camino'],['entregado','Entregado']]
+                 :[['recibido','Recibido'],['cocina','En cocina'],['listos','Listo'],['entregado','Recogido']];
+  const T={
+    enviando:['<div class="st-spin"></div>','ENVIANDO…','Estamos enviando tu pedido al local. No cierres esta página.'],
+    error:['⚠️','NO SE HA ENVIADO','No hemos podido enviar tu pedido. Revisa tu conexión y pulsa «Reintentar». Si sigue fallando, llámanos y te lo tomamos por teléfono.'],
+    recibido:['✅','¡PEDIDO RECIBIDO!','Tu pedido está guardado y le está llegando a la cocina.'],
+    cocina:['👨‍🍳','EN COCINA',o.printedAt?'Tu ticket ya ha salido en cocina. ¡Nos ponemos con ello!':'La cocina ya tiene tu pedido. ¡Nos ponemos con ello!'],
+    listos:dom?['🍔','¡LISTO!','Tu pedido está listo y sale enseguida hacia tu casa.']:['🍔','¡LISTO PARA RECOGER!','Ya puedes pasar a por tu pedido por el local.'],
+    reparto:['🛵','EN CAMINO','El repartidor va hacia tu dirección.'],
+    entregado:['😋','¡QUE APROVECHE!','Gracias por pedir en Burger Chao. ¡Esperamos verte pronto!'],
+    cancelado:['❌','PEDIDO CANCELADO','El local ha cancelado este pedido. Si no sabes por qué o crees que es un error, llámanos y lo vemos.']
+  }[stage];
+  $('st-icon').innerHTML=T[0];
+  $('st-id').textContent=o.id+(o.time?' · '+o.time:'');
+  $('st-title').textContent=T[1];
+  $('st-msg').textContent=T[2];
+
+  // Hora estimada
+  let eta='';
+  if(['recibido','cocina','listos','reparto'].includes(stage)&&o.eta&&!(stage==='listos'&&!dom)){
+    const left=Math.round((o.eta-Date.now())/60000), late=left<0;
+    const lbl=dom?'Llega aprox. a las':'Listo aprox. a las';
+    const sub=late?'Va un poco más tarde de lo previsto, ¡ya casi está!':(left<=1?'En nada':'Dentro de unos '+left+' min');
+    eta=`<div class="st-eta${late?' late':''}"><div><p class="st-eta-l">${lbl}</p><p class="st-eta-sub">${sub}</p></div><span class="st-eta-v">${fmtHM(o.eta)}</span></div>`;
   }
-  document.getElementById('st-title').textContent=STTITLES[status]||'';
-  document.getElementById('st-msg').textContent=STMSGS[status]||'';
+  if(stage==='cocina'&&(o.printedAt||o.enCocinaAt))
+    eta+=`<div class="st-kitchen">${o.printedAt?'🖨 Ticket impreso en cocina a las '+fmtHM(o.printedAt):'📺 Recibido en cocina a las '+fmtHM(o.enCocinaAt)}</div>`;
+  $('st-eta').innerHTML=eta;
+
+  // Pasos
+  const idx=steps.findIndex(s=>s[0]===stage);
+  $('st-steps').className='st-steps'+(dom?'':' st-4');
+  $('st-steps').style.display=(idx===-1)?'none':'';
+  $('st-steps').innerHTML=steps.map(([k,l],i)=>{
+    const done=i<idx||(i===idx&&stage==='entregado'), act=i===idx&&stage!=='entregado';
+    return `<div class="st-step"><div class="step-dot${done?' done':act?' active':''}">${done?'✓':i+1}</div><p class="slabel${done?' done':act?' active':''}">${l}</p></div>`;
+  }).join('');
+
+  // Acciones
+  const call=`<a class="st-btn ghost" href="tel:${LOCAL_TEL}">📞 Llamar</a>`;
+  $('st-actions').innerHTML=stage==='error'
+    ?`<div class="st-btns"><button class="st-btn primary" id="st-retry" onclick="retrySend()">↻ Reintentar</button>${call}</div>`
+    :stage==='cancelado'?`<div class="st-btns">${call}</div>`
+    :stage==='enviando'||stage==='entregado'?'':`<p class="st-help">Esta pantalla se actualiza sola. ¿Algún problema? <a href="tel:${LOCAL_TEL}">${LOCAL_TEL_TXT}</a></p>`;
+
+  // Resumen del pedido
+  const wasOpen=$('st-summary').querySelector('details')?.open;
+  $('st-summary').innerHTML=stSummaryHTML(o,wasOpen);
+
+  // Título de la pestaña: el cliente ve el cambio aunque esté en otra pestaña
+  const short={enviando:'⏳ Enviando',error:'⚠️ Pedido no enviado',recibido:'✅ Recibido',cocina:'👨‍🍳 En cocina',listos:'🍔 ¡Listo!',reparto:'🛵 En camino',entregado:'😋 Entregado',cancelado:'❌ Cancelado'}[stage];
+  document.title=short+' · '+o.id+' — Burger Chao';
+}
+function stSummaryHTML(o,open){
+  const eur=n=>(Number(n)||0).toFixed(2).replace('.',',')+' €';
+  const items=(o.items||[]).map(it=>`<div class="st-sum-item"><div><span class="st-sum-n">${it.qty}× ${esc(it.name)}</span>
+      ${it.extras&&it.extras.length?`<span class="st-sum-x">+ ${esc(it.extras.map(e=>e.name).join(', '))}</span>`:''}
+      ${it.removed&&it.removed.length?`<span class="st-sum-x rm">Sin ${esc(it.removed.join(', '))}</span>`:''}</div>
+      <span class="st-sum-p">${it.lineTotal?eur(it.lineTotal):'Gratis'}</span></div>`).join('');
+  const p=o.payment||{};
+  const pay=p.method==='cash'?(p.exact?'💵 Efectivo — importe exacto':`💵 Efectivo — pagas con ${eur(p.amount)} (cambio ${eur(p.change)})`):'💳 Tarjeta al recibir / recoger';
+  return `<details class="st-sum"${open?' open':''}><summary>🧾 Ver mi pedido · ${eur(o.total)}</summary><div class="st-sum-body">
+    ${items}
+    ${o.shipping?`<div class="st-sum-tot"><span>Subtotal</span><span>${eur(o.subtotal)}</span></div><div class="st-sum-tot"><span>Envío</span><span>${eur(o.shipping)}</span></div>`:''}
+    <div class="st-sum-tot big"><span>Total</span><span>${eur(o.total)}</span></div>
+    <div class="st-sum-meta">
+      <span>${o.type==='domicilio'?'🛵 A domicilio: '+esc(o.address):'🏪 Recoger en el local'}</span>
+      <span>${pay}</span>
+      <span>👤 ${esc(o.name)} · ${esc(o.phone)}</span>
+      ${o.notes?`<span>📝 ${esc(o.notes)}</span>`:''}
+    </div></div></details>`;
 }
 
 // ── CANCEL CONFIRM ────────────────────────────────────────────────────────────
@@ -2006,6 +2519,11 @@ function closeAdm(){document.getElementById('adm-ov').classList.remove('open');d
 
 function renderAdmPanel(){
   checkMidnightReset();
+  if(admView==='clientes'){
+    // No repintamos la vista de clientes con cada pedido entrante (perdería la búsqueda)
+    if(!document.getElementById('cl-wrap')) renderClientes();
+    return;
+  }
   // Use live Firestore data when connected; fall back to localStorage
   const all = fbOrders !== null ? fbOrders : JSON.parse(localStorage.getItem('bb2_orders')||'[]');
   const cols={
@@ -2064,6 +2582,7 @@ function renderAdmPanel(){
       <span class="adm-badge">COCINA</span>
       <span class="adm-time" id="adm-clock">${ts}</span>
       <div class="adm-live"><span class="adm-live-dot"></span>Tiempo real activo</div>
+      ${admTabsHTML()}
       <div class="adm-topbar-right">
         <button class="adm-sim-btn" style="background:#5a2424;color:#d47070;border-color:rgba(140,58,58,.3)" onclick="confirmCleanup()">🗑 Limpiar todo</button>
         <button class="adm-sim-btn" onclick="simOrder()">+ Simular pedido</button>
@@ -2103,6 +2622,166 @@ function renderAdmPanel(){
   },1000);
 }
 
+// ── ADMIN · CLIENTES ─────────────────────────────────────────────────────────
+var admView='pedidos', clientes=null, clLoading=false, clErr=null, clFilter='activos', clSearch='';
+
+function admTabsHTML(){
+  return `<div style="display:flex;gap:.35rem">
+    <button class="adm-tab-btn${admView==='pedidos'?' active':''}" onclick="setAdmView('pedidos')" title="Pedidos">📋<span class="adm-tab-txt"> Pedidos</span></button>
+    <button class="adm-tab-btn${admView==='clientes'?' active':''}" onclick="setAdmView('clientes')" title="Clientes">👥<span class="adm-tab-txt"> Clientes</span></button>
+  </div>`;
+}
+function setAdmView(v){
+  admView=v;
+  const sheet=document.getElementById('adm-sb-sheet');if(sheet)sheet.classList.remove('open');
+  if(v==='clientes'){ renderClientes(); loadClientes(); }
+  else renderAdmPanel();
+}
+async function loadClientes(){
+  fbInit();
+  if(!db){clErr='Sin conexión con la base de datos.';clRenderList();return;}
+  clLoading=true;clErr=null;clRenderList();
+  try{
+    const snap=await db.collection('clientes').get();
+    const list=[];snap.forEach(d=>list.push({...d.data(),_id:d.id}));
+    list.sort((a,b)=>(tsDate(b.actualizado)||0)-(tsDate(a.actualizado)||0));
+    clientes=list;
+  }catch(e){
+    console.error('loadClientes:',e);
+    clErr=e.code==='permission-denied'
+      ?'Firestore no permite leer los clientes. Revisa que las reglas de seguridad nuevas (firestore.rules) estén publicadas.'
+      :'No se han podido cargar los clientes ('+(e.code||e.message)+').';
+  }
+  clLoading=false;clRenderList();
+}
+function renderClientes(){
+  const n=new Date(),ts=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')+':'+String(n.getSeconds()).padStart(2,'0');
+  document.getElementById('adm-inner').innerHTML=`
+    <div class="adm-topbar">
+      <span class="adm-logo"><em>B</em>RUTAL.</span>
+      <span class="adm-badge">CLIENTES</span>
+      <span class="adm-time" id="adm-clock">${ts}</span>
+      ${admTabsHTML()}
+      <div class="adm-topbar-right">
+        <button class="adm-logout-btn" onclick="admLogout()">Salir</button>
+        <button class="adm-close-btn" onclick="closeAdm()">✕ Cerrar</button>
+      </div>
+    </div>
+    <div class="cl-wrap" id="cl-wrap">
+      <div class="cl-kpis" id="cl-kpis"></div>
+      <div class="cl-tools">
+        <input class="cl-search" id="cl-search" type="search" placeholder="Buscar por nombre, teléfono o correo…" value="${esc(clSearch)}" oninput="clSearch=this.value;clRenderList()"/>
+        <div class="cl-filters">
+          <button class="cl-filter" data-f="activos" onclick="setClFilter('activos')">Suscritos</button>
+          <button class="cl-filter" data-f="email" onclick="setClFilter('email')">Con correo</button>
+          <button class="cl-filter" data-f="bajas" onclick="setClFilter('bajas')">Bajas</button>
+        </div>
+        <button class="cl-action ghost" onclick="loadClientes()">↻ Actualizar</button>
+        <button class="cl-action ghost" onclick="clCopyPhones()">📋 Copiar teléfonos</button>
+        <button class="cl-action" onclick="clExportCSV()">⬇ Exportar Excel (CSV)</button>
+      </div>
+      <div id="cl-list"></div>
+      <p class="cl-note">Solo aparecen los clientes que han pulsado «Sí, avisadme» después de pedir. Si alguien te pide la baja (por WhatsApp, teléfono o correo), márcala aquí con «Dar de baja»: dejará de salir en las exportaciones.</p>
+    </div>`;
+  if(admTimer)clearInterval(admTimer);
+  admTimer=setInterval(()=>{
+    const c=document.getElementById('adm-clock');
+    if(c){const n=new Date();c.textContent=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')+':'+String(n.getSeconds()).padStart(2,'0');}
+    checkMidnightReset();
+  },1000);
+  clRenderList();
+}
+function setClFilter(f){clFilter=f;clRenderList();}
+function clActivos(){return (clientes||[]).filter(c=>c.acepta===true);}
+function clFiltered(){
+  const q=clSearch.trim().toLowerCase(),qd=q.replace(/\D/g,'');
+  return (clientes||[]).filter(c=>{
+    if(clFilter==='activos'&&c.acepta!==true)return false;
+    if(clFilter==='email'&&(c.acepta!==true||!c.email))return false;
+    if(clFilter==='bajas'&&c.acepta!==false)return false;
+    if(!q)return true;
+    return (c.nombre||'').toLowerCase().includes(q)||(c.email||'').toLowerCase().includes(q)||(qd&&(c.telefono||'').includes(qd));
+  });
+}
+function clRenderList(){
+  const box=document.getElementById('cl-list');if(!box)return;
+  document.querySelectorAll('.cl-filter').forEach(b=>b.classList.toggle('active',b.dataset.f===clFilter));
+  const all=clientes||[],act=clActivos(),month=Date.now()-30*864e5;
+  const kp=document.getElementById('cl-kpis');
+  if(kp)kp.innerHTML=`
+    <div class="cl-kpi"><p class="cl-kpi-l">Suscritos</p><p class="cl-kpi-v green">${act.length}</p></div>
+    <div class="cl-kpi"><p class="cl-kpi-l">Con correo</p><p class="cl-kpi-v">${act.filter(c=>c.email).length}</p></div>
+    <div class="cl-kpi"><p class="cl-kpi-l">Nuevos · 30 días</p><p class="cl-kpi-v orange">${act.filter(c=>{const d=tsDate(c.consentimiento&&c.consentimiento.fecha);return d&&d.getTime()>=month;}).length}</p></div>
+    <div class="cl-kpi"><p class="cl-kpi-l">Bajas</p><p class="cl-kpi-v">${all.filter(c=>c.acepta===false).length}</p></div>`;
+  if(clErr){box.innerHTML=`<div class="cl-empty"><strong>⚠️ ${esc(clErr)}</strong></div>`;return;}
+  if(clLoading&&clientes===null){box.innerHTML=`<div class="cl-empty"><strong>Cargando clientes…</strong></div>`;return;}
+  const list=clFiltered();
+  if(!list.length){
+    box.innerHTML=`<div class="cl-empty"><strong>${all.length?'No hay resultados':'Todavía no hay clientes suscritos'}</strong>${all.length?'Prueba con otra búsqueda o filtro.':'Aparecerán aquí en cuanto alguien acepte recibir novedades tras su pedido.'}</div>`;
+    return;
+  }
+  box.innerHTML=`<table class="cl-table">
+    <thead><tr><th>Cliente</th><th>Teléfono</th><th>Correo</th><th>Pedidos</th><th>Alta</th><th>Último pedido</th><th>Estado</th><th></th></tr></thead>
+    <tbody>${list.map(c=>{
+      const tel=c.telefono||c._id, wa=tel.length===9?'34'+tel:tel;
+      const on=c.acepta===true;
+      return `<tr class="${on?'':'baja'}">
+        <td><span class="cl-name">${esc(c.nombre||'—')}</span></td>
+        <td data-label="Teléfono">${esc(fmtPhone(tel))}</td>
+        <td data-label="Correo">${c.email?esc(c.email):'<span class="cl-muted">—</span>'}</td>
+        <td data-label="Pedidos">${Number(c.pedidos)||0}</td>
+        <td data-label="Alta">${fmtDate(c.consentimiento&&c.consentimiento.fecha)}</td>
+        <td data-label="Último pedido">${fmtDate(c.ultimoPedido)}</td>
+        <td>${on?'<span class="cl-pill on">Suscrito</span>':`<span class="cl-pill off">Baja ${fmtDate(c.baja)}</span>`}</td>
+        <td><div class="cl-row-btns">
+          ${on?`<a class="cl-ico-btn" href="https://wa.me/${esc(wa)}" target="_blank" rel="noopener">💬 WhatsApp</a>
+          ${c.email?`<a class="cl-ico-btn" href="mailto:${esc(c.email)}">✉️</a>`:''}
+          <button class="cl-ico-btn danger" onclick="clBaja('${esc(c._id)}')">Dar de baja</button>`
+          :`<button class="cl-ico-btn danger" onclick="clDelete('${esc(c._id)}')">🗑 Borrar datos</button>`}
+        </div></td>
+      </tr>`;}).join('')}</tbody></table>`;
+}
+async function clBaja(id){
+  const c=(clientes||[]).find(x=>x._id===id);if(!c)return;
+  if(!confirm(`¿Dar de baja a ${c.nombre||id} (${fmtPhone(c.telefono||id)})?\n\nDejará de recibir publicidad y no saldrá en las exportaciones.`))return;
+  try{
+    const now=firebase.firestore.FieldValue.serverTimestamp();
+    await db.collection('clientes').doc(id).update({acepta:false,baja:now,actualizado:now});
+    c.acepta=false;c.baja=new Date();clRenderList();toast('Baja registrada ✓');
+  }catch(e){console.error('clBaja:',e);toast('No se pudo dar de baja ('+(e.code||'error')+')');}
+}
+async function clDelete(id){
+  const c=(clientes||[]).find(x=>x._id===id);if(!c)return;
+  if(!confirm(`¿Borrar definitivamente los datos de ${c.nombre||id}?\n\nÚsalo si el cliente pide que eliminéis sus datos. No se puede deshacer.`))return;
+  try{
+    await db.collection('clientes').doc(id).delete();
+    clientes=clientes.filter(x=>x._id!==id);clRenderList();toast('Datos borrados ✓');
+  }catch(e){console.error('clDelete:',e);toast('No se pudo borrar ('+(e.code||'error')+')');}
+}
+function clCopyPhones(){
+  const list=clActivos();
+  if(!list.length){toast('No hay suscritos todavía');return;}
+  const txt=list.map(c=>'+34'+(c.telefono||c._id)).join('\n');
+  const done=()=>toast(`📋 ${list.length} teléfonos copiados`);
+  if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(txt).then(done,()=>prompt('Copia los teléfonos:',txt));
+  else prompt('Copia los teléfonos:',txt);
+}
+function clExportCSV(){
+  const list=clActivos();
+  if(!list.length){toast('No hay suscritos para exportar');return;}
+  // Evita que Excel interprete como fórmula un texto que empiece por = + - @
+  const safe=v=>{const s=String(v==null?'':v);return /^[=+\-@\t\r]/.test(s)?"'"+s:s;};
+  const q=v=>'"'+safe(v).replace(/"/g,'""')+'"';
+  const rows=[['Nombre','Teléfono','WhatsApp (con prefijo)','Correo','Pedidos','Fecha de alta','Último pedido','Consentimiento']]
+    .concat(list.map(c=>{const t=c.telefono||c._id;return [c.nombre||'',t,t.length===9?'34'+t:t,c.email||'',Number(c.pedidos)||0,fmtDate(c.consentimiento&&c.consentimiento.fecha),fmtDate(c.ultimoPedido),(c.consentimiento&&c.consentimiento.version)||''];}));
+  // Separador ";" y BOM UTF-8 para que Excel en español lo abra bien con tildes
+  const csv='﻿'+rows.map(r=>r.map(q).join(';')).join('\r\n');
+  const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+  const a=document.createElement('a');a.href=url;a.download='clientes-chao-'+new Date().toISOString().slice(0,10)+'.csv';
+  document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  toast(`⬇ ${list.length} clientes exportados`);
+}
+
 function setRevTab(tab){
   revTab=tab;
   renderAdmPanel();
@@ -2131,19 +2810,19 @@ function kbCard(o){
       <span class="kb-card-id">${o.id}</span>
       <span class="kb-type-badge ${tb[o.type]||'badge-local'}">${tl[o.type]||o.type}</span>
     </div>
-    <div class="kb-client"><span style="font-size:.78rem;opacity:.55;flex-shrink:0">👤</span><span class="kb-client-name">${o.name}</span></div>
-    <div class="kb-client-info">📞 ${o.phone} &nbsp;🕐 ${o.time}</div>
-    ${o.type==='domicilio'&&o.address?`<div class="kb-address">📍 ${o.address}</div>`:''}
+    <div class="kb-client"><span style="font-size:.78rem;opacity:.55;flex-shrink:0">👤</span><span class="kb-client-name">${esc(o.name)}</span></div>
+    <div class="kb-client-info">📞 ${esc(o.phone)} &nbsp;🕐 ${o.time}${o.eta&&!done?` &nbsp;<span title="Hora prometida al cliente" style="color:#e0c139">⏱ ${fmtHM(o.eta)}</span>`:''}</div>
+    ${o.type==='domicilio'&&o.address?`<div class="kb-address">📍 ${esc(o.address)}</div>`:''}
     <div class="kb-items">
       ${o.items.map(it=>`
         <div class="kb-item-row">
-          <span class="kb-item-name"><span class="kb-item-qty">×${it.qty}</span><span class="kb-item-name-text">${it.name}</span></span>
+          <span class="kb-item-name"><span class="kb-item-qty">×${it.qty}</span><span class="kb-item-name-text">${esc(it.name)}</span></span>
           <span class="kb-item-price">${it.lineTotal.toFixed(2)} €</span>
         </div>
-        ${it.extras&&it.extras.length?`<div style="font-size:.7rem;color:#6dc994;padding-left:1.8rem;margin-top:.1rem">+ ${it.extras.map(e=>e.name).join(', ')}</div>`:''}
-        ${it.removed&&it.removed.length?`<div style="font-size:.7rem;color:#e07b39;padding-left:1.8rem;margin-top:.1rem">SIN: ${it.removed.join(', ')}</div>`:''}`).join('')}
+        ${it.extras&&it.extras.length?`<div style="font-size:.7rem;color:#6dc994;padding-left:1.8rem;margin-top:.1rem">+ ${esc(it.extras.map(e=>e.name).join(', '))}</div>`:''}
+        ${it.removed&&it.removed.length?`<div style="font-size:.7rem;color:#e07b39;padding-left:1.8rem;margin-top:.1rem">SIN: ${esc(it.removed.join(', '))}</div>`:''}`).join('')}
     </div>
-    ${o.notes?`<div class="kb-note">${o.notes}</div>`:''}
+    ${o.notes?`<div class="kb-note">${esc(o.notes)}</div>`:''}
     <div class="kb-card-foot">
       <span class="kb-time">🕐 ${o.time}</span>
       <span class="kb-total">${o.total.toFixed(2)} €</span>
@@ -2224,6 +2903,8 @@ function admLogout(){
     adminAuth = false;
     fbOrders  = null;
     if(ordersUnsub){ ordersUnsub(); ordersUnsub = null; }
+    // No dejar datos de clientes en memoria al cerrar sesión
+    admView = 'pedidos'; clientes = null; clSearch = ''; clErr = null;
     closeAdm();
   });
 }

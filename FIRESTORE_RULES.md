@@ -1,5 +1,9 @@
 # 🔧 Configuración Necesaria de Firestore
 
+> **Actualización (noviembre 2026):** las reglas vigentes están en [`firestore.rules`](firestore.rules).
+> Incluyen la colección `clientes` (clientes que aceptan recibir publicidad), que solo puede leer
+> el admin con sesión iniciada. Copia ese archivo entero en **Firestore → Reglas → Publicar**.
+
 ## ❌ PROBLEMA IDENTIFICADO
 
 Los pedidos no llegan en tiempo real porque probablemente **las reglas de seguridad de Firestore NO están configuradas correctamente**.
