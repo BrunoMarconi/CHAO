@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="robots" content="noindex,nofollow"/>
+<title>Clientes — Burger Chao</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#080808;--panel:#111;--card:#161616;--line:#222;--line2:#2a2a2a;--txt:#f5f0e8;--txt2:#c8c7c0;--muted:#666;--green:#6dc994;--green2:#245a3b;--green3:#3a8c5c;--orange:#e07b39;--red:#d64444}
+html,body{height:100%}
+body{background:var(--bg);color:var(--txt);font-family:'Nunito',sans-serif;line-height:1.5}
+button{font-family:inherit;cursor:pointer;border:none;transition:all .18s}
+input{font-family:inherit}
+.hidden{display:none!important}
+
+/* LOGIN */
+.login{min-height:100%;display:flex;align-items:center;justify-content:center;padding:2rem}
+.login-box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:2.3rem;width:100%;max-width:370px;text-align:center}
+.login-box h1{font-family:'Black Han Sans',sans-serif;font-size:2.2rem;line-height:1;margin-bottom:.4rem}
+.login-box h1 span{color:var(--green)}
+.login-box p{color:var(--muted);font-size:.86rem;font-weight:600;margin-bottom:1.6rem}
+.inp{width:100%;background:#1e1e1e;border:1px solid #333;color:var(--txt);border-radius:9px;padding:.7rem .85rem;font-size:.9rem;font-weight:600;outline:none;margin-bottom:.7rem}
+.inp:focus{border-color:var(--green3)}
+.inp::placeholder{color:#555}
+.btn-main{width:100%;background:#3a7d44;color:#fff;border-radius:9px;padding:.8rem;font-weight:900;font-size:.92rem;margin-top:.3rem}
+.btn-main:hover{background:#55aa62}
+.btn-main:disabled{opacity:.6;cursor:wait}
+.login-err{color:#e88;font-size:.8rem;font-weight:700;min-height:1.2rem;margin-top:.7rem}
+
+/* APP */
+.top{height:56px;background:#0f0f0f;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:.9rem;padding:0 1.2rem;position:sticky;top:0;z-index:5}
+.logo{font-family:'Black Han Sans',sans-serif;font-size:1.25rem;letter-spacing:.03em;white-space:nowrap}
+.logo em{color:var(--green);font-style:normal}
+.badge{background:var(--green2);color:var(--green);font-size:.6rem;font-weight:800;padding:.16rem .55rem;border-radius:100px;letter-spacing:.08em;text-transform:uppercase;border:1px solid rgba(58,140,92,.3)}
+.top-right{margin-left:auto;display:flex;align-items:center;gap:.7rem;min-width:0}
+.who{font-size:.76rem;color:var(--muted);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.btn-out{background:transparent;color:#888;border:1px solid var(--line);padding:.38rem .8rem;border-radius:8px;font-size:.74rem;font-weight:700;white-space:nowrap}
+.btn-out:hover{color:var(--red);border-color:var(--red)}
+.wrap{max-width:1200px;margin:0 auto;padding:1.4rem 1.4rem 3rem}
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1.2rem}
+.head h2{font-family:'Black Han Sans',sans-serif;font-size:2rem;line-height:1}
+.head p{color:var(--muted);font-size:.84rem;font-weight:600;margin-top:.3rem}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.7rem;margin-bottom:1.1rem}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.9rem 1rem}
+.kpi-l{font-size:.62rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-weight:800;margin-bottom:.3rem}
+.kpi-v{font-family:'Black Han Sans',sans-serif;font-size:1.8rem;line-height:1}
+.kpi-v.green{color:var(--green)}.kpi-v.orange{color:var(--orange)}
+.tools{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;margin-bottom:.9rem}
+.search{flex:1;min-width:220px;background:var(--card);border:1px solid var(--line2);border-radius:9px;padding:.6rem .85rem;color:var(--txt);font-size:.86rem;font-weight:600;outline:none}
+.search:focus{border-color:var(--green3)}
+.search::placeholder{color:#555}
+.filters{display:flex;gap:.35rem}
+.filter{background:var(--card);border:1px solid var(--line2);color:#888;padding:.48rem .85rem;border-radius:9px;font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+.filter:hover{color:var(--green);border-color:var(--green3)}
+.filter.active{background:rgba(58,140,92,.14);color:var(--green);border-color:rgba(58,140,92,.4)}
+.act{background:var(--green2);color:#e8fff0;border:1px solid rgba(58,140,92,.4);padding:.52rem .95rem;border-radius:9px;font-size:.75rem;font-weight:800;white-space:nowrap}
+.act:hover{background:var(--green3)}
+.act.ghost{background:var(--card);color:var(--txt2);border-color:var(--line2)}
+.act.ghost:hover{border-color:var(--green);color:var(--green)}
+.table{width:100%;border-collapse:separate;border-spacing:0;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.table th{text-align:left;font-size:.62rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-weight:800;padding:.75rem .9rem;background:var(--card);border-bottom:1px solid var(--line);white-space:nowrap}
+.table td{padding:.72rem .9rem;border-bottom:1px solid #1b1b1b;font-size:.85rem;color:#e8e3d8;font-weight:600;vertical-align:middle}
+.table tr:last-child td{border-bottom:none}
+.table tr:hover td{background:#151515}
+.table tr.baja td{opacity:.45}
+.table td[data-label="Teléfono"],.table td[data-label="Alta"],.table td[data-label="Último pedido"]{white-space:nowrap}
+.name{font-weight:800;color:var(--txt)}
+.muted{color:var(--muted);font-size:.78rem}
+.pill{display:inline-block;font-size:.62rem;font-weight:800;padding:.14rem .5rem;border-radius:100px;letter-spacing:.05em;text-transform:uppercase}
+.pill.on{background:rgba(58,140,92,.14);color:var(--green);border:1px solid rgba(58,140,92,.35)}
+.pill.off{background:rgba(214,68,68,.1);color:#d47070;border:1px solid rgba(214,68,68,.3)}
+.row-btns{display:flex;gap:.35rem;justify-content:flex-end}
+.ico{background:#1b1b1b;border:1px solid var(--line2);color:var(--txt2);height:30px;padding:0 .65rem;border-radius:7px;font-size:.72rem;font-weight:800;white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center;gap:.25rem}
+.ico:hover{border-color:var(--green);color:var(--green)}
+.ico.danger:hover{border-color:var(--red);color:var(--red)}
+.empty{text-align:center;color:#555;padding:3rem 1rem;border:1px dashed var(--line);border-radius:12px;font-size:.88rem;font-weight:600}
+.empty strong{display:block;color:#888;font-size:1rem;margin-bottom:.3rem}
+.note{font-size:.76rem;color:#555;margin-top:1rem;line-height:1.55;font-weight:600}
+.toast{position:fixed;bottom:1.6rem;left:50%;transform:translateX(-50%) translateY(14px);background:#3a7d44;color:#fff;padding:.65rem 1.4rem;border-radius:100px;font-weight:800;font-size:.86rem;opacity:0;transition:all .25s;pointer-events:none;white-space:nowrap;z-index:20}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:1020px){
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .table thead{display:none}
+  .table,.table tbody,.table tr,.table td{display:block;width:100%}
+  .table tr{border-bottom:1px solid var(--line);padding:.6rem .2rem}
+  .table td{border:none;padding:.2rem .8rem}
+  .table td[data-label]::before{content:attr(data-label);display:inline-block;min-width:105px;color:var(--muted);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;font-weight:800}
+  .row-btns{justify-content:flex-start;margin-top:.35rem}
+}
+@media(max-width:560px){.wrap{padding:1rem .8rem 3rem}.who,.badge{display:none}.head h2{font-size:1.6rem}}
+</style>
+</head>
+<body>
+
+<!-- ACCESO -->
+<div class="login hidden" id="login">
+  <form class="login-box" onsubmit="event.preventDefault();doLogin()">
+    <h1>CLIENTES<br><span>CHAO</span></h1>
+    <p>Lista de clientes que aceptan recibir novedades. Acceso solo para el responsable.</p>
+    <input class="inp" id="lg-email" type="email" placeholder="Correo" autocomplete="username" required/>
+    <input class="inp" id="lg-pw" type="password" placeholder="Contraseña" autocomplete="current-password" required/>
+    <button class="btn-main" id="lg-btn" type="submit">Entrar</button>
+    <p class="login-err" id="lg-err"></p>
+  </form>
+</div>
+
+<!-- APP -->
+<div class="hidden" id="app">
+  <header class="top">
+    <span class="logo">BURGER <em>CHAO</em></span>
+    <span class="badge">Clientes</span>
+    <div class="top-right">
+      <span class="who" id="who"></span>
+      <button class="btn-out" onclick="doLogout()">Salir</button>
+    </div>
+  </header>
+  <main class="wrap">
+    <div class="head">
+      <div>
+        <h2>CLIENTES</h2>
+        <p>Personas que han pulsado «Sí, avisadme» después de pedir en la web.</p>
+      </div>
+    </div>
+    <div class="kpis" id="kpis"></div>
+    <div class="tools">
+      <input class="search" id="search" type="search" placeholder="Buscar por nombre, teléfono o correo…" oninput="clSearch=this.value;render()"/>
+      <div class="filters">
+        <button class="filter" data-f="activos" onclick="setFilter('activos')">Suscritos</button>
+        <button class="filter" data-f="email" onclick="setFilter('email')">Con correo</button>
+        <button class="filter" data-f="bajas" onclick="setFilter('bajas')">Bajas</button>
+      </div>
+      <button class="act ghost" onclick="load()">↻ Actualizar</button>
+      <button class="act ghost" onclick="copyPhones()">📋 Copiar teléfonos</button>
+      <button class="act" onclick="exportCSV()">⬇ Exportar Excel (CSV)</button>
+    </div>
+    <div id="list"></div>
+    <p class="note">Si alguien te pide la baja (por WhatsApp, teléfono o correo), márcala aquí con «Dar de baja»: dejará de salir en las exportaciones. Si además pide que borréis sus datos, usa «Borrar datos» en la pestaña Bajas.</p>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script>
+// Misma configuración de Firebase que la web (index.html)
+firebase.initializeApp({
+  apiKey:            "AIzaSyBZZyw2cJMNhFknpkwwNRgPn_wlOcR_En8",
+  authDomain:        "brutal-burgers.firebaseapp.com",
+  projectId:         "brutal-burgers",
+  storageBucket:     "brutal-burgers.firebasestorage.app",
+  messagingSenderId: "709482938745",
+  appId:             "1:709482938745:web:a29aae375c017f2180efa8"
+});
+const db=firebase.firestore(), auth=firebase.auth();
+let clientes=null, clLoading=false, clErr=null, clFilter='activos', clSearch='';
+
+// ── Utilidades ───────────────────────────────────────────────────────────────
+const $=id=>document.getElementById(id);
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function fmtPhone(d){return d&&d.length===9?d.replace(/(\d{3})(\d{3})(\d{3})/,'$1 $2 $3'):(d||'');}
+function tsDate(v){if(!v)return null;if(typeof v.toDate==='function')return v.toDate();const d=new Date(v);return isNaN(d)?null:d;}
+function fmtDate(v){const d=tsDate(v);return d?d.toLocaleDateString('es-ES',{day:'2-digit',month:'2-digit',year:'numeric'}):'—';}
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2600);}
+
+// ── Acceso ───────────────────────────────────────────────────────────────────
+auth.onAuthStateChanged(user=>{
+  $('login').classList.toggle('hidden',!!user);
+  $('app').classList.toggle('hidden',!user);
+  if(user){ $('who').textContent=user.email||''; load(); }
+  else { clientes=null; clSearch=''; $('search').value=''; }
+});
+function doLogin(){
+  const b=$('lg-btn');b.disabled=true;b.textContent='Entrando…';$('lg-err').textContent='';
+  auth.signInWithEmailAndPassword($('lg-email').value.trim(),$('lg-pw').value)
+    .catch(e=>{
+      $('lg-err').textContent=e.code==='auth/too-many-requests'?'Demasiados intentos. Espera un momento.'
+        :e.code==='auth/network-request-failed'?'Sin conexión. Inténtalo de nuevo.':'Correo o contraseña incorrectos.';
+    })
+    .finally(()=>{b.disabled=false;b.textContent='Entrar';$('lg-pw').value='';});
+}
+function doLogout(){auth.signOut();}
+
+// ── Datos ────────────────────────────────────────────────────────────────────
+async function load(){
+  clLoading=true;clErr=null;render();
+  try{
+    const snap=await db.collection('clientes').get();
+    const list=[];snap.forEach(d=>list.push({...d.data(),_id:d.id}));
+    list.sort((a,b)=>(tsDate(b.actualizado)||0)-(tsDate(a.actualizado)||0));
+    clientes=list;
+  }catch(e){
+    console.error('load:',e);
+    clErr=e.code==='permission-denied'
+      ?'Esta cuenta no tiene permiso para ver los clientes. Revisa las reglas de Firestore (firestore.rules).'
+      :'No se han podido cargar los clientes ('+(e.code||e.message)+').';
+  }
+  clLoading=false;render();
+}
+function setFilter(f){clFilter=f;render();}
+function activos(){return (clientes||[]).filter(c=>c.acepta===true);}
+function filtered(){
+  const q=clSearch.trim().toLowerCase(),qd=q.replace(/\D/g,'');
+  return (clientes||[]).filter(c=>{
+    if(clFilter==='activos'&&c.acepta!==true)return false;
+    if(clFilter==='email'&&(c.acepta!==true||!c.email))return false;
+    if(clFilter==='bajas'&&c.acepta!==false)return false;
+    if(!q)return true;
+    return (c.nombre||'').toLowerCase().includes(q)||(c.email||'').toLowerCase().includes(q)||(qd&&(c.telefono||'').includes(qd));
+  });
+}
+function render(){
+  document.querySelectorAll('.filter').forEach(b=>b.classList.toggle('active',b.dataset.f===clFilter));
+  const all=clientes||[],act=activos(),month=Date.now()-30*864e5;
+  $('kpis').innerHTML=`
+    <div class="kpi"><p class="kpi-l">Suscritos</p><p class="kpi-v green">${act.length}</p></div>
+    <div class="kpi"><p class="kpi-l">Con correo</p><p class="kpi-v">${act.filter(c=>c.email).length}</p></div>
+    <div class="kpi"><p class="kpi-l">Nuevos · 30 días</p><p class="kpi-v orange">${act.filter(c=>{const d=tsDate(c.consentimiento&&c.consentimiento.fecha);return d&&d.getTime()>=month;}).length}</p></div>
+    <div class="kpi"><p class="kpi-l">Bajas</p><p class="kpi-v">${all.filter(c=>c.acepta===false).length}</p></div>`;
+  const box=$('list');
+  if(clErr){box.innerHTML=`<div class="empty"><strong>⚠️ ${esc(clErr)}</strong></div>`;return;}
+  if(clLoading&&clientes===null){box.innerHTML=`<div class="empty"><strong>Cargando clientes…</strong></div>`;return;}
+  const list=filtered();
+  if(!list.length){
+    box.innerHTML=`<div class="empty"><strong>${all.length?'No hay resultados':'Todavía no hay clientes suscritos'}</strong>${all.length?'Prueba con otra búsqueda o filtro.':'Aparecerán aquí en cuanto alguien acepte recibir novedades tras su pedido.'}</div>`;
+    return;
+  }
+  box.innerHTML=`<table class="table">
+    <thead><tr><th>Cliente</th><th>Teléfono</th><th>Correo</th><th>Pedidos</th><th>Alta</th><th>Último pedido</th><th>Estado</th><th></th></tr></thead>
+    <tbody>${list.map(c=>{
+      const tel=c.telefono||c._id, wa=tel.length===9?'34'+tel:tel, on=c.acepta===true;
+      return `<tr class="${on?'':'baja'}">
+        <td><span class="name">${esc(c.nombre||'—')}</span></td>
+        <td data-label="Teléfono">${esc(fmtPhone(tel))}</td>
+        <td data-label="Correo">${c.email?esc(c.email):'<span class="muted">—</span>'}</td>
+        <td data-label="Pedidos">${Number(c.pedidos)||0}</td>
+        <td data-label="Alta">${fmtDate(c.consentimiento&&c.consentimiento.fecha)}</td>
+        <td data-label="Último pedido">${fmtDate(c.ultimoPedido)}</td>
+        <td>${on?'<span class="pill on">Suscrito</span>':`<span class="pill off">Baja ${fmtDate(c.baja)}</span>`}</td>
+        <td><div class="row-btns">
+          ${on?`<a class="ico" href="https://wa.me/${esc(wa)}" target="_blank" rel="noopener">💬 WhatsApp</a>
+          ${c.email?`<a class="ico" href="mailto:${esc(c.email)}">✉️</a>`:''}
+          <button class="ico danger" onclick="baja('${esc(c._id)}')">Dar de baja</button>`
+          :`<button class="ico danger" onclick="borrar('${esc(c._id)}')">🗑 Borrar datos</button>`}
+        </div></td>
+      </tr>`;}).join('')}</tbody></table>`;
+}
+
+// ── Acciones ─────────────────────────────────────────────────────────────────
+async function baja(id){
+  const c=(clientes||[]).find(x=>x._id===id);if(!c)return;
+  if(!confirm(`¿Dar de baja a ${c.nombre||id} (${fmtPhone(c.telefono||id)})?\n\nDejará de recibir publicidad y no saldrá en las exportaciones.`))return;
+  try{
+    const now=firebase.firestore.FieldValue.serverTimestamp();
+    await db.collection('clientes').doc(id).update({acepta:false,baja:now,actualizado:now});
+    c.acepta=false;c.baja=new Date();render();toast('Baja registrada ✓');
+  }catch(e){console.error('baja:',e);toast('No se pudo dar de baja ('+(e.code||'error')+')');}
+}
+async function borrar(id){
+  const c=(clientes||[]).find(x=>x._id===id);if(!c)return;
+  if(!confirm(`¿Borrar definitivamente los datos de ${c.nombre||id}?\n\nÚsalo si el cliente pide que eliminéis sus datos. No se puede deshacer.`))return;
+  try{
+    await db.collection('clientes').doc(id).delete();
+    clientes=clientes.filter(x=>x._id!==id);render();toast('Datos borrados ✓');
+  }catch(e){console.error('borrar:',e);toast('No se pudo borrar ('+(e.code||'error')+')');}
+}
+function copyPhones(){
+  const list=activos();
+  if(!list.length){toast('No hay suscritos todavía');return;}
+  const txt=list.map(c=>'+34'+(c.telefono||c._id)).join('\n');
+  const done=()=>toast(`📋 ${list.length} teléfonos copiados`);
+  if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(txt).then(done,()=>prompt('Copia los teléfonos:',txt));
+  else prompt('Copia los teléfonos:',txt);
+}
+function exportCSV(){
+  const list=activos();
+  if(!list.length){toast('No hay suscritos para exportar');return;}
+  // Evita que Excel interprete como fórmula un texto que empiece por = + - @
+  const safe=v=>{const s=String(v==null?'':v);return /^[=+\-@\t\r]/.test(s)?"'"+s:s;};
+  const q=v=>'"'+safe(v).replace(/"/g,'""')+'"';
+  const rows=[['Nombre','Teléfono','WhatsApp (con prefijo)','Correo','Pedidos','Fecha de alta','Último pedido','Consentimiento']]
+    .concat(list.map(c=>{const t=c.telefono||c._id;return [c.nombre||'',t,t.length===9?'34'+t:t,c.email||'',Number(c.pedidos)||0,fmtDate(c.consentimiento&&c.consentimiento.fecha),fmtDate(c.ultimoPedido),(c.consentimiento&&c.consentimiento.version)||''];}));
+  // Separador ";" y BOM UTF-8 para que Excel en español lo abra bien con tildes
+  const csv='﻿'+rows.map(r=>r.map(q).join(';')).join('\r\n');
+  const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+  const a=document.createElement('a');a.href=url;a.download='clientes-chao-'+new Date().toISOString().slice(0,10)+'.csv';
+  document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  toast(`⬇ ${list.length} clientes exportados`);
+}
+</script>
+</body>
+</html>

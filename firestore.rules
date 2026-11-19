@@ -3,32 +3,57 @@ rules_version = '2';
 // Reglas de Firestore de Burger Chao.
 // Copia TODO este archivo en Firebase Console → Firestore Database → Reglas → Publicar.
 //
-// - orders y counters: exactamente las reglas que ya estaban publicadas (sin cambios).
-// - clientes (publicidad) es lo único nuevo: la web solo puede ESCRIBIR altas de clientes
-//   que han aceptado; LEER la lista, dar de baja o borrar solo puede hacerlo el admin (sesión iniciada).
+// - orders: el cliente puede CREAR su pedido y SEGUIRLO por su ID (aleatorio, no se puede adivinar).
+//   Listar, modificar o borrar pedidos (datos personales) solo el panel de cocina con sesión iniciada.
+// - counters: el número de pedido diario solo puede empezar en 1 o subir de uno en uno.
+// - clientes (publicidad): la web solo puede dar de ALTA a quien acepta; ver la lista, dar de baja
+//   o borrar solo el admin.
 
 service cloud.firestore {
   match /databases/{database}/documents {
 
+    // Admin = la cuenta con la que se entra en el panel de cocina (correo y contraseña).
+    // Deja fuera a usuarios anónimos. Para que SOLO tu cuenta tenga acceso, sustituye la línea por:
+    //   return request.auth != null && request.auth.uid == 'UID_DE_TU_CUENTA';
+    // (Firebase Console → Authentication → Users → columna «User UID»).
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.firebase.sign_in_provider == 'password';
+    }
+
     match /orders/{orderId} {
       allow create: if true;
-      allow read:   if true;
-      allow update: if request.auth != null;
-      allow delete: if true;
+      allow get:    if true;                 // seguimiento del pedido por el cliente (por su ID)
+      allow list:   if isAdmin();            // ver todos los pedidos: solo cocina
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
     }
 
     match /counters/{docId} {
-      allow read, write: if true;
+      allow read: if true;
+      allow create, update: if docId == 'daily'
+        && request.resource.data.keys().hasOnly(['date', 'count'])
+        && request.resource.data.date is string
+        && request.resource.data.count is int
+        && (
+          // Día nuevo (o primer pedido): empieza en 1
+          ((resource == null || resource.data.date != request.resource.data.date)
+            && request.resource.data.count == 1)
+          // Mismo día: sube exactamente 1
+          || (resource != null
+            && resource.data.date == request.resource.data.date
+            && request.resource.data.count == resource.data.count + 1)
+        );
     }
 
     match /clientes/{tel} {
-      // Solo el panel admin (usuario autenticado) puede ver la lista y borrar
-      allow read, delete: if request.auth != null;
+      // Solo el panel admin puede ver la lista y borrar
+      allow read, delete: if isAdmin();
 
       // Alta desde la web: solo si el cliente ha aceptado y los datos son válidos
       allow create: if validCliente(tel) && request.resource.data.acepta == true;
 
-      allow update: if request.auth != null
+      allow update: if isAdmin()
         // Cliente suscrito que vuelve a pedir: solo sube el contador de pedidos en 1
         || (request.resource.data.diff(resource.data).affectedKeys()
               .hasOnly(['pedidos', 'ultimoPedido', 'actualizado'])

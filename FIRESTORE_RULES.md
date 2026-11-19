@@ -1,8 +1,17 @@
 # 🔧 Configuración Necesaria de Firestore
 
-> **Actualización (noviembre 2026):** las reglas vigentes están en [`firestore.rules`](firestore.rules).
-> Incluyen la colección `clientes` (clientes que aceptan recibir publicidad), que solo puede leer
-> el admin con sesión iniciada. Copia ese archivo entero en **Firestore → Reglas → Publicar**.
+> **Actualización (19/11/2026):** las reglas vigentes están en [`firestore.rules`](firestore.rules).
+> Copia ese archivo entero en **Firestore → Reglas → Publicar**. Resumen:
+> - `orders`: cualquiera puede crear su pedido y seguirlo por su ID; **listar, modificar y borrar
+>   pedidos solo el panel de cocina con sesión iniciada** (antes cualquiera podía leerlos y borrarlos).
+> - `counters`: el número de pedido diario solo puede empezar en 1 o subir de uno en uno.
+> - `clientes`: la web solo da de alta a quien acepta; ver la lista, dar de baja o borrar, solo el admin.
+> - Admin = usuario con correo y contraseña (no anónimo). Para limitarlo a una sola cuenta, pon su UID
+>   en la función `isAdmin()` (instrucciones dentro del archivo).
+> - Como ya no todos los navegadores pueden borrar pedidos, si a las 00:15 no hay ningún panel abierto,
+>   el panel borra los pedidos de días anteriores al entrar el admin (a partir de las 06:00).
+>
+> Las instrucciones de abajo son las originales del proyecto y están desactualizadas.
 
 ## ❌ PROBLEMA IDENTIFICADO
 

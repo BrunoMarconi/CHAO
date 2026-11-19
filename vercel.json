@@ -6,6 +6,10 @@
       "use": "@vercel/static"
     },
     {
+      "src": "clientes.html",
+      "use": "@vercel/static"
+    },
+    {
       "src": "*.png",
       "use": "@vercel/static"
     },
@@ -31,6 +35,10 @@
     }
   ],
   "routes": [
+    {
+      "src": "/clientes(?:\\.html)?/?",
+      "dest": "/clientes.html"
+    },
     {
       "src": "/(?!.*\\.(png|jpg|jpeg|gif|mp4|heic|css|js|svg|ico|woff|woff2|ttf|eot)$).*",
       "dest": "/index.html"
